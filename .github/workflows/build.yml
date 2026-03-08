@@ -3,9 +3,6 @@ name: Build icons.json
 on:
   push:
     branches: [main]
-    paths:
-      - "icons/**"
-      - "scripts/**"
 
 jobs:
   build:
