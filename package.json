@@ -1,0 +1,11 @@
+{
+  "name": "iconoteka",
+  "version": "0.1.0",
+  "description": "A clean, open-source icon library for modern products",
+  "license": "MIT",
+  "author": "turbaba",
+  "scripts": {
+    "build": "node scripts/build.js",
+    "dev": "node scripts/build.js --watch"
+  }
+}
