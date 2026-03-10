@@ -2,7 +2,7 @@
   "meta": {
     "version": "0.1.0",
     "count": 235,
-    "updatedAt": "2026-03-10T19:39:20.959Z",
+    "updatedAt": "2026-03-10T19:43:15.083Z",
     "cdn": "https://cdn.jsdelivr.net/gh/turbaba/iconoteka@main/icons.json"
   },
   "icons": [
@@ -4119,12 +4119,11 @@
       }
     },
     {
-      "name": "playlist_featured-playlist_featured--curated-recommended-featured-spotlight",
+      "name": "playlist_featured-playlist_featured-curated-recommended-featured-spotlight",
       "displayName": "Playlist_featured",
       "searchTerms": [
         "playlist_featured",
         "playlist_featured",
-        "",
         "curated",
         "recommended",
         "featured",
