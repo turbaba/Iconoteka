@@ -1,0 +1,9 @@
+{
+  "name": "Iconoteka β V02.00.02",
+  "id": "iconoteka-plugin",
+  "api": "1.0.0",
+  "main": "code.js",
+  "ui": "ui.html",
+  "editorType": ["figma"],
+  "permissions": ["currentuser"]
+}
