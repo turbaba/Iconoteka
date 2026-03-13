@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Iconoteka — Icon Library</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #ffffff;
+  --surface: #f7f7f7;
+  --surface2: #efefef;
+  --border: #e8e8e8;
+  --text: #141414;
+  --text-muted: #81808b;
+  --radius: 6px;
+  --panel-w: 320px;
+  --panel-margin: 20px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; font-family: 'Inter', sans-serif; font-size: 14px; background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased; overflow: hidden; }
+body { display: flex; flex-direction: column; }
+
+/* HEADER */
+header { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; padding: 0 24px; height: 78px; border-bottom: 1px solid var(--border); flex-shrink: 0; }
+.logo-wrap { display: flex; align-items: center; gap: 8px; }
+.logo { font-weight: 600; font-size: 24px; letter-spacing: -0.3px; }
+.beta-badge { font-size: 9px; font-weight: 600; background: #ffc7d8; color: #141414; padding: 0 6px; height: 13px; line-height: 13px; border-radius: 20px; letter-spacing: 0.5px; text-transform: uppercase; display: inline-flex; align-items: center; justify-content: center; position: relative; top: 2px; }
+.header-search { display: flex; justify-content: center; }
+.header-nav { display: flex; align-items: center; gap: 40px; justify-content: flex-end; }
+.header-link { font-size: 16px; color: var(--text-muted); text-decoration: none; transition: color .15s; font-weight: 600; }
+.header-link:hover { color: var(--text); }
+.header-btn { font-size: 16px; font-family: 'Inter', sans-serif; font-weight: 500; color: var(--text); background: var(--surface2); border: none; border-radius: var(--radius); padding: 6px 14px; cursor: pointer; text-decoration: none; transition: background .15s; }
+.header-btn:hover { background: #e0e0e0; }
+
+/* LAYOUT */
+.layout { display: flex; flex: 1; min-height: 0; }
+
+/* SIDEBAR */
+aside { width: 220px; flex-shrink: 0; border-right: 1px solid var(--border); display: flex; flex-direction: column; overflow: hidden; }
+.sidebar-top { overflow-y: auto; flex: 1; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
+.sidebar-top::-webkit-scrollbar { width: 3px; }
+.sidebar-top::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+.sidebar-controls { padding: 14px; display: flex; flex-direction: column; gap: 14px; border-bottom: 1px solid var(--border); }
+.seg { display: flex; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 2px; gap: 2px; }
+.seg-btn { flex: 1; height: 28px; border: none; border-radius: 4px; cursor: pointer; font-size: 13px; font-family: 'Inter', sans-serif; color: var(--text-muted); background: transparent; transition: all .1s; }
+.seg-btn:hover { color: var(--text); }
+.seg-btn.on { background: #fff; color: var(--text); font-weight: 500; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+.slider-row { display: flex; flex-direction: column; gap: 8px; }
+.slider-label-row { display: flex; justify-content: space-between; }
+.slider-label { font-size: 14px; color: var(--text-muted); }
+.slider-val { font-size: 14px; color: var(--text); font-weight: 500; }
+.slider-track-wrap { position: relative; height: 14px; display: flex; align-items: center; }
+.weight-slider { -webkit-appearance: none; appearance: none; width: 100%; height: 4px; border-radius: 2px; outline: none; cursor: pointer; position: relative; z-index: 1; background: transparent; }
+.weight-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; border-radius: 50%; background: var(--text); cursor: pointer; transition: transform .1s; position: relative; z-index: 2; }
+.weight-slider::-webkit-slider-thumb:hover { transform: scale(1.2); }
+.weight-slider::-moz-range-thumb { width: 14px; height: 14px; border-radius: 50%; background: var(--text); cursor: pointer; border: none; }
+.slider-stops-line { position: absolute; left: 0; right: 0; top: 50%; transform: translateY(-50%); height: 4px; background: var(--border); border-radius: 2px; display: flex; align-items: center; justify-content: space-between; padding: 0; pointer-events: none; }
+.slider-stop { width: 4px; height: 4px; background: #bbb; border-radius: 50%; flex-shrink: 0; }
+.cat-header { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px 6px; cursor: pointer; user-select: none; }
+.cat-header:hover .cat-label-text { color: var(--text); }
+.cat-label-text { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; font-weight: 500; transition: color .1s; }
+.cat-chevron { color: var(--text-muted); display: flex; transition: transform .2s; }
+.cat-header.collapsed .cat-chevron { transform: rotate(-90deg); }
+.cat-list { overflow: hidden; transition: max-height .25s cubic-bezier(.4,0,.2,1); }
+.cat-list.collapsed { max-height: 0 !important; }
+.cat-item { display: flex; align-items: center; justify-content: space-between; padding: 8px 16px; cursor: pointer; color: var(--text-muted); font-size: 14px; transition: all .1s; border-left: 2px solid transparent; }
+.cat-item:hover { background: var(--surface); color: var(--text); }
+.cat-item.active { background: var(--surface); color: var(--text); border-left-color: var(--text); font-weight: 500; }
+.cat-count { font-size: 12px; opacity: 0.45; }
+.sidebar-ver { padding: 10px 16px; }
+.footer-ver { font-size: 12px; color: var(--text-muted); opacity: 0.5; }
+.sidebar-footer { display: none; }
+
+/* MAIN */
+.main-wrap { flex: 1; display: flex; flex-direction: column; min-width: 0; overflow-y: auto; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
+.search-wrap { position: relative; width: 450px; flex-shrink: 0; }
+.search-ico { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); pointer-events: none; display: flex; }
+.search-input { width: 100%; height: 52px; padding: 0 90px 0 50px; background: #f2f2f3; border: 1px solid transparent; border-radius: 999px; font-size: 16px; font-family: 'Inter', sans-serif; color: #141414; outline: none; }
+.search-input:focus { border-color: transparent; }
+.search-input::placeholder { color: #141414; opacity: 0.5; }
+.search-count { position: absolute; right: 32px; top: 50%; transform: translateY(-50%); font-size: 12px; color: var(--text-muted); pointer-events: none; white-space: nowrap; display: none; }
+.search-count.visible { display: block; }
+.search-clear { position: absolute; right: 18px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: var(--text-muted); display: none; align-items: center; padding: 0; }
+.search-clear.visible { display: flex; }
+
+/* GRID */
+main { flex: 1; padding: 20px 20px 40px; display: flex; flex-direction: column; align-items: center; }
+main::-webkit-scrollbar { width: 4px; }
+main::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+.category-section { margin-bottom: 32px; width: 100%; max-width: 1468px; padding-top: 28px; }
+.category-section:first-child { padding-top: 0; }
+.category-title { font-size: 14px; font-weight: 500; color: #141414; padding: 0 0 20px 2px; display: flex; align-items: baseline; gap: 6px; }
+.category-title span { opacity: 0.6; font-size: 14px; font-weight: 400; color: #81808b; }
+.icons-grid { display: flex; flex-wrap: wrap; gap: 10px 20px; max-width: 1468px; }
+
+/* ICON CARD */
+.icon-card { width: 104px; height: 128px; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding-top: 16px; gap: 8px; border-radius: 8px; cursor: pointer; background: transparent; border: 1px solid transparent; transition: background .1s, border-color .1s; color: var(--text); position: relative; flex-shrink: 0; overflow: hidden; }
+.icon-card:hover { background: rgba(242,242,243,0.7); border-color: transparent; }
+.icon-card.active-panel { background: #f2f2f3; border-color: transparent; }
+.icon-svg-wrap { display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; flex-shrink: 0; }
+.icon-label { font-size: 14px; color: var(--text-muted); text-align: center; line-height: 1.3; width: 100%; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; padding: 0 6px; }
+.icon-card:hover .card-dl-btn { opacity: 1; }
+
+/* LOADING */
+#loading { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; color: var(--text-muted); }
+.spinner { width: 22px; height: 22px; border: 2px solid var(--border); border-top-color: var(--text-muted); border-radius: 50%; animation: spin .7s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.empty { padding: 48px 16px; text-align: center; color: var(--text-muted); line-height: 2; font-size: 21px; }
+.empty a { color: var(--text); text-decoration: none; font-weight: 700; }
+
+/* TOOLTIP */
+#tooltip { position: fixed; background: var(--text); color: #fff; font-size: 12px; font-family: 'Inter', sans-serif; padding: 4px 9px; border-radius: 4px; pointer-events: none; opacity: 0; transition: opacity .1s; z-index: 1000; white-space: nowrap; }
+#tooltip.visible { opacity: 1; }
+
+/* PANEL */
+#panel { position: fixed; top: calc(78px + var(--panel-margin)); right: calc(-1 * var(--panel-w) - 60px); height: 760px; width: var(--panel-w); background: #fff; border: none; border-radius: 16px; display: flex; flex-direction: column; z-index: 500; transition: right .25s cubic-bezier(.4,0,.2,1); box-shadow: 0 8px 30px rgba(0,0,0,0.08), 0 0px 20px rgba(0,0,0,0.05); overflow: hidden; }
+#panel.open { right: var(--panel-margin); }
+.panel-preview { width: 100%; aspect-ratio: 1; background: var(--surface); display: flex; align-items: center; justify-content: center; flex-shrink: 0; position: relative; cursor: pointer; border-radius: 16px 16px 0 0; overflow: hidden; }
+.panel-close { position: absolute; top: 12px; right: 12px; background: transparent; border: none; cursor: pointer; height: 26px; width: 26px; padding: 0; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 16px; font-family: 'Inter', sans-serif; font-weight: 400; z-index: 10; transition: opacity .15s; user-select: none; -webkit-user-select: none; }
+.panel-close:hover { opacity: 0.5; }
+.panel-body { flex: 1; overflow-y: auto; padding: 20px 20px 24px; display: flex; flex-direction: column; gap: 18px; scrollbar-width: thin; user-select: none; -webkit-user-select: none; }
+.panel-body-top { display: flex; flex-direction: column; gap: 18px; flex: 1; }
+.panel-body-bottom { margin-top: auto; padding-bottom: 6px; padding-top: 6px; }
+.panel-body-bottom .slider-row { margin-bottom: 18px; }
+.panel-name { font-size: 29px; font-weight: 700; letter-spacing: -0.8px; line-height: 1.1; user-select: none; -webkit-user-select: none; }
+.panel-style-label { font-size: 12px; color: var(--text-muted); font-weight: 400; letter-spacing: 0.2px; margin-top: 4px; user-select: none; -webkit-user-select: none; }
+.tags-wrap { display: flex; flex-wrap: wrap; gap: 6px; height: 58px; overflow: hidden; flex-shrink: 0; align-content: flex-start; }
+.tag { padding: 4px 10px; background: #f2f2f3; border-radius: 20px; font-size: 12px; color: var(--text-muted); cursor: pointer; transition: all .1s; user-select: none; -webkit-user-select: none; }
+.tag:hover { background: var(--text); color: #fff; }
+.panel-section-label { font-size: 11px; font-weight: 500; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+.actions-list { display: flex; flex-direction: column; gap: 6px; margin-top: 6px; }
+.action-btn { display: flex; align-items: center; justify-content: center; height: 40px; padding: 0 16px; border-radius: var(--radius); cursor: pointer; font-size: 14px; font-family: 'Inter', sans-serif; transition: all .1s; width: 100%; font-weight: 600; border: none; }
+.action-btn.primary { background: var(--text); color: #fff; }
+.action-btn.primary:hover { background: #333; }
+.action-btn.secondary { background: #f2f2f3; color: var(--text); }
+.action-btn.secondary:hover { background: #e8e8e8; }
+.action-btn.success { opacity: 0.6; }
+.copy-row { display: flex; align-items: center; gap: 2px; margin-top: 6px; }
+.copy-label { font-size: 14px; color: var(--text-muted); margin-right: 3px; }
+.copy-btn { background: none; border: none; cursor: pointer; font-size: 14px; font-weight: 600; font-family: 'Inter', sans-serif; color: #141414; padding: 3px 6px; border-radius: 4px; transition: all .1s; }
+.copy-btn:hover { background: var(--surface2); color: var(--text); }
+.copy-btn.success { color: #999; }
+.size-pill { height: 28px; padding: 0 12px; border: 1px solid var(--border); border-radius: 20px; background: transparent; font-size: 13px; font-family: 'Inter', sans-serif; color: var(--text-muted); cursor: pointer; transition: all .1s; }
+.size-pill:hover { border-color: #aaa; color: var(--text); }
+.size-pill.active { background: var(--text); color: #fff; border-color: var(--text); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo-wrap">
+    <a href="/" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:8px;">
+      <span class="logo">Iconoteka</span>
+      <span class="beta-badge">Beta</span>
+    </a>
+  </div>
+  <div class="header-search">
+    <div class="search-wrap">
+      <span class="search-ico">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10.0005 17.975C8.53382 17.975 7.18382 17.625 5.95049 16.925C4.73382 16.2083 3.76716 15.2417 3.05049 14.025C2.35049 12.8083 2.00049 11.4667 2.00049 10C2.00049 8.53333 2.35049 7.19167 3.05049 5.975C3.76716 4.75833 4.73382 3.8 5.95049 3.1C7.18382 2.38333 8.53382 2.025 10.0005 2.025C11.4672 2.025 12.8088 2.38333 14.0255 3.1C15.2588 3.8 16.2255 4.75833 16.9255 5.975C17.6422 7.19167 18.0005 8.53333 18.0005 10C18.0005 11.4667 17.6422 12.8083 16.9255 14.025C16.2255 15.2417 15.2588 16.2083 14.0255 16.925C12.8088 17.625 11.4672 17.975 10.0005 17.975ZM10.0005 16.075C11.1172 16.075 12.1338 15.8083 13.0505 15.275C13.9838 14.725 14.7172 13.9917 15.2505 13.075C15.7838 12.1417 16.0505 11.1167 16.0505 10C16.0505 8.88333 15.7838 7.86667 15.2505 6.95C14.7172 6.01667 13.9838 5.28333 13.0505 4.75C12.1338 4.2 11.1172 3.925 10.0005 3.925C8.88382 3.925 7.85882 4.2 6.92549 4.75C6.00882 5.28333 5.28382 6.01667 4.75049 6.95C4.21716 7.86667 3.95049 8.88333 3.95049 10C3.95049 11.1167 4.21716 12.1417 4.75049 13.075C5.28382 13.9917 6.00882 14.725 6.92549 15.275C7.85882 15.8083 8.88382 16.075 10.0005 16.075ZM14.3255 15.65L15.6755 14.3L21.6755 20.3L20.3255 21.65L14.3255 15.65Z" fill="#141414"/></svg>
+      </span>
+      <input type="text" class="search-input" id="search" placeholder="Search icons"/>
+      <span class="search-count" id="searchCount">0</span>
+      <button class="search-clear" id="clearBtn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+  </div>
+  <nav class="header-nav">
+    <a class="header-link" href="https://www.patreon.com/c/iconoteka" target="_blank">Support Project</a>
+    <a class="header-link" href="https://about.iconoteka.com/" target="_blank">About</a>
+  </nav>
+</header>
+
+<div class="layout">
+  <aside>
+    <div class="sidebar-top">
+      <div class="sidebar-controls">
+        <div class="seg">
+          <button class="seg-btn on" data-style="stroke">Stroke</button>
+          <button class="seg-btn" data-style="fill">Fill</button>
+        </div>
+        <div class="slider-row">
+          <div class="slider-label-row">
+            <span class="slider-label">Weight</span>
+            <span class="slider-val" id="weightLabel">Regular</span>
+          </div>
+          <div class="slider-track-wrap">
+            <div class="slider-stops-line">
+              <div class="slider-stop"></div><div class="slider-stop"></div><div class="slider-stop"></div><div class="slider-stop"></div><div class="slider-stop"></div><div class="slider-stop"></div><div class="slider-stop"></div>
+            </div>
+            <input type="range" class="weight-slider" id="weightSlider" min="0" max="6" step="1" value="3"/>
+          </div>
+        </div>
+      </div>
+      <div class="cat-list" id="catList">
+      </div>
+      <div class="sidebar-ver"><span class="footer-ver" id="footerVer">v0.1.0</span></div>
+    </div>
+  </aside>
+  </aside>
+
+  <div class="main-wrap">
+    <main id="main">
+      <div id="loading"><div class="spinner"></div><span>Loading icons…</span></div>
+    </main>
+  </div>
+</div>
+
+<div id="tooltip"></div>
+
+<div id="panel">
+  <div class="panel-preview" id="panelPreview"></div>
+  <button class="panel-close" id="panelClose">✕</button>
+  <div class="panel-body" id="panelBody"></div>
+</div>
+
+<script>
+const CDN = 'https://cdn.jsdelivr.net/gh/turbaba/Iconoteka@main/icons.json?v=' + Date.now();
+const WEIGHTS = ['thin','ultralight','light','regular','medium','semibold','bold'];
+const WEIGHT_LABELS = ['Thin','Ultralight','Light','Regular','Medium','Semibold','Bold'];
+
+function toTitleCase(str) {
+  return str.replace(/\b\w/g, c => c.toUpperCase());
+}
+
+function hexLuminance(hex) {
+  const c = hex.replace('#','');
+  const r = parseInt(c.slice(0,2),16)/255, g = parseInt(c.slice(2,4),16)/255, b = parseInt(c.slice(4,6),16)/255;
+  const toL = x => x <= 0.03928 ? x/12.92 : Math.pow((x+0.055)/1.055, 2.4);
+  return 0.2126*toL(r) + 0.7152*toL(g) + 0.0722*toL(b);
+}
+
+let iconsData = [], meta = {};
+let state = { weightIdx: 3, style: 'stroke', search: '', category: 'All' };
+let panelIcon = null, panelSize = 24;
+let tipTimer = null, mx = 0, my = 0;
+
+const COLOR_PAIRS = [
+  ['#ffc7d8','#141414'],['#ffc7d8','#141414'],['#ffc7d8','#141414'],['#ffc7d8','#141414'],
+  ['#ffc7d8','#1e2d00'],['#ffc7d8','#4b2442'],['#ffc7d8','#1d758d'],
+  ['#f2f2f3','#141414'],['#d4d4d8','#141414'],['#cae0f3','#bc4590'],
+  ['#dcf2e7','#141414'],['#f2ede1','#5d5c63'],['#f8d9cc','#141414'],
+  ['#abaab1','#141414'],['#79dee5','#4f5900'],
+  ['#11a54a','#ffffff'],['#dded47','#2844da'],['#fc941c','#141414'],
+  ['#cfb9f8','#60501c'],['#81808b','#ffffff'],['#20a5e0','#000f82'],
+  ['#979c1a','#ffffff'],['#febd32','#673726'],['#f54c1d','#ffffff'],
+  ['#fca4ec','#4a2022'],['#5d5c63','#ffffff'],['#1d758d','#ffc7d8'],
+  ['#829684','#ffffff'],['#cfbc13','#392518'],['#a25624','#ffffff'],
+  ['#bc4590','#cae0f3'],['#39393c','#ffffff'],['#2844da','#cfbc13'],
+  ['#0b957e','#ffffff'],['#ae8b19','#161635'],['#673726','#ffffff'],
+  ['#966acc','#141414'],['#141414','#ffffff'],['#000f82','#d4d4d8'],
+  ['#4f5900','#ffffff'],['#60501c','#f2ede1'],['#811d25','#ffffff'],
+  ['#542fab','#79dee5'],['#161635','#ffffff'],['#1e2d00','#81808b'],
+  ['#392518','#ffffff'],['#4a2022','#979c1a'],['#4b2442','#ffffff'],
+];
+
+document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+
+function getWeight() { return WEIGHTS[state.weightIdx]; }
+
+async function loadIcons() {
+  try {
+    const res = await fetch(CDN);
+    const data = await res.json();
+    iconsData = data.icons || [];
+    meta = data.meta || {};
+    document.getElementById('footerVer').textContent = meta.version ? 'v' + meta.version : 'v0.1.0';
+    buildSidebar();
+    render();
+    // Open icon from URL hash
+    const hash = decodeURIComponent(window.location.hash.slice(1));
+    if (hash) {
+      const found = iconsData.find(i => i.name === hash);
+      if (found) openPanel(found);
+    }
+  } catch(e) {
+    document.getElementById('loading').innerHTML = '<div class="empty">Failed to load icons. <a href="#" onclick="loadIcons()">Retry</a></div>';
+  }
+}
+
+function buildSidebar() {
+  const map = {};
+  iconsData.forEach(i => { const c = i.category || 'Other'; map[c] = (map[c] || 0) + 1; });
+  const sorted = Object.entries(map)
+    .filter(([name]) => name !== 'Popular')
+    .sort(([a],[b]) => a.localeCompare(b));
+  const total = iconsData.filter(i => i.category !== 'Popular').length;
+  const catList = document.getElementById('catList');
+  catList.innerHTML = '';
+  [['All Categories', total], ...sorted].forEach(([name, count]) => {
+    const el = document.createElement('div');
+    const catKey = name === 'All Categories' ? 'All' : name;
+    el.className = 'cat-item' + (state.category === catKey ? ' active' : '');
+    el.innerHTML = '<span>' + toTitleCase(name) + '</span><span class="cat-count">' + count + '</span>';
+    el.addEventListener('click', () => {
+      state.category = catKey; state.search = '';
+      document.getElementById('search').value = '';
+      document.getElementById('clearBtn').classList.remove('visible');
+      buildSidebar(); render();
+    });
+    catList.appendChild(el);
+  });
+  catList.style.maxHeight = 'none';
+}
+
+function getFiltered() {
+  const q = state.search.toLowerCase();
+  return iconsData.filter(i => {
+    const inCat = state.category === 'All' || i.category === state.category;
+    const inQ = !q || i.name.toLowerCase().includes(q) || (i.displayName||'').toLowerCase().includes(q) || (i.searchTerms||[]).some(t => t.toLowerCase().includes(q));
+    return inCat && inQ;
+  });
+}
+
+function getPath(icon, wIdx) {
+  const w = WEIGHTS[wIdx !== undefined ? wIdx : state.weightIdx];
+  const s = state.style;
+  const fallback = s === 'fill' ? 'stroke' : 'fill';
+  const v = icon.variants || {};
+  if (v[w] && v[w][s]) return v[w][s];
+  for (const ww of WEIGHTS) { if (v[ww] && v[ww][s]) return v[ww][s]; }
+  if (v[w] && v[w][fallback]) return v[w][fallback];
+  for (const ww of WEIGHTS) { if (v[ww] && v[ww][fallback]) return v[ww][fallback]; }
+  return null;
+}
+
+function parseTags(icon) {
+  const raw = icon.name || '';
+  const parts = raw.split('_'); parts.shift();
+  const tags = parts.join('_').split('-').filter(t => t.length > 1);
+  const extra = icon.searchTerms || [];
+  return [...new Set([...tags, ...extra])].filter(t => t && t !== raw);
+}
+
+function render() {
+  const icons = getFiltered();
+  const countable = icons.filter(i => i.category !== 'Popular').length;
+  const countEl = document.getElementById('searchCount');
+  countEl.textContent = countable;
+  countEl.classList.toggle('visible', countable > 0 && !!state.search);
+  const main = document.getElementById('main');
+  if (!icons.length) {
+    const emptyPhrases = [["\u201c" + state.search + "\u201d? Never heard of it.", "Request It"],["Looked everywhere. No \u201c" + state.search + "\u201d.", "Add It"],["\u201c" + state.search + "\u201d is playing hide and seek.", "Request This Icon"],["We have " + iconsData.filter(i => i.category !== 'Popular').length + " icons. \u201c" + state.search + "\u201d is not one of them.", "Change That"],["\u201c" + state.search + "\u201d doesn\u0027t exist here. Yet.", "Request It"]]; const _ep = emptyPhrases[Math.floor(Math.random() * emptyPhrases.length)]; main.innerHTML = `<div class="empty">${_ep[0]}<br><a href="mailto:icons@iconoteka.com">${_ep[1]}</a></div>`;
+    return;
+  }
+  if (state.search) {
+    const frag = document.createDocumentFragment();
+    const sec = document.createElement('div'); sec.className = 'category-section';
+    const grid = document.createElement('div'); grid.className = 'icons-grid';
+    icons.forEach(icon => grid.appendChild(makeCard(icon)));
+    sec.appendChild(grid); frag.appendChild(sec);
+    main.innerHTML = ''; main.appendChild(frag);
+  } else {
+    const grouped = {};
+    icons.forEach(i => { const c = i.category || 'Other'; (grouped[c] = grouped[c] || []).push(i); });
+    // Popular first, rest alphabetical
+    const popular = grouped['Popular'] ? [['Popular', grouped['Popular']]] : [];
+    const ord = [...popular, ...Object.keys(grouped).filter(k => k !== 'Popular').sort((a,b) => a.localeCompare(b)).map(k => [k, grouped[k]])];
+    const frag = document.createDocumentFragment();
+    ord.forEach(([cat, catIcons]) => {
+      const sec = document.createElement('div'); sec.className = 'category-section';
+      const title = document.createElement('div'); title.className = 'category-title';
+      title.innerHTML = toTitleCase(cat) + (cat !== 'Popular' ? '<span>' + catIcons.length + '</span>' : '');
+      sec.appendChild(title);
+      const grid = document.createElement('div'); grid.className = 'icons-grid';
+      catIcons.forEach(icon => grid.appendChild(makeCard(icon)));
+      sec.appendChild(grid); frag.appendChild(sec);
+    });
+    main.innerHTML = ''; main.appendChild(frag);
+  }
+  if (panelIcon) {
+    const active = main.querySelector('[data-name="' + panelIcon.name + '"]');
+    if (active) active.classList.add('active-panel');
+  }
+}
+
+function makeCard(icon) {
+  const path = getPath(icon);
+  const card = document.createElement('div');
+  card.className = 'icon-card' + (panelIcon && panelIcon.name === icon.name ? ' active-panel' : '');
+  card.dataset.name = icon.name;
+
+  const svgWrap = document.createElement('div'); svgWrap.className = 'icon-svg-wrap';
+  if (path) {
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('width', '48'); svg.setAttribute('height', '48');
+    svg.setAttribute('viewBox', '0 0 24 24'); svg.setAttribute('fill', 'currentColor');
+    const p = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    p.setAttribute('d', path); svg.appendChild(p); svgWrap.appendChild(svg);
+  }
+  card.appendChild(svgWrap);
+
+  const label = document.createElement('div'); label.className = 'icon-label';
+  const labelText = toTitleCase((icon.displayName || icon.name).replace(/_/g, ' '));
+  const words = labelText.split(' ');
+  label.innerHTML = words.length === 2 ? words[0] + '<br>' + words[1] : labelText;
+  card.appendChild(label);
+
+  card.addEventListener('click', e => {
+    if (panelIcon && panelIcon.name === icon.name) {
+      downloadSVG(icon);
+    } else {
+      openPanel(icon);
+    }
+  });
+
+  return card;
+}
+
+function downloadSVG(icon, color, sz) {
+  color = color || '#000000'; sz = sz || panelSize || 24;
+  const path = getPath(icon); if (!path) return;
+  const svg = '<svg xmlns="http://www.w3.org/2000/svg" width="' + sz + '" height="' + sz + '" viewBox="0 0 24 24" fill="' + color + '"><path d="' + path + '"/></svg>';
+  const blob = new Blob([svg], {type:'image/svg+xml'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href = url; a.download = (icon.displayName || icon.name) + '.svg';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 100);
+}
+
+function downloadPNG(icon, color, sz) {
+  color = color || '#000000'; sz = sz || panelSize || 24;
+  const raster = Math.max(sz, 96);
+  const path = getPath(icon); if (!path) return;
+  const svg = '<svg xmlns="http://www.w3.org/2000/svg" width="' + raster + '" height="' + raster + '" viewBox="0 0 24 24" fill="' + color + '"><path d="' + path + '"/></svg>';
+  const img = new Image();
+  const blob = new Blob([svg], {type:'image/svg+xml'});
+  const url = URL.createObjectURL(blob);
+  img.onload = () => {
+    const canvas = document.createElement('canvas'); canvas.width = raster; canvas.height = raster;
+    canvas.getContext('2d').drawImage(img, 0, 0);
+    URL.revokeObjectURL(url);
+    const a = document.createElement('a'); a.href = canvas.toDataURL('image/png'); a.download = (icon.displayName || icon.name) + '.png';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  };
+  img.src = url;
+}
+
+function cssSnippet(icon) {
+  const name = (icon.displayName || icon.name).replace(/_/g,'-').toLowerCase();
+  const path = getPath(icon) || '';
+  return '.icon-' + name + ' {\n  background-image: url("data:image/svg+xml,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'currentColor\'><path d=\'' + path + '\'/></svg>");\n  width: 24px;\n  height: 24px;\n}';
+}
+
+function androidSnippet(icon) {
+  const name = (icon.displayName || icon.name).replace(/ /g,'_').toLowerCase();
+  const path = getPath(icon) || '';
+  return '<vector xmlns:android="http://schemas.android.com/apk/res/android"\n    android:width="24dp" android:height="24dp"\n    android:viewportWidth="24" android:viewportHeight="24">\n  <path android:fillColor="@color/icon_color"\n        android:pathData="' + path + '"/>\n</vector>';
+}
+
+function iosSnippet(icon) {
+  const name = (icon.displayName || icon.name).replace(/_/g,'').replace(/ /g,'');
+  return '// SwiftUI\nImage(systemName: "' + name + '")\n    .resizable()\n    .frame(width: 24, height: 24)';
+}
+
+function updatePanelPreview(icon) {
+  const path = getPath(icon);
+  const preview = document.getElementById('panelPreview');
+  const existing = preview.querySelector('svg');
+  if (existing) existing.remove();
+  if (!path) return;
+  const [bg, fg] = preview._colorPair || ['#141414', '#ffffff'];
+  preview.style.background = bg;
+  document.getElementById('panelClose').style.color = fg;
+  const sz = 144;
+  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  svg.setAttribute('width', sz); svg.setAttribute('height', sz);
+  svg.setAttribute('viewBox', '0 0 24 24'); svg.setAttribute('fill', fg);
+  const p = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+  p.setAttribute('d', path); svg.appendChild(p);
+  preview.appendChild(svg);
+}
+
+function openPanel(icon) {
+  panelIcon = icon;
+  document.querySelectorAll('.icon-card').forEach(c => c.classList.remove('active-panel'));
+  const active = document.querySelector('[data-name="' + icon.name + '"]');
+  if (active) active.classList.add('active-panel');
+
+  const name = toTitleCase((icon.displayName || icon.name).replace(/_/g, ' '));
+  const tags = parseTags(icon);
+
+  const preview = document.getElementById('panelPreview');
+  preview._colorPair = COLOR_PAIRS[Math.floor(Math.random() * COLOR_PAIRS.length)];
+  updatePanelPreview(icon);
+
+  const body = document.getElementById('panelBody');
+  body.innerHTML = '';
+
+  const topDiv = document.createElement('div'); topDiv.className = 'panel-body-top';
+  const bottomDiv = document.createElement('div'); bottomDiv.className = 'panel-body-bottom';
+
+  const nameWrap = document.createElement('div'); nameWrap.style.cssText = 'display:flex;flex-direction:column;gap:2px;';
+  const nameEl = document.createElement('div'); nameEl.className = 'panel-name';
+  nameEl.textContent = name; nameWrap.appendChild(nameEl);
+  const styleEl = document.createElement('div'); styleEl.className = 'panel-style-label';
+  styleEl.textContent = WEIGHT_LABELS[state.weightIdx] + ' · ' + (state.style === 'stroke' ? 'Stroke' : 'Fill') + ' · ' + panelSize + 'px';
+  nameWrap.appendChild(styleEl); topDiv.appendChild(nameWrap);
+
+  if (tags.length) {
+    const tagsWrap = document.createElement('div'); tagsWrap.className = 'tags-wrap';
+    tags.forEach(t => {
+      const tag = document.createElement('span'); tag.className = 'tag';
+      tag.textContent = toTitleCase(t.replace(/_/g, ' '));
+      tag.addEventListener('click', () => {
+        state.search = t;
+        document.getElementById('search').value = t;
+        document.getElementById('clearBtn').classList.add('visible');
+        render();
+      });
+      tagsWrap.appendChild(tag);
+    });
+    topDiv.appendChild(tagsWrap);
+  }
+
+  // Size slider
+  const SIZE_STEPS = [16, 20, 24, 36, 48];
+  const sizeSec = document.createElement('div');
+  const sizeSliderRow = document.createElement('div'); sizeSliderRow.className = 'slider-row';
+  const sizeLabelRow = document.createElement('div'); sizeLabelRow.className = 'slider-label-row';
+  const sizeLabelLeft = document.createElement('span'); sizeLabelLeft.className = 'slider-label'; sizeLabelLeft.textContent = 'Export size';
+  const sizeLabelRight = document.createElement('span'); sizeLabelRight.className = 'slider-val'; sizeLabelRight.textContent = panelSize + 'px';
+  sizeLabelRow.appendChild(sizeLabelLeft); sizeLabelRow.appendChild(sizeLabelRight);
+  const sizeSlider = document.createElement('input'); sizeSlider.type = 'range'; sizeSlider.className = 'weight-slider';
+  sizeSlider.min = 0; sizeSlider.max = SIZE_STEPS.length - 1; sizeSlider.step = 1;
+  sizeSlider.value = SIZE_STEPS.indexOf(panelSize) >= 0 ? SIZE_STEPS.indexOf(panelSize) : 2;
+  const sizeTrackWrap = document.createElement('div'); sizeTrackWrap.className = 'slider-track-wrap';
+  const sizeStopsLine = document.createElement('div'); sizeStopsLine.className = 'slider-stops-line';
+  SIZE_STEPS.forEach(() => { const s = document.createElement('div'); s.className = 'slider-stop'; sizeStopsLine.appendChild(s); });
+  sizeTrackWrap.appendChild(sizeStopsLine); sizeTrackWrap.appendChild(sizeSlider);
+  sizeSlider.addEventListener('input', () => {
+    panelSize = SIZE_STEPS[parseInt(sizeSlider.value)];
+    sizeLabelRight.textContent = panelSize + 'px';
+    styleEl.textContent = WEIGHT_LABELS[state.weightIdx] + ' · ' + (state.style === 'stroke' ? 'Stroke' : 'Fill') + ' · ' + panelSize + 'px';
+  });
+  sizeSliderRow.appendChild(sizeLabelRow); sizeSliderRow.appendChild(sizeTrackWrap);
+  sizeSec.appendChild(sizeSliderRow); bottomDiv.appendChild(sizeSec);
+
+  const actionSec = document.createElement('div');
+  const list = document.createElement('div'); list.className = 'actions-list';
+
+  const dlBtn = document.createElement('button');
+  dlBtn.className = 'action-btn primary';
+  dlBtn.textContent = 'Download SVG';
+  dlBtn.addEventListener('click', () => downloadSVG(icon, null, panelSize));
+  list.appendChild(dlBtn);
+
+  const dlPngBtn = document.createElement('button');
+  dlPngBtn.className = 'action-btn secondary';
+  dlPngBtn.textContent = 'Download PNG';
+  dlPngBtn.addEventListener('click', () => downloadPNG(icon, null, panelSize));
+  list.appendChild(dlPngBtn);
+
+  const copyRow = document.createElement('div'); copyRow.className = 'copy-row';
+  const copyLbl = document.createElement('span'); copyLbl.className = 'copy-label'; copyLbl.textContent = 'Copy code for:';
+  copyRow.appendChild(copyLbl);
+
+  function makeCopyBtn(label, getText) {
+    const btn = document.createElement('button'); btn.className = 'copy-btn'; btn.textContent = label;
+    btn.addEventListener('click', () => {
+      navigator.clipboard.writeText(getText()).catch(() => {});
+      const orig = btn.textContent; btn.textContent = '✓'; btn.classList.add('success');
+      setTimeout(() => { btn.textContent = orig; btn.classList.remove('success'); }, 1400);
+    });
+    return btn;
+  }
+
+  copyRow.appendChild(makeCopyBtn('CSS', () => cssSnippet(icon)));
+  copyRow.appendChild(makeCopyBtn('Android', () => androidSnippet(icon)));
+  copyRow.appendChild(makeCopyBtn('Swift', () => iosSnippet(icon)));
+  list.appendChild(copyRow);
+
+  actionSec.appendChild(list); bottomDiv.appendChild(actionSec);
+  body.appendChild(topDiv); body.appendChild(bottomDiv);
+  document.getElementById('panel').classList.add('open');
+  history.replaceState(null, '', '#' + encodeURIComponent(icon.name));
+}
+
+document.getElementById('panelPreview').addEventListener('click', e => {
+  if (e.target.closest('#panelClose')) return;
+  if (!panelIcon) return;
+  const preview = document.getElementById('panelPreview');
+  preview._colorPair = COLOR_PAIRS[Math.floor(Math.random() * COLOR_PAIRS.length)];
+  updatePanelPreview(panelIcon);
+});
+
+document.getElementById('panelClose').addEventListener('click', () => {
+  document.getElementById('panel').classList.remove('open');
+  history.replaceState(null, '', window.location.pathname + window.location.search);
+  document.querySelectorAll('.icon-card').forEach(c => c.classList.remove('active-panel'));
+  panelIcon = null;
+});
+
+document.getElementById('search').addEventListener('input', e => {
+  state.search = e.target.value;
+  document.getElementById('clearBtn').classList.toggle('visible', !!state.search);
+  render();
+});
+document.getElementById('clearBtn').addEventListener('click', () => {
+  state.search = ''; document.getElementById('search').value = '';
+  document.getElementById('clearBtn').classList.remove('visible'); render();
+});
+document.querySelectorAll('.seg-btn').forEach(btn => btn.addEventListener('click', () => {
+  document.querySelectorAll('.seg-btn').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on'); state.style = btn.dataset.style; render();
+  if (panelIcon) updatePanelPreview(panelIcon);
+}));
+
+const weightSlider = document.getElementById('weightSlider');
+const weightLabel = document.getElementById('weightLabel');
+weightSlider.addEventListener('input', () => {
+  state.weightIdx = parseInt(weightSlider.value);
+  weightLabel.textContent = WEIGHT_LABELS[state.weightIdx];
+  render();
+  if (panelIcon) updatePanelPreview(panelIcon);
+});
+
+document.addEventListener('keydown', e => {
+  if ((e.ctrlKey || e.metaKey) && e.key === 'k') { e.preventDefault(); document.getElementById('search').focus(); }
+  if (e.key === 'Escape') { document.getElementById('search').blur(); document.getElementById('panel').classList.remove('open'); }
+});
+
+loadIcons();
+</script>
+</body>
+</html>
