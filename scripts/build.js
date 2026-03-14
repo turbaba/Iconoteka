@@ -14,8 +14,9 @@
  * Output: icons.json grouped as one entry per icon with all 14 variants nested inside
  */
 
-const fs   = require("fs");
-const path = require("path");
+const fs            = require("fs");
+const path          = require("path");
+const { execSync }  = require("child_process");
 
 const ICONS_DIR = path.join(__dirname, "../icons");
 const OUTPUT    = path.join(__dirname, "../icons.json");
@@ -154,9 +155,18 @@ function build() {
     icon.variants = sorted;
   }
 
+  // Version: 02.00.{git commit count}
+  let commitCount = "00";
+  try {
+    commitCount = execSync("git rev-list --count HEAD", { cwd: __dirname }).toString().trim();
+  } catch {
+    console.warn("⚠️  Could not get git commit count, using 00");
+  }
+  const version = `02.00.${commitCount}`;
+
   const output = {
     meta: {
-      version:   "0.1.0",
+      version,
       count:     icons.length,
       updatedAt: new Date().toISOString(),
       cdn:       "https://cdn.jsdelivr.net/gh/turbaba/iconoteka@main/icons.json",
