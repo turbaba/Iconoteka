@@ -330,533 +330,59 @@ function buildSidebar() {
 }
 
 const SYNONYMS = {
-  // Navigation & UI
   home:         ['house'],
   house:        ['home'],
-  menu:         ['hamburger','burger','drawer','sidebar','lines'],
-  hamburger:    ['menu','burger','sidebar'],
-  back:         ['left','previous','undo','return'],
-  next:         ['right','forward','proceed','continue'],
-  close:        ['x','cross','dismiss','cancel','remove','multiply'],
-  cancel:       ['close','x','dismiss','cross','delete'],
-  expand:       ['unfold','open','show','reveal'],
-  collapse:     ['fold','hide','compact','minimize'],
-  fullscreen:   ['full_screen','maximize','immersive'],
-  maximize:     ['full_screen','fullscreen'],
-  minimize:     ['fullscreen_exit','shrink','windowed'],
-  refresh:      ['sync','reload','autorenew','update','retry'],
-  reload:       ['sync','refresh','autorenew'],
-  undo:         ['leftup_hook_arrow','back','revert'],
-  redo:         ['rightup_hook_arrow','forward','repeat'],
-  sort:         ['filter','order','arrange','reorder'],
-  filter:       ['sort','refine','narrow','criteria'],
-
-  // Search & Find
-  search:       ['find','magnify','lookup','query','discover','explore'],
-  find:         ['search','magnify','lookup'],
-  magnify:      ['search','zoom','find'],
-  lookup:       ['search','find','query'],
-
-  // Edit & Write
-  edit:         ['write','pen','pencil','modify','change','revise'],
-  write:        ['edit','pen','pencil','compose'],
-  pencil:       ['pen','edit','write','draw'],
-  pen:          ['pencil','edit','write','draw'],
-  draw:         ['freehand','pen','sketch','illustrate'],
-  sketch:       ['freehand','draw','pen'],
-
-  // Files & Documents
-  file:         ['document','doc','page'],
-  document:     ['file','doc','page','text'],
-  doc:          ['document','file','text','page'],
-  folder:       ['directory','files','organize'],
-  directory:    ['folder','files'],
-  archive:      ['archivate','zip','compress','bundle'],
-  zip:          ['doc_zip','archive','compress'],
-  pdf:          ['doc_text','document','file'],
-  spreadsheet:  ['excel','table','grid','data'],
-  excel:        ['spreadsheet','table','doc_table'],
-  presentation: ['slides','deck','pitch','keynote','powerpoint'],
-  slides:       ['presentation','deck','pitch'],
-  note:         ['notepad','memo','diary','journal'],
-  notepad:      ['note','memo','diary'],
-  clipboard:    ['paste','board','task','checklist'],
-  paste:        ['clipboard'],
-  copy:         ['duplicate','clone','replicate'],
-  duplicate:    ['copy','clone'],
-
-  // Upload / Download / Transfer
-  upload:       ['import','push','submit','publish'],
-  download:     ['get','fetch','pull','save','export'],
-  import:       ['upload','doc_upload'],
-  export:       ['share','download','doc_download','distribute'],
-  save:         ['floppy','disk','download','store'],
-  floppy:       ['save','disk','storage'],
-  backup:       ['snapshot','replicate','safe','restore'],
-
-  // Share & Connect
-  share:        ['send','export','distribute','spread'],
-  send:         ['share','submit','paper_plane','launch'],
-  link:         ['url','chain','connect','href','hyperlink'],
-  url:          ['link','browser','web','href'],
-  hyperlink:    ['link','url','chain'],
-
-  // User & People
-  user:         ['person','profile','account','avatar','member'],
-  person:       ['user','profile','account'],
-  profile:      ['user','person','account','avatar'],
-  account:      ['user','profile','person'],
-  avatar:       ['user','person','profile'],
-  team:         ['group','users','people','members','crew'],
-  group:        ['team','users','people','crowd'],
-  people:       ['group','team','users','crowd'],
-  crowd:        ['group','people','audience','community'],
-  contact:      ['user','phone','envelope','address'],
-  member:       ['user','group','team'],
-
-  // Communication
-  email:        ['mail','envelope','message','inbox'],
-  mail:         ['email','envelope','inbox'],
-  envelope:     ['mail','email','message','compose'],
-  inbox:        ['mail','email','receive','tray'],
-  message:      ['speech_balloon','chat','sms','text_message','bubble'],
-  chat:         ['speech_balloon','message','chats','dialog','bubble'],
-  sms:          ['text_message','message','phone'],
-  bubble:       ['speech_balloon','chat','message','dialog'],
-  call:         ['phone','telephone','dial','voice'],
-  phone:        ['call','mobile','telephone','handset'],
-  telephone:    ['phone','call','handset','dial'],
-  voicemail:    ['call_message','message_voice','phone'],
-  notification: ['bell','alert','remind','subscribe'],
-  bell:         ['notification','alert','ring','sound'],
-
-  // Settings & Config
-  settings:     ['gear','preferences','config','options','configure'],
-  gear:         ['settings','preferences','configure','tools'],
-  preferences:  ['settings','gear','config','options'],
-  config:       ['settings','gear','preferences'],
-  options:      ['settings','gear','more','menu'],
-  admin:        ['settings','gear','dashboard','supervisor'],
-  control:      ['settings','gear','dashboard','manage'],
-
-  // Lock & Security
-  lock:         ['secure','password','private','encrypt','protect'],
-  unlock:       ['lock_open','open','access','allow','grant'],
-  password:     ['lock','key','pin_code','secret','auth'],
-  key:          ['lock','password','encrypt','access'],
-  pin:          ['pin_code','password','passcode','otp'],
-  security:     ['lock','shield','insurance','vpn','guard'],
-  shield:       ['insurance','security','lock','guard','protect'],
-  protect:      ['lock','insurance','security','shield'],
-  private:      ['lock','anonymous','incognito','vpn'],
-  incognito:    ['anonymous','private','vpn'],
-  anonymous:    ['incognito','private','hidden','stealth'],
-  vpn:          ['security','private','tunnel','anonymous'],
-  encrypt:      ['lock','vpn','key','security'],
-  fingerprint:  ['biometric','auth','secure','touch'],
-  biometric:    ['fingerprint','face','auth','secure'],
-
-  // Status & Alerts
-  warning:      ['alert','caution','danger','hazard','exclamation'],
-  alert:        ['warning','caution','notification','notice','error'],
-  error:        ['alert','warning','bug_report','issue','problem'],
-  bug:          ['bug_report','error','issue','problem','debug'],
-  danger:       ['warning','alert','caution','hazard'],
-  info:         ['information','about','detail','help','tooltip'],
-  information:  ['info','about','detail','help'],
-  help:         ['question_circle','information','support','faq'],
-  question:     ['question_circle','help','faq','unknown'],
-  support:      ['question_circle','headset','help'],
-  success:      ['checkmark','check_all','verified','done'],
-  check:        ['checkmark','tick','done','complete','verify'],
-  tick:         ['checkmark','check','done','complete'],
-  done:         ['checkmark','check_all','sync_check','complete'],
-  verified:     ['checkmark','official','trusted','certified'],
-  approved:     ['checkmark','verified','confirmed'],
-
-  // Navigation & Location
-  location:     ['pin','place','mark','geopoint','map'],
-  pin:          ['location','pushpin','marker','place'],
-  map:          ['location','navigation','gps','world_map'],
-  navigation:   ['compass','map','gps','directions'],
-  compass:      ['navigation','orient','direction','find'],
-  gps:          ['location','coordinates','navigation','map'],
-  directions:   ['navigation','map','route','compass'],
-  route:        ['navigation','directions','map','path'],
-  nearby:       ['near_me','local','proximity','around'],
-  address:      ['location','house','place','pin'],
-
-  // Time & Calendar
-  time:         ['clock','timer','watch','schedule','hourglass'],
-  clock:        ['time','timer','alarm_clock','stopwatch'],
-  timer:        ['clock','countdown','stopwatch','deadline'],
-  calendar:     ['date','schedule','event','appointment','agenda'],
-  date:         ['calendar','schedule','today','event'],
-  event:        ['calendar','today','schedule','appointment'],
-  reminder:     ['alarm_clock','bell','notification','calendar'],
-  alarm:        ['alarm_clock','reminder','bell','timer'],
-  schedule:     ['calendar','time','plan','agenda','timer'],
-  deadline:     ['timer','calendar','schedule','clock'],
-  today:        ['calendar','date','now','current'],
-
-  // Media & Playback
-  play:         ['play_in_circle','start','media','video'],
-  pause:        ['pause_circle','double_bar','hold','break'],
-  stop:         ['stop_circle','blocked','end'],
-  rewind:       ['fastrewind','previous','backward','back'],
-  forward:      ['fast_forward','next','skip','advance'],
-  skip:         ['skip_next','skip_previous','jump','advance'],
-  video:        ['movie_camera','film','video_file','clip','footage'],
-  movie:        ['film','cinema','video','movie_camera'],
-  cinema:       ['film','movie','video'],
-  music:        ['music_note','audio','song','melody','tune'],
-  audio:        ['music','sound','volume','speaker'],
-  sound:        ['speaker','volume','audio','music','noise'],
-  volume:       ['speaker','no_sound','audio','mute'],
-  mute:         ['no_sound','mic_off','notification_off','volume','silent'],
-  silent:       ['no_sound','mute','mic_off'],
-  speaker:      ['volume','audio','sound','output'],
-  playlist:     ['play_list','queue','songs','tracks'],
-  album:        ['play_album','library_music','music','songs'],
-  song:         ['music_note','library_music','audio','melody'],
-  podcast:      ['microphone','headset','audio','recording'],
-  record:       ['microphone','recording','dot','live','capture'],
-  stream:       ['live','broadcast','cast','online'],
-  broadcast:    ['tv_broadcast','radio','stream','live','antenna'],
-  subtitle:     ['subtitles','cc','caption','closed_captions'],
-  caption:      ['subtitles','cc','closed_captions'],
-
-  // Photo & Image
-  photo:        ['photo_camera','image','picture','camera','snap'],
-  camera:       ['photo_camera','movie_camera','capture','lens'],
-  image:        ['photo','picture','ai_image','photo_camera'],
-  picture:      ['photo','image','photo_camera','frame'],
-  gallery:      ['library_video','library','photos','collection'],
-  screenshot:   ['screen','capture','scan_doc'],
-
-  // Charts & Analytics
-  chart:        ['chart_bar','chart_line','graph','analytics','data','stats'],
-  graph:        ['chart_line','bar_chart','chart_pie','analytics'],
-  analytics:    ['chart','dashboard','report','stats','data'],
-  statistics:   ['chart_bar','chart_line','report','data'],
-  dashboard:    ['overview','panel','admin','control','stats'],
-  report:       ['analytics','chart','data','stats','summary'],
-  data:         ['chart','spreadsheet','database','server'],
-  trend:        ['trending','chart_line','trend_down','growth'],
-  growth:       ['trending','chart_line','increase'],
-
-  // AI & Tech
-  ai:           ['ml','machine_learning','neural','intelligence','model','bot'],
-  robot:        ['bot','robotics','toy','agent','android'],
-  bot:          ['robot','ai','agent','chatbot','assistant'],
-  machine_learning: ['ai','neural','model','intelligence'],
-  neural:       ['ai','brain','ml','intelligence'],
-  automation:   ['auto','bot','robot','workflow','autorenew'],
-  smart:        ['ai','bot','smart_home','smart_watch'],
-  code:         ['doc_code','programming','developer','terminal','syntax'],
-  developer:    ['code','doc_code','terminal','programming'],
-  programming:  ['code','doc_code','developer'],
-  terminal:     ['code','developer','console'],
-  database:     ['server','hard_drive','storage','folder'],
-  server:       ['database','storage','backend','host','infrastructure'],
-  storage:      ['hard_drive','server','floppy_disk','folder','cloud'],
-  cloud:        ['cloud_upload','cloud_download','cloud_sync','server','storage'],
-  sync:         ['refresh','autorenew','update','cloud_sync','loop'],
-  blockchain:   ['crypto','defi','bitcoin','web3','decentralization'],
-  crypto:       ['bitcoin','blockchain','defi','eth','digital'],
-
-  // Hardware & Devices
-  computer:     ['desktop','laptop','device','pc','workstation'],
-  desktop:      ['computer','pc','monitor','workstation','mac'],
-  laptop:       ['computer','notebook','macbook','portable'],
-  monitor:      ['desktop','screen','display','tv'],
-  screen:       ['desktop','monitor','tv','display'],
-  mobile:       ['phone','smartphone','iphone','android','cell'],
-  smartphone:   ['mobile','phone','iphone','android','handheld'],
-  iphone:       ['mobile','smartphone','device'],
-  tablet:       ['ipad','slate','touchscreen','portable'],
-  ipad:         ['tablet','slate','touchscreen'],
-  keyboard:     ['type','input','shortcut','qwerty'],
-  mouse:        ['click','cursor','pointer','input','peripheral'],
-  headphones:   ['earphones','listen','audio','earbuds','headset'],
-  headset:      ['headphones','mic','voip','call','audio'],
-  microphone:   ['mic','recording','voice','podcast','dictation'],
-  mic:          ['microphone','recording','voice'],
-  tv:           ['television','screen','cable','broadcast','show'],
-  television:   ['tv','screen','cable','broadcast'],
-  battery:      ['battery_full','battery_empty','power','charge'],
-  charging:     ['battery_charging','electric_plug','power'],
-  plug:         ['electric_plug','socket','outlet','charge'],
-  usb:          ['usb_c','usb_a','connector','port','cable'],
-  bluetooth:    ['wireless','pair','connect','peripheral'],
-  wifi:         ['wireless','internet','network','signal','connection'],
-  internet:     ['wifi','globe','browser','network','web'],
-  network:      ['wifi','router','ethernet','connection','lan'],
-  router:       ['network','gateway','internet','modem','hub'],
-  printer:      ['printer_print','print','paper','document'],
-  print:        ['printer_print','document','paper'],
-  scanner:      ['scan_doc','scan','ocr','capture','digitize'],
-  scan:         ['scanner','ocr','capture','barcode','qr'],
-  drone:        ['uav','aerial','quadcopter','fly'],
-  remote:       ['controller','ir','control','wireless'],
-
-  // Finance & Money
-  money:        ['cash','dollar','coin','wallet','currency'],
-  cash:         ['money','dollar','coin','banknote'],
-  dollar:       ['money','usd','currency','cash','price'],
-  euro:         ['currency','money','eur','europe'],
-  currency:     ['dollar','euro','money','exchange'],
-  payment:      ['card_credit','wallet','bank_card','checkout','pay'],
-  card:         ['bank_card','card_credit','card_debit','payment'],
-  credit:       ['card_credit','credit_card','payment','bank'],
-  debit:        ['card_debit','bank_card','payment','bank'],
-  bank:         ['savings','banking','vault','financial','institution'],
-  wallet:       ['purse','payment','balance','funds','cards'],
-  receipt:      ['bill','invoice','purchase','checkout','proof'],
-  invoice:      ['receipt','bill','payment','document'],
-  savings:      ['bank','banking','vault','money','account'],
-  loan:         ['credit','borrow','mortgage','debt','finance'],
-  mortgage:     ['loan','homeloan','property','debt','bank'],
-  budget:       ['expenses','finance','money','cash','plan'],
-  expense:      ['expences','cost','budget','cash','spending'],
-  donate:       ['charity','donation','gift','giving','contribution'],
-  gift:         ['present','donate','charity','birthday','bow'],
-  coupon:       ['gift_card','voucher','discount','prepaid','redeem'],
-  reward:       ['loyalty','star_five','trophy','medal','crown'],
-  atm:          ['cash','withdraw','machine','bank','card'],
-
-  // Shopping
-  shopping:     ['shopping_trolley','shopping_bag','cart','buy','purchase'],
-  cart:         ['shopping_trolley','basket','checkout','buy'],
-  bag:          ['shopping_bag','handbag','luggage','suitcase'],
-  basket:       ['shopping_basket','cart','checkout','gather'],
-  buy:          ['shopping_trolley','payment','checkout','purchase'],
-  store:        ['shopping_bag','convience_store','shop','retail'],
-  shop:         ['shopping_bag','store','retail','commerce'],
-  ecommerce:    ['shopping_trolley','shopping_bag','payment','store'],
-  checkout:     ['shopping_trolley','receipt','payment','cart'],
-
-  // Food & Drink
-  food:         ['dining','pizza','fruits','eat','meal'],
-  eat:          ['dining','food','restaurant','meal'],
-  restaurant:   ['dining','food','eat','meal','cutlery'],
-  drink:        ['hot_beverage','wine_glass','cocktail','water','beverage'],
-  coffee:       ['hot_beverage','cafe','cup','espresso','caffeine'],
-  tea:          ['hot_beverage','tea_cup','warm','cup','drink'],
-  water:        ['bottle_of_water','potable_water','rain','droplet','liquid'],
-  wine:         ['wine_glass','cocktail','bottle_with_glass','alcohol','drink'],
-  beer:         ['bottle_with_glass','cocktail','drink','alcohol'],
-  cake:         ['birthday','celebrate','dessert','party','sweet'],
-  birthday:     ['cake','celebrate','gift','party','present'],
-  pizza:        ['food','italian','eat','meal','cheese'],
-  fruit:        ['fruits','apple','food','healthy','fresh'],
-  ice_cream:    ['dessert','gelato','sweet','frozen','dairy'],
-
-  // House & Furniture
-  furniture:    ['chair','couch','table','bed_double','arm_chair'],
-  sofa:         ['couch','chair','lounge','relax','living'],
-  bed:          ['bed_double','bed_single','rest','room','sleep'],
-  bedroom:      ['bed_double','bed_single','bunk','rest','room'],
-  kitchen:      ['cook','stove','pot','fridge','appliance'],
-  bathroom:     ['shower','toilet_seat','tub_hot','wash','hygiene'],
-  fridge:       ['refrigerator','freezer','cold','appliance','kitchen'],
-  laundry:      ['washing_machine','clean','clothes','dryer','wash'],
-  plant:        ['home_plant','leaf','tree','flower','nature'],
-  garden:       ['house_garden','plant','tree','flower','outdoor'],
-  smart_home:   ['connected','alexa','nest','home','automated'],
-
-  // Transportation
-  car:          ['automobile','sedan','suv','drive','vehicle'],
-  vehicle:      ['automobile','car','sedan','suv','transport'],
-  drive:        ['automobile','car','road','vehicle'],
-  truck:        ['delivery_truck','truck_empty','van','cargo','freight'],
-  bus:          ['bus_side','transit','public','commute','urban'],
-  train:        ['train_front','underground','metro','rail','transit'],
-  subway:       ['underground','metro','tube','rail','transit'],
-  metro:        ['underground','subway','tube','transit'],
-  airplane:     ['airport','takeoff','arrivals','flight','aviation'],
-  flight:       ['airport','takeoff','arrivals','airplane','air'],
-  plane:        ['airport','takeoff','rocket_angle','airplane'],
-  bike:         ['bicycle','cycling','pedal','commute','eco'],
-  bicycle:      ['bike','cycling','pedal','eco','sport'],
-  taxi:         ['cab','uber','rideshare','ride','yellow'],
-  car_electric: ['ev','tesla','green','electric','emission'],
-  rocket:       ['launch','startup','fast','space','boost'],
-  satellite:    ['orbit','signal','gps','space','dish'],
-  helicopter:   ['heli','rotor','chopper','aerial','rescue'],
-  ferry:        ['boat','ship','crossing','marine','passenger'],
-  scooter:      ['electric','micro','urban','kickboard','ride'],
-
-  // Sports & Fitness
-  sport:        ['fitness','running','basketball','football','exercise'],
-  fitness:      ['gym','dumbbell','workout','health','training'],
-  gym:          ['fitness','workout','dumbbell','training','exercise'],
-  exercise:     ['fitness','running','workout','sport','cardio'],
-  run:          ['running','marathon','jogging','exercise','cardio'],
-  running:      ['run','marathon','jog','exercise','sport','cardio'],
-  football:     ['soccer','sport','futbol','goal','pitch'],
-  soccer:       ['football','sport','futbol','goal','match'],
-  basketball:   ['nba','hoop','sport','court','team'],
-  tennis:       ['racket','ball','court','sport','wimbledon'],
-  golf:         ['putt','hole','sport','green','course'],
-  trophy:       ['award','champion','winner','prize','competition'],
-  medal:        ['award','gold','winner','prize','first_place'],
-  award:        ['trophy','medal','crown','reward','prize'],
-  champion:     ['trophy','medal','crown','winner','award'],
-
-  // Health & Medical
-  health:       ['heart','activity','fitness','medical','hospital'],
-  medical:      ['hospital','pharmacy','doc_health','health','doctor'],
-  doctor:       ['hospital','medical','health','ambulance','pharmacy'],
-  hospital:     ['doctor','medical','ambulance','health','clinic'],
-  pharmacy:     ['pill','medicine','drugs','prescription','health'],
-  pill:         ['pharmacy','capsule','medicine','drug','dose'],
-  medicine:     ['pharmacy','pill','doc_health','hospital','health'],
-  ambulance:    ['ambulance_car','ems','911','rescue','medical'],
-  heart:        ['like','love','favorite','health','pulse'],
-  pulse:        ['heartbeat','activity','health','vitals'],
-  heartbeat:    ['pulse','health_monitoring','vitals','tracking'],
-
-  // Nature & Environment
-  nature:       ['leaf','tree','flower','plant','eco'],
-  leaf:         ['nature','ecology','eco','green','organic'],
-  tree:         ['nature','park','oak','forest','plant'],
-  flower:       ['nature','bloom','spring','floral','garden'],
-  eco:          ['leaf','recycling','green','sustainable','organic'],
-  green:        ['leaf','eco','recycling','nature','sustainable'],
-  recycle:      ['recycling_one','eco','waste','sustainable','green'],
-  animal:       ['dog','cat','paw','bird','wildlife'],
-  pet:          ['dog','cat','paw','animal','fur'],
-  dog:          ['puppy','canine','pet','animal','companion'],
-  cat:          ['kitty','pet','animal','feline','meow'],
-  fish:         ['seafood','aquatic','marine','ocean','sushi'],
-  earth:        ['earth_americas','globe','world','planet','international'],
-  world:        ['globe','earth_americas','international','global','planet'],
-  planet:       ['earth_planet','globe','world','space'],
-  sun:          ['brightness_high','solar','sunny','bright','day'],
-  moon:         ['crescent','night','dark','lunar','sleep'],
-  rain:         ['rain_one','rain_two','droplet','weather','wet'],
-  snow:         ['snow_one','snow_two','winter','cold','crystal'],
-  cloud:        ['cloudy','cloud_upload','weather','storage','sync'],
-  weather:      ['cloudy','rain','snow','sun','forecast'],
-  fire:         ['flame','heat','burn','hot','blaze'],
-  wind:         ['wind_low','wind_medium','airflow','breeze','gust'],
-  storm:        ['thunderstorm','thunder','lightning','severe','weather'],
-  lightning:    ['thunder','energy','bolt','electric','storm'],
-  temperature:  ['degree','hot','cold','weather','thermometer'],
-
-  // People & Accessibility
-  accessibility:['access','wcag','inclusive','disability','universal'],
-  wheelchair:   ['accessible','disabled','handicap','mobility','impaired'],
-  deaf:         ['hearing','impaired','disability','asl','sign'],
-  brain:        ['smart','think','neural','learning','cognitive'],
-  eye:          ['vision','see','view','visible','sight'],
-  ear:          ['hearing','listen','sound','audio'],
-  hand:         ['pan','gesture','raise','stop','wave'],
-  running_person:['running','walking','exercise','pedestrian','commute'],
-  walking:      ['pedestrian','stroll','commute','walk','foot'],
-  pregnant:     ['pregnancy','maternity','motherhood','expecting'],
-  baby:         ['child','infant','newborn','crib','toddler'],
-  child:        ['baby','kid','toddler','youth','young'],
-  family:       ['adult_and_child','adults_and_child','parents','household'],
-  couple:       ['adults','adults_holding_hands','pair','two','partners'],
-
-  // Emotions & Faces
-  smile:        ['face_smile','happy','grin','cheerful','emoji'],
-  happy:        ['face_smile','face_big_smile','grinning','joy','delight'],
-  sad:          ['face_sad','face_frowning','unhappy','disappointed','upset'],
-  angry:        ['anger','mad','furious','rage','upset'],
-  laugh:        ['laughing','grinning','joy','happy','emoji'],
-  emoji:        ['face_smile','face_neutral','angry','emotion','face'],
-  face:         ['face_smile','face_neutral','face_sad','emoji','user'],
-  neutral:      ['face_neutral','meh','okay','expressionless'],
-  wink:         ['winking','flirt','playful','joke','hint'],
-
-  // Shapes & Design
-  circle:       ['round','oval','dot','shape','ring'],
-  square:       ['rectangle','box','shape','frame'],
-  triangle:     ['arrow','shape','sort','point'],
-  diamond:      ['rhombus','gem','shape','rotate'],
-  star:         ['star_five','favorite','rating','highlight','top'],
-  heart_shape:  ['heart','love','favorite','like'],
-  hexagon:      ['honeycomb','six','tile','shape'],
-  arrow:        ['direction','navigate','point','move'],
-
-  // Objects
-  lightbulb:    ['idea','insight','bright','illuminate','invention'],
-  idea:         ['lightbulb','brain','innovation','insight'],
-  crown:        ['king','queen','premium','vip','royal','winner'],
-  glasses:      ['eyeglasses','vision','optic','spectacles','see'],
-  ruler:        ['measure','length','draw','guide','straight'],
-  wrench:       ['tool','fix','repair','maintain','mechanic'],
-  tool:         ['wrench','gear','settings','fix','repair'],
-  magnet:       ['attract','pull','force','physics','metal'],
-  palette:      ['color','art','paint','design','creative'],
-  color:        ['palette','invert_colors','paint','art','design'],
-  paint:        ['palette','freehand','color','art','brush'],
-  art:          ['palette','freehand','draw','creative','design'],
-  crown_symbol: ['crown','trophy','award','medal','best'],
-  clipboard_board:['clipboard','paste','task','checklist','board'],
-
-  // Text & Typography
-  text:         ['doc_text','text_format','font','typography','content'],
-  font:         ['doc_font','text_format','typography','typeface'],
-  typography:   ['text_format','font','doc_font','bold','italic'],
-  bold:         ['text_format','strong','font','weight'],
-  italic:       ['text_format','slant','font','style'],
-  align:        ['text_align_left','text_align_center','text_align_right','justify'],
-  justify:      ['textjustifyall','justify_center','text_format','align'],
-  indent:       ['indent_increase','indent_decrease','margin','tab'],
-  paragraph:    ['text_format','text_align_left','line_spacing','doc_text'],
-
-  // Misc Interface
-  tag:          ['label','badge','offer','price','category'],
-  badge:        ['tag','label','id','verified','new'],
-  label:        ['tag','badge','price','mark'],
-  bookmark:     ['save','favorite','mark','remember','later'],
-  flag:         ['report','mark','highlight','country'],
-  like:         ['like_thumb','heart','thumbs','approve','upvote'],
-  dislike:      ['thumbs_down','disagree','downvote','oppose','no'],
-  rating:       ['star_five','star_circle','review','quality'],
-  review:       ['star_five','rating','comment','feedback'],
-  feedback:     ['speech_balloon','review','rating','comment'],
-  comment:      ['speech_balloon','bubble','chat','message'],
-  report:       ['flag','analytics','chart','data','stats'],
-  translate:    ['language','global','i18n','multilingual','localize'],
-  language:     ['translate','globe','international','global'],
-  global:       ['globe','earth_americas','translate','world','international'],
-  accessibility_icon:['accessibility','accessible','disability','wcag'],
-  qr:           ['qr_code','scan_qr','contactless','redirect'],
-  barcode:      ['scan_bar_code','scan','product','sku','retail'],
-  wifi_signal:  ['wifi','signal','wireless','internet','network'],
-  signal:       ['wifi','antenna','cellular','bars','strength'],
-  airplane_mode:['flight_mode_off','offline','disconnected'],
-  do_not_disturb:['notification_off','call_lock','silent','mute'],
-  loading:      ['hourglass','spinner','sync','wait','pending'],
-  wait:         ['hourglass','loading','sync','pending','process'],
-  empty:        ['blank_doc','uncheck','circle_dotted','placeholder'],
-  placeholder:  ['circle_dotted','uncheck','blank_doc','draft'],
-  grid_layout:  ['grid','applications','apps','launcher','home'],
-  apps:         ['grid','applications','launcher','desktop','home'],
-  launcher:     ['grid','applications','apps','home','desktop'],
-  window:       ['window_mac','window_windows','browser','frame'],
-  cursor:       ['pointer','mouse_cursor','click','select','ui'],
-  pointer:      ['cursor','click','select','finger_right'],
-  drag:         ['move','pan','fourways_arrow','grab','reorder'],
-  move:         ['drag','pan','fourways_arrow','grab'],
-  resize:       ['arrow_zoom','scale','crop_tool','expand'],
-  crop:         ['crop_tool','crop_rotate','resize','frame','trim'],
-  rotate:       ['clockwise','anti_clockwise','crop_rotate','turn'],
-  flip:         ['mobile_flip_x','mobile_flip_y','mirror','reflect'],
-  zoom:         ['zoomin','zoomout','arrow_zoom','magnify','scale'],
-  frame:        ['border','artboard','canvas','layout','design'],
-  border:       ['frame','border_all','border_style','outline','edge'],
-  layer:        ['layers','layers_off','stack','zorder','depth'],
-  opacity:      ['transparency','alpha','blend','fade','ghost'],
-  shadow:       ['blur','depth','design'],
-  gradient:     ['color','palette','blend','design'],
-  component:    ['widget','module','button','ui','element'],
-  widget:       ['component','tile','module','ui','block'],
+  close:        ['cross','dismiss','cancel'],
+  search:       ['find','magnify'],
+  edit:         ['pen','pencil','write'],
+  pen:          ['pencil','edit'],
+  file:         ['document','doc'],
+  document:     ['file','doc'],
+  folder:       ['directory'],
+  save:         ['floppy','download'],
+  share:        ['send','export'],
+  user:         ['person','profile','account'],
+  person:       ['user','profile'],
+  email:        ['mail','envelope'],
+  mail:         ['email','envelope'],
+  message:      ['speech_balloon','chat'],
+  chat:         ['speech_balloon','message'],
+  phone:        ['call','mobile'],
+  call:         ['phone','telephone'],
+  bell:         ['notification','alert'],
+  notification: ['bell','alert'],
+  settings:     ['gear','preferences'],
+  gear:         ['settings'],
+  lock:         ['secure','password'],
+  password:     ['lock','key'],
+  warning:      ['alert','caution','danger'],
+  alert:        ['warning','notification'],
+  check:        ['checkmark','tick','done'],
+  location:     ['pin','place'],
+  map:          ['location','navigation'],
+  calendar:     ['date','schedule','event'],
+  time:         ['clock','timer','watch'],
+  clock:        ['time','timer'],
+  music:        ['audio','sound','song'],
+  audio:        ['music','sound'],
+  photo:        ['camera','image','picture'],
+  camera:       ['photo','photo_camera'],
+  video:        ['film','movie'],
+  chart:        ['graph','analytics'],
+  heart:        ['like','love','favorite'],
+  star:         ['star_five','favorite','rating'],
+  trash:        ['garbage','delete','bin'],
+  delete:       ['trash','garbage','remove'],
+  car:          ['automobile','vehicle'],
+  bus:          ['transit','commute'],
+  airplane:     ['airport','flight'],
+  flight:       ['airport','airplane'],
+  hospital:     ['doctor','medical'],
+  medical:      ['hospital','pharmacy'],
+  money:        ['cash','dollar','wallet'],
+  wallet:       ['purse','payment','funds'],
+  shopping:     ['cart','shopping_trolley'],
+  cart:         ['shopping_trolley','basket'],
 };
 
 function fuzzyMatch(str, q) {
@@ -874,35 +400,36 @@ function fuzzyMatch(str, q) {
   return qi === q.length ? score : 0;
 }
 
+function wordMatch(segment, q) {
+  return segment === q || segment.split('_').includes(q);
+}
+
 function scoreIcon(icon, q) {
   const name = icon.name.toLowerCase();
   const parts = name.split('-');
   const terms = (icon.searchTerms || []).map(t => t.toLowerCase());
   const cat = (icon.category || '').toLowerCase();
-  const synonyms = SYNONYMS[q] || [];
 
-  // Exact matches
-  if (name === q || parts[0] === q)                     return 1000;
-  if (parts.includes(q))                                return 900;
-  if (terms.includes(q))                                return 850;
-  // Starts with
-  if (name.startsWith(q))                               return 800;
-  if (parts.some(p => p.startsWith(q)))                 return 750;
-  if (terms.some(t => t.startsWith(q)))                 return 700;
-  // Contains
-  if (name.includes(q))                                 return 600;
-  if (terms.some(t => t.includes(q)))                   return 550;
-  // Category boost
-  if (cat.includes(q))                                  return 500;
-  // Synonyms exact
-  if (synonyms.some(s => parts.includes(s) || terms.includes(s))) return 400;
-  if (synonyms.some(s => name.includes(s)))             return 350;
-  // Fuzzy
-  const fuzzyName  = fuzzyMatch(name, q);
-  const fuzzyParts = Math.max(...parts.map(p => fuzzyMatch(p, q)), 0);
-  const fuzzyTerms = Math.max(...terms.map(t => fuzzyMatch(t, q)), 0);
-  const fuzzyBest  = Math.max(fuzzyName, fuzzyParts * 1.2, fuzzyTerms);
-  if (fuzzyBest > q.length * 0.7)                       return 200 + fuzzyBest;
+  // Exact full name or first segment
+  if (name === q || parts[0] === q)                              return 1000;
+  // Exact segment word match
+  if (parts.some(p => wordMatch(p, q)))                         return 900;
+  // Exact search term word match
+  if (terms.some(t => wordMatch(t, q)))                         return 850;
+  // Category exact word match
+  if (cat.split(' ').includes(q) || cat === q)                  return 500;
+  // Synonyms — queries 3+ chars only
+  if (q.length >= 3) {
+    const synonyms = SYNONYMS[q] || [];
+    if (synonyms.some(s => parts.some(p => wordMatch(p, s)) || terms.some(t => wordMatch(t, s)))) return 400;
+  }
+  // Fuzzy — queries 7+ chars only, high threshold
+  if (q.length >= 7) {
+    const fuzzyParts = Math.max(...parts.map(p => Math.max(...p.split('_').map(w => fuzzyMatch(w, q)))), 0);
+    const fuzzyTerms = Math.max(...terms.map(t => fuzzyMatch(t, q)), 0);
+    const fuzzyBest  = Math.max(fuzzyParts, fuzzyTerms);
+    if (fuzzyBest > q.length * 0.9)                            return 200 + fuzzyBest;
+  }
   return 0;
 }
 
