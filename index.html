@@ -117,7 +117,7 @@ main::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
 #loading { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; color: var(--text-muted); }
 .spinner { width: 22px; height: 22px; border: 2px solid var(--border); border-top-color: var(--text-muted); border-radius: 50%; animation: spin .7s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
-.empty { padding: 48px 16px; text-align: center; color: var(--text-muted); line-height: 2; font-size: 23px; }
+.empty { padding: 48px 16px; text-align: center; color: var(--text-muted); line-height: 2; font-size: 23px; position: relative; left: -140px; }
 .empty a { color: #141414; text-decoration: none; font-weight: 700; font-size: 16px; }
 
 /* TOAST */
@@ -476,6 +476,8 @@ function render() {
   const main = document.getElementById('main');
   if (!icons.length) {
     const emptyPhrases = [["\u201c" + state.search + "\u201d? Never heard of it.", "Request Icon"],["Looked everywhere. No \u201c" + state.search + "\u201d.", "Request Icon"],["\u201c" + state.search + "\u201d is playing hide and seek.", "Request Icon"],["We have " + iconsData.filter(i => i.category !== 'Popular').length + " icons. \u201c" + state.search + "\u201d is not one of them.", "Request Icon"],["\u201c" + state.search + "\u201d doesn\u0027t exist here. Yet.", "Request Icon"]]; const _ep = emptyPhrases[Math.floor(Math.random() * emptyPhrases.length)]; main.innerHTML = `<div class="empty">${_ep[0]}<br><a href="mailto:icons@iconoteka.com">${_ep[1]}</a></div>`;
+    // Track failed search
+    trackFailedSearch(state.search);
     return;
   }
   if (state.search) {
@@ -785,6 +787,19 @@ document.addEventListener('keydown', e => {
   if ((e.ctrlKey || e.metaKey) && e.key === 'c' && panelIcon) { e.preventDefault(); copySVG(panelIcon); }
   if ((e.ctrlKey || e.metaKey) && e.key === 's' && panelIcon) { e.preventDefault(); downloadSVG(panelIcon); }
 });
+
+// Track failed searches
+const SHEET_URL = 'https://script.google.com/macros/s/AKfycbxSmMOUuLb4Lwox-er_1Rcy_b51QzWZ7f2m7Rf0fJxOkf_QTajyYP4R8kWjsk_7E58/exec';
+const _tracked = new Set();
+function trackFailedSearch(query) {
+  const q = query.trim().toLowerCase();
+  if (!q || q.length < 2 || _tracked.has(q)) return;
+  _tracked.add(q);
+  fetch(SHEET_URL, {
+    method: 'POST',
+    body: JSON.stringify({ query: q, userAgent: navigator.userAgent }),
+  }).catch(() => {});
+}
 
 loadIcons();
 </script>
