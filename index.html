@@ -47,8 +47,11 @@ aside { width: 280px; flex-shrink: 0; display: flex; flex-direction: column; ove
 .sidebar-top { display: flex; flex-direction: column; flex: 1; min-height: 0; }
 .sidebar-controls { padding: 0px 24px 14px; display: flex; flex-direction: column; gap: 14px; flex-shrink: 0; }
 .cat-list-wrap { overflow-y: auto; flex: 1; scrollbar-width: thin; scrollbar-color: var(--border) transparent; padding-bottom: 10px; }
-.cat-list-wrap::-webkit-scrollbar { width: 3px; }
+.cat-list-wrap.has-scrollbar { width: calc(100% - 22px); }
+.cat-list-wrap::-webkit-scrollbar { width: 3px; transition: width .2s; }
+.cat-list-wrap:hover::-webkit-scrollbar { width: 6px; }
 .cat-list-wrap::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+.cat-list-wrap:hover::-webkit-scrollbar-thumb { background: #ccc; }
 .cat-list-wrap::-webkit-scrollbar-track { background: transparent; }
 .seg { display: flex; background: #f2f2f3; border: none; border-radius: var(--radius); padding: 2px; gap: 2px; transition: background .15s; }
 .seg:hover { background: #ededee; }
@@ -77,6 +80,7 @@ aside { width: 280px; flex-shrink: 0; display: flex; flex-direction: column; ove
 .cat-item:hover { background: transparent; color: var(--text); opacity: 0.8; }
 .cat-item.active { background: transparent; color: var(--text); font-weight: 600; }
 .cat-count { font-size: 12px; opacity: 0.45; padding-right: 3px; position: relative; right: -4px; }
+.cat-list-wrap.has-scrollbar .cat-count { right: -14px; }
 .sidebar-ver { padding: 26px 24px 20px; margin-top: auto; flex-shrink: 0; display: flex; justify-content: space-between; align-items: center; }
 .footer-ver { font-size: 11px; color: var(--text-muted); opacity: 0.5; }
 .sidebar-footer { display: none; }
@@ -218,7 +222,7 @@ main::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
         <div class="cat-list" id="catList">
         </div>
       </div>
-      <div class="sidebar-ver"><span class="footer-ver" id="footerVer">V02.00.102</span><span class="footer-ver">Made by <a href="https://turbaba.com" target="_blank" style="color:inherit;text-decoration:none;">Oleg Turbaba</a></span></div>
+      <div class="sidebar-ver"><span class="footer-ver" id="footerVer">V02.00.102</span><span class="footer-ver">Made by Oleg Turbaba</span></div>
     </div>
   </aside>
 
@@ -328,6 +332,16 @@ function buildSidebar() {
     catList.appendChild(el);
   });
   catList.style.maxHeight = 'none';
+
+  // Detect if scrollbar is visible and narrow aside
+  const wrap = document.querySelector('.cat-list-wrap');
+  const aside = document.querySelector('aside');
+  const checkScroll = () => {
+    wrap.classList.toggle('has-scrollbar', wrap.scrollHeight > wrap.clientHeight);
+    aside.classList.remove('has-scrollbar');
+  };
+  checkScroll();
+  new ResizeObserver(checkScroll).observe(wrap);
 }
 
 const SYNONYMS = {
