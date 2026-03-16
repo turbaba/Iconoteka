@@ -577,6 +577,7 @@ function downloadSVG(icon, color, sz) {
   document.body.appendChild(a); a.click(); document.body.removeChild(a);
   setTimeout(() => URL.revokeObjectURL(url), 100);
   showToast('SVG for ' + (icon.displayName || icon.name).replace(/_/g, ' ') + ' Saved');
+  trackDownload(icon, 'Save SVG');
 }
 
 function downloadPNG(icon, color, sz) {
@@ -593,6 +594,7 @@ function downloadPNG(icon, color, sz) {
     const a = document.createElement('a'); a.href = canvas.toDataURL('image/png'); a.download = (icon.displayName || icon.name) + '.png';
     document.body.appendChild(a); a.click(); document.body.removeChild(a);
     showToast('PNG for ' + (icon.displayName || icon.name).replace(/_/g, ' ') + ' Saved');
+    trackDownload(icon, 'Save PNG');
   };
   img.src = url;
 }
@@ -602,6 +604,7 @@ function copySVG(icon, sz) {
   const path = getPath(icon); if (!path) return;
   const svg = '<svg xmlns="http://www.w3.org/2000/svg" width="' + sz + '" height="' + sz + '" viewBox="0 0 24 24" fill="#141414"><path d="' + path + '"/></svg>';
   navigator.clipboard.writeText(svg).then(() => showToast('SVG for ' + (icon.displayName || icon.name).replace(/_/g, ' ') + ' Copied')).catch(() => showToast('Copy failed'));
+  trackDownload(icon, 'Copy SVG');
 }
 
 function cssSnippet(icon) {
@@ -803,7 +806,7 @@ document.addEventListener('keydown', e => {
 });
 
 // Track failed searches
-const SHEET_URL = 'https://script.google.com/macros/s/AKfycbyrBeO_FPNnTKTj7_dAOHhUHPuDtmlbCw8MqzJk9EBsEzq3_QKB1htetF8t2-1HCoX_/exec';
+const SHEET_URL = 'https://script.google.com/macros/s/AKfycbw6OEEPs4Z54_bpMSjlHvLzpnkBfeYIW6zVlu9xS6hbeANnGQgH_lFqfiU8vhHv9rmUoA/exec';
 const _tracked = new Set();
 let _trackTimer = null;
 function trackFailedSearch(query) {
@@ -826,6 +829,14 @@ function requestIcon(query) {
     body: JSON.stringify({ type: 'request', query: q, userAgent: navigator.userAgent }),
   }).catch(() => {});
   showToast('Request sent — we\'ll look into it!');
+}
+
+function trackDownload(icon, action) {
+  const name = (icon.displayName || icon.name).toLowerCase();
+  fetch(SHEET_URL, {
+    method: 'POST',
+    body: JSON.stringify({ type: 'download', icon: name, action: action }),
+  }).catch(() => {});
 }
 
 loadIcons();
