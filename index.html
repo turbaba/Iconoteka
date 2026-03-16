@@ -802,8 +802,9 @@ weightSlider.addEventListener('input', () => {
 document.addEventListener('keydown', e => {
   if ((e.ctrlKey || e.metaKey) && e.key === 'k') { e.preventDefault(); document.getElementById('search').focus(); }
   if (e.key === 'Escape') { document.getElementById('search').blur(); document.getElementById('panel').classList.remove('open'); }
-  if ((e.ctrlKey || e.metaKey) && e.key === 'c' && panelIcon) { e.preventDefault(); copySVG(panelIcon); }
-  if ((e.ctrlKey || e.metaKey) && e.key === 's' && panelIcon) { e.preventDefault(); downloadSVG(panelIcon); }
+  const searchFocused = document.activeElement === document.getElementById('search');
+  if ((e.ctrlKey || e.metaKey) && e.key === 'c' && panelIcon && !searchFocused) { e.preventDefault(); copySVG(panelIcon); }
+  if ((e.ctrlKey || e.metaKey) && e.key === 's' && panelIcon && !searchFocused) { e.preventDefault(); downloadSVG(panelIcon); }
 });
 
 // Track failed searches
