@@ -577,7 +577,7 @@ function downloadSVG(icon, color, sz) {
   document.body.appendChild(a); a.click(); document.body.removeChild(a);
   setTimeout(() => URL.revokeObjectURL(url), 100);
   showToast('SVG for ' + (icon.displayName || icon.name).replace(/_/g, ' ') + ' Saved');
-  trackDownload(icon, 'Save SVG');
+  trackDownload(icon, 'Save SVG', sz);
 }
 
 function downloadPNG(icon, color, sz) {
@@ -594,7 +594,7 @@ function downloadPNG(icon, color, sz) {
     const a = document.createElement('a'); a.href = canvas.toDataURL('image/png'); a.download = (icon.displayName || icon.name) + '.png';
     document.body.appendChild(a); a.click(); document.body.removeChild(a);
     showToast('PNG for ' + (icon.displayName || icon.name).replace(/_/g, ' ') + ' Saved');
-    trackDownload(icon, 'Save PNG');
+    trackDownload(icon, 'Save PNG', sz);
   };
   img.src = url;
 }
@@ -604,7 +604,7 @@ function copySVG(icon, sz) {
   const path = getPath(icon); if (!path) return;
   const svg = '<svg xmlns="http://www.w3.org/2000/svg" width="' + sz + '" height="' + sz + '" viewBox="0 0 24 24" fill="#141414"><path d="' + path + '"/></svg>';
   navigator.clipboard.writeText(svg).then(() => showToast('SVG for ' + (icon.displayName || icon.name).replace(/_/g, ' ') + ' Copied')).catch(() => showToast('Copy failed'));
-  trackDownload(icon, 'Copy SVG');
+  trackDownload(icon, 'Copy SVG', sz);
 }
 
 function cssSnippet(icon) {
@@ -807,7 +807,7 @@ document.addEventListener('keydown', e => {
 });
 
 // Track failed searches
-const SHEET_URL = 'https://script.google.com/macros/s/AKfycbw1z2g8ty3Xu9yF57Djg4aGQbEFZQHCjWqOWt3Oie9FIkMqQ_RAltOsx006TsM70Jl_/exec';
+const SHEET_URL = 'https://script.google.com/macros/s/AKfycbzhAmBQR-xVQUlcBsVmjYChuiU6UvkfdazAigiXqRWNOOz8BKj6EN6cNc2Tc5swVVxXhw/exec';
 const _tracked = new Set();
 let _trackTimer = null;
 function trackFailedSearch(query) {
@@ -832,11 +832,18 @@ function requestIcon(query) {
   showToast('Request sent — we\'ll look into it!');
 }
 
-function trackDownload(icon, action) {
+function trackDownload(icon, action, sz) {
   const name = (icon.displayName || icon.name).toLowerCase();
   fetch(SHEET_URL, {
     method: 'POST',
-    body: JSON.stringify({ type: 'download', icon: name, action: action }),
+    body: JSON.stringify({
+      type: 'download',
+      icon: name,
+      action: action,
+      style: state.style,
+      weight: WEIGHTS[state.weightIdx],
+      size: sz || panelSize || 24
+    }),
   }).catch(() => {});
 }
 
