@@ -808,7 +808,7 @@ document.addEventListener('keydown', e => {
 });
 
 // Track failed searches
-const SHEET_URL = 'https://script.google.com/macros/s/AKfycbzhAmBQR-xVQUlcBsVmjYChuiU6UvkfdazAigiXqRWNOOz8BKj6EN6cNc2Tc5swVVxXhw/exec';
+const SHEET_URL = 'https://script.google.com/macros/s/AKfycbypc8jSM4yoJzqBXbdo05pxNupgwz7h4k8ypMtaIFGeCpUvm0tUlAWVy7qIOkdwtGm-sA/exec';
 const _tracked = new Set();
 let _trackTimer = null;
 function trackFailedSearch(query) {
@@ -834,7 +834,7 @@ function requestIcon(query) {
 }
 
 function trackDownload(icon, action, sz) {
-  const name = (icon.displayName || icon.name).toLowerCase();
+  const name = (icon.displayName || icon.name).toLowerCase().replace(/_/g, ' ');
   fetch(SHEET_URL, {
     method: 'POST',
     body: JSON.stringify({
