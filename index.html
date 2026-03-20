@@ -4,6 +4,21 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Iconoteka Beta</title>
+<meta name="description" content="Iconoteka is a free library of over 1,200 high-quality icons."/>
+
+<!-- Open Graph -->
+<meta property="og:title" content="Iconoteka Beta"/>
+<meta property="og:description" content="Iconoteka is a free library of over 1,200 high-quality icons."/>
+<meta property="og:image" content="https://beta.iconoteka.com/preview.png"/>
+<meta property="og:url" content="https://beta.iconoteka.com/"/>
+<meta property="og:type" content="website"/>
+<meta property="og:site_name" content="Iconoteka"/>
+
+<!-- Twitter/X -->
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="Iconoteka Beta"/>
+<meta name="twitter:description" content="Iconoteka is a free library of over 1,200 high-quality icons."/>
+<meta name="twitter:image" content="https://beta.iconoteka.com/preview.png"/>
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -87,7 +102,7 @@ aside { width: 280px; flex-shrink: 0; display: flex; flex-direction: column; ove
 
 /* MAIN */
 .main-wrap { flex: 1; display: flex; flex-direction: column; min-width: 0; overflow-y: auto; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
-.search-wrap { position: relative; width: 450px; max-width: 100%; min-width: 120px; flex-shrink: 1; }
+.search-wrap { position: relative; width: clamp(300px, calc(300px + (100vw - 768px) * 0.114), 350px); max-width: 100%; min-width: 120px; flex-shrink: 1; }
 .search-ico { position: absolute; right: 20px; top: 50%; transform: translateY(-50%); pointer-events: none; display: flex; }
 .search-input { width: 100%; height: 50px; padding: 0 50px 1px 22px; background: #f3f3f4; border: 1px solid transparent; border-radius: 999px; font-size: 16px; font-family: 'Inter', sans-serif; color: #141414; outline: none; transition: background .15s; }
 .search-input:hover { background: #eeeeef; }
@@ -121,12 +136,17 @@ main::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
 #loading { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; color: var(--text-muted); }
 .spinner { width: 22px; height: 22px; border: 2px solid var(--border); border-top-color: var(--text-muted); border-radius: 50%; animation: spin .7s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
-.empty { padding: 48px 16px; text-align: center; color: var(--text-muted); line-height: 2; font-size: 23px; position: relative; left: -140px; }
-.empty a { color: #141414; text-decoration: none; font-weight: 700; font-size: 16px; }
+.empty { padding: 48px 16px; text-align: center; color: var(--text-muted); line-height: 1.43; font-size: 23px; width: 100%; max-width: 1256px; }
+.empty a { color: #141414; text-decoration: none; font-weight: 700; font-size: 16px; display: inline-block; margin-top: 20px; }
 
 /* TOAST */
-#toast { background: #f2f2f3; color: var(--text-muted); font-size: 12px; font-weight: 400; font-family: 'Inter', sans-serif; padding: 4px 10px; border-radius: 20px; pointer-events: none; opacity: 0; transition: opacity .18s; z-index: 2000; white-space: nowrap; max-width: 0; overflow: hidden; }
-#toast.visible { opacity: 1; max-width: 400px; }
+#toast { position: fixed; bottom: 20px; top: auto; left: 50%; transform: translateX(-50%); background: #FEC0D2; color: #141414; font-size: 12px; font-weight: 400; font-family: 'Inter', sans-serif; padding: 4px 14px; border-radius: 20px; pointer-events: none; opacity: 0; transition: opacity .36s; z-index: 2000; white-space: nowrap; width: auto; max-width: 400px; }
+#toast.visible { opacity: 1; transition: opacity .18s; }
+
+@media (max-width: 480px) {
+  #toast { font-size: 13px; padding: 8px 18px; }
+  #toast.visible { opacity: 1; }
+}
 
 /* TOOLTIP */
 #tooltip { position: fixed; background: var(--text); color: #fff; font-size: 12px; font-family: 'Inter', sans-serif; padding: 4px 9px; border-radius: 4px; pointer-events: none; opacity: 0; transition: opacity .1s; z-index: 1000; white-space: nowrap; }
@@ -167,6 +187,107 @@ main::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
 .size-pill { height: 28px; padding: 0 12px; border: 1px solid var(--border); border-radius: 20px; background: transparent; font-size: 13px; font-family: 'Inter', sans-serif; color: var(--text-muted); cursor: pointer; transition: all .1s; }
 .size-pill:hover { border-color: #aaa; color: var(--text); }
 .size-pill.active { background: var(--text); color: #fff; border-color: var(--text); }
+.tablet-controls { display: none; }
+.burger-btn { display: none; background: none; border: none; cursor: pointer; padding: 4px; color: var(--text); }
+
+@media (min-width: 481px) and (max-width: 768px) {
+  header { grid-template-columns: auto 1fr auto; height: 94px; padding: 0 24px; position: relative; column-gap: 20px; }
+  .header-search { display: flex; grid-column: 2; }
+  .header-nav { display: none; }
+  .burger-btn { display: flex; align-items: center; justify-content: center; grid-column: 3; grid-row: 1; }
+  .burger-menu { right: auto; left: 20px; }
+  #panel { top: 154px; height: min(600px, calc(100vh - 154px - 10px)); }
+  .panel-preview { aspect-ratio: 4/3; }
+  .panel-preview svg { max-width: 111px; max-height: 111px; }
+  .logo-wrap { grid-column: 1; }
+
+
+  aside { display: none; }
+  .layout { flex-direction: column; }
+  main { padding: 10px 24px 40px; }
+  .icons-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+  .icon-card { flex: 1 1 calc(16.66% - 10px); min-width: 90px; max-width: 130px; }
+
+  /* Tablet controls bar — row 2: categories + style switch + weight slider */
+  .tablet-controls { display: flex; align-items: center; padding: 6px 24px 20px; gap: 22px; }
+
+  /* Seg */
+  .tab-seg { display: flex; background: #f2f2f3; border-radius: var(--radius); padding: 2px; gap: 2px; flex-shrink: 0; }
+  .tab-seg .seg-btn { height: 34px; font-size: 13px; padding: 0; width: 64px; }
+
+  /* Weight slider */
+  .tab-weight-wrap { display: flex; flex-direction: column; gap: 6px; flex: 1; }
+
+  /* Categories dropdown */
+  .tab-cat-wrap { position: relative; flex-shrink: 0; }
+  .tab-cat-btn { display: flex; align-items: center; gap: 6px; background: #f2f2f3; border: none; border-radius: var(--radius); font-size: 13px; font-family: 'Inter', sans-serif; font-weight: 500; color: var(--text); padding: 0 12px; cursor: pointer; outline: none; height: 38px; white-space: nowrap; }
+  .tab-cat-dropdown { display: none; position: fixed; background: #fff; border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); padding: 8px; z-index: 1000; flex-direction: column; gap: 2px; width: 260px; max-height: 400px; overflow-y: auto; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
+  .tab-cat-dropdown::-webkit-scrollbar { width: 3px; }
+  .tab-cat-dropdown::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+  .tab-cat-dropdown::-webkit-scrollbar-track { background: transparent; }
+  .tab-cat-dropdown.open { display: flex; }
+  .tab-cat-option { background: none; border: none; cursor: pointer; font-size: 14px; font-family: 'Inter', sans-serif; color: var(--text); padding: 10px 16px; border-radius: 6px; text-align: left; display: flex; justify-content: space-between; gap: 16px; }
+  .tab-cat-option:hover { background: var(--surface); }
+  .tab-cat-option.active { font-weight: 700; }
+  .tab-cat-count { font-size: 12px; opacity: 0.4; }
+}
+.burger-menu { display: none; position: fixed; background: #fff; border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); padding: 8px; z-index: 1000; flex-direction: column; gap: 2px; width: 200px; }
+.burger-menu.open { display: flex; }
+.burger-link { font-size: 14px; font-weight: 600; color: var(--text); text-decoration: none; padding: 10px 14px; border-radius: 6px; }
+.burger-link:hover { background: var(--surface); }
+.burger-ver { font-size: 12px; color: var(--text-muted); opacity: 0.5; padding: 12px 14px 4px; line-height: 1.6; }
+.mobile-controls { display: none; }
+.mobile-search-row { display: none; }
+
+@media (max-width: 480px) {
+  header { grid-template-columns: 1fr auto; height: auto; padding: 18px 16px 16px; position: relative; column-gap: 0; }
+  .header-search { display: none; }
+  .header-nav { display: none; }
+  .burger-btn { display: flex; align-items: center; justify-content: center; }
+  .logo { font-size: 18.9px; }
+
+  /* Mobile search row */
+  .mobile-search-row { display: flex; padding: 0 10px 10px; }
+  .mobile-search-row .search-wrap { width: 100%; max-width: 100%; }
+  .mobile-search-row .search-input { height: 46px; }
+
+  /* Mobile controls row */
+  .mobile-controls { display: flex; align-items: center; padding: 3px 10px 15px; gap: 8px; }
+
+  /* Stroke/Fill */
+  .mob-seg { display: flex; flex-shrink: 0; background: #f2f2f3; border-radius: var(--radius); padding: 2px; gap: 2px; }
+  .mob-seg .seg-btn { height: 34px; font-size: 13px; padding: 0; width: 60px; }
+
+  /* Weight control */
+  .mob-weight { display: flex; align-items: center; flex: 1; background: #f2f2f3; border-radius: var(--radius); height: 38px; padding: 0 12px; justify-content: space-between; }
+  .mob-weight-label { font-size: 13px; font-weight: 500; color: var(--text); min-width: 72px; }
+  .mob-weight-arrows { display: flex; gap: 4px; position: relative; right: -4px; }
+  .mob-weight-btn { background: none; border: none; cursor: pointer; color: var(--text-muted); padding: 0; line-height: 1; font-family: 'Inter', sans-serif; width: 20px; height: 30px; display: flex; align-items: center; justify-content: center; transition: opacity .1s; }
+  .mob-weight-btn:hover { color: var(--text); }
+  .mob-weight-btn:disabled { opacity: 0.25; cursor: default; }
+
+  /* Custom size dropdown */
+  .mob-size-wrap { position: relative; display: flex; align-items: center; flex-shrink: 0; }
+  .mob-size-btn { display: flex; align-items: center; justify-content: space-between; gap: 6px; background: #f2f2f3; border: none; border-radius: var(--radius); font-size: 13px; font-family: 'Inter', sans-serif; font-weight: 500; color: var(--text); padding: 0 10px; cursor: pointer; outline: none; height: 38px; width: 72px; }
+  .mob-size-dropdown { display: none; position: fixed; background: #fff; border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); padding: 8px; z-index: 1000; flex-direction: column; gap: 2px; min-width: 90px; }
+  .mob-size-dropdown.open { display: flex; }
+  .mob-size-option { background: none; border: none; cursor: pointer; font-size: 14px; font-weight: 500; font-family: 'Inter', sans-serif; color: var(--text); padding: 8px 14px; border-radius: 6px; text-align: left; }
+  .mob-size-option:hover { background: var(--surface); }
+  .mob-size-option.active { color: var(--text); font-weight: 700; }
+
+  aside { display: none; }
+  .layout { flex-direction: column; }
+  main { padding: 0 10px 40px; }
+
+  /* 4 icons per row evenly */
+  .icons-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px 8px; max-width: 100%; width: 100%; }
+  .icon-card { width: 100%; height: 104px; padding-top: 8px; }
+  .category-section { max-width: 100%; }
+  .icon-label { font-size: 12px; }
+  .icon-svg-wrap { width: 40px; height: 40px; }
+  .icon-svg-wrap svg { width: 40px; height: 40px; }
+  .empty { font-size: 18px; }
+}
 </style>
 </head>
 <body>
@@ -191,11 +312,88 @@ main::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
     </div>
   </div>
   <nav class="header-nav">
-    <div id="toast"></div>
     <a class="header-link" href="https://www.patreon.com/c/iconoteka" target="_blank">Support Project</a>
     <a class="header-link" href="https://about.iconoteka.com/" target="_blank">About</a>
   </nav>
+  <!-- Mobile burger -->
+  <button class="burger-btn" id="burgerBtn" aria-label="Menu">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 6h18M3 12h18M3 18h18"/>
+    </svg>
+  </button>
+  <!-- Burger dropdown -->
+  <div class="burger-menu" id="burgerMenu">
+    <a class="burger-link" href="https://www.patreon.com/c/iconoteka" target="_blank">Support Project</a>
+    <a class="burger-link" href="https://about.iconoteka.com/" target="_blank">About</a>
+    <div class="burger-ver">V02.00.102<br>Made by Oleg Turbaba</div>
+  </div>
 </header>
+
+<!-- Tablet controls bar -->
+<div class="tablet-controls" id="tabletControls">
+  <div class="tab-cat-wrap">
+    <button class="tab-cat-btn" id="tabCatBtn">
+      <span id="tabCatLabel">All Categories</span>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+    <div class="tab-cat-dropdown" id="tabCatDropdown"></div>
+  </div>
+  <div class="seg tab-seg">
+    <button class="seg-btn on" data-style="stroke">Stroke</button>
+    <button class="seg-btn" data-style="fill">Fill</button>
+  </div>
+  <div class="tab-weight-wrap">
+    <div class="slider-label-row">
+      <span class="slider-label">Weight</span>
+      <span class="slider-val" id="tabWeightLabel">Regular</span>
+    </div>
+    <div class="slider-track-wrap">
+      <div class="slider-stops-line">
+        <div class="slider-stop"></div><div class="slider-stop"></div><div class="slider-stop"></div><div class="slider-stop"></div><div class="slider-stop"></div><div class="slider-stop"></div><div class="slider-stop"></div>
+      </div>
+      <input type="range" class="weight-slider" id="tabWeightSlider" min="0" max="6" step="1" value="3"/>
+    </div>
+  </div>
+</div>
+<div class="mobile-search-row">
+  <div class="search-wrap">
+    <span class="search-ico">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="#6b6b6b"><path d="M10.1005 18.15C8.61716 18.15 7.25049 17.7917 6.00049 17.075C4.76716 16.3583 3.79216 15.3833 3.07549 14.15C2.35882 12.9167 2.00049 11.5583 2.00049 10.075C2.00049 8.59167 2.35882 7.24167 3.07549 6.025C3.79216 4.79167 4.76716 3.81667 6.00049 3.1C7.25049 2.38333 8.61716 2.025 10.1005 2.025C11.5838 2.025 12.9422 2.38333 14.1755 3.1C15.4088 3.81667 16.3838 4.79167 17.1005 6.025C17.8172 7.24167 18.1755 8.59167 18.1755 10.075C18.1755 11.5583 17.8172 12.9167 17.1005 14.15C16.3838 15.3833 15.4088 16.3583 14.1755 17.075C12.9422 17.7917 11.5838 18.15 10.1005 18.15ZM10.1005 15.65C11.1172 15.65 12.0422 15.4083 12.8755 14.925C13.7255 14.425 14.3922 13.75 14.8755 12.9C15.3755 12.05 15.6255 11.1083 15.6255 10.075C15.6255 9.05833 15.3755 8.125 14.8755 7.275C14.3922 6.425 13.7255 5.75833 12.8755 5.275C12.0422 4.775 11.1172 4.525 10.1005 4.525C9.06716 4.525 8.12549 4.775 7.27549 5.275C6.44216 5.75833 5.77549 6.425 5.27549 7.275C4.79216 8.125 4.55049 9.05833 4.55049 10.075C4.55049 11.1083 4.79216 12.05 5.27549 12.9C5.77549 13.75 6.44216 14.425 7.27549 14.925C8.12549 15.4083 9.06716 15.65 10.1005 15.65ZM14.0755 15.8L15.8255 14.05L21.6755 19.875L19.9005 21.65L14.0755 15.8Z"/></svg>
+    </span>
+    <input type="text" class="search-input" id="searchMob" placeholder="Search icons"/>
+    <button class="search-clear" id="clearBtnMob">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+</div>
+
+<!-- Mobile controls bar -->
+<div class="mobile-controls" id="mobileControls">
+  <div class="seg mob-seg">
+    <button class="seg-btn on" data-style="stroke">Stroke</button>
+    <button class="seg-btn" data-style="fill">Fill</button>
+  </div>
+  <div class="mob-weight">
+    <span class="mob-weight-label" id="mobWeightLabel">Regular</span>
+    <div class="mob-weight-arrows">
+      <button class="mob-weight-btn" id="mobWeightPrev"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
+      <button class="mob-weight-btn" id="mobWeightNext"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
+    </div>
+  </div>
+  <div class="mob-size-wrap">
+    <button class="mob-size-btn" id="mobSizeBtn">
+      <span id="mobSizeLabel">24px</span>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+    <div class="mob-size-dropdown" id="mobSizeDropdown">
+      <button class="mob-size-option" data-value="16">16px</button>
+      <button class="mob-size-option" data-value="20">20px</button>
+      <button class="mob-size-option active" data-value="24">24px</button>
+      <button class="mob-size-option" data-value="36">36px</button>
+      <button class="mob-size-option" data-value="48">48px</button>
+    </div>
+  </div>
+</div>
 
 <div class="layout">
   <aside>
@@ -297,6 +495,7 @@ async function loadIcons() {
     meta = data.meta || {};
     document.getElementById('footerVer').textContent = (meta.version ? 'V' + meta.version : 'V02.00.102');
     buildSidebar();
+    buildTabCatDropdown();
     render();
     // Open icon from URL hash
     const hash = decodeURIComponent(window.location.hash.slice(1));
@@ -548,6 +747,10 @@ function makeCard(icon) {
   card.appendChild(label);
 
   card.addEventListener('click', e => {
+    if (window.innerWidth <= 480) {
+      copySVG(icon);
+      return;
+    }
     if (panelIcon && panelIcon.name === icon.name) {
       copySVG(icon);
     } else {
@@ -564,7 +767,8 @@ function showToast(msg) {
   el.textContent = msg;
   el.classList.add('visible');
   clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => el.classList.remove('visible'), 3000);
+  const duration = 2000;
+  toastTimer = setTimeout(() => el.classList.remove('visible'), duration);
 }
 
 function downloadSVG(icon, color, sz) {
@@ -633,7 +837,7 @@ function updatePanelPreview(icon) {
   const [bg, fg] = preview._colorPair || ['#141414', '#ffffff'];
   preview.style.background = bg;
   document.getElementById('panelClose').style.color = fg;
-  const sz = 144;
+  const sz = window.innerWidth <= 768 ? Math.round(144 * 0.7) : 144;
   const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
   svg.setAttribute('width', sz); svg.setAttribute('height', sz);
   svg.setAttribute('viewBox', '0 0 24 24'); svg.setAttribute('fill', fg);
@@ -848,7 +1052,150 @@ function trackDownload(icon, action, sz) {
   }).catch(() => {});
 }
 
+// Mobile burger
+const burgerBtn = document.getElementById('burgerBtn');
+const burgerMenu = document.getElementById('burgerMenu');
+burgerBtn.addEventListener('click', e => {
+  e.stopPropagation();
+  const rect = burgerBtn.getBoundingClientRect();
+  burgerMenu.style.top = (rect.bottom + 6) + 'px';
+  burgerMenu.style.left = 'auto';
+  burgerMenu.style.right = (window.innerWidth - rect.right) + 'px';
+  burgerMenu.classList.toggle('open');
+});
+document.addEventListener('click', () => burgerMenu.classList.remove('open'));
+
+// Mobile weight prev/next
+document.getElementById('mobWeightPrev').addEventListener('click', () => {
+  if (state.weightIdx > 0) { state.weightIdx--; syncWeightUI(); render(); if (panelIcon) updatePanelPreview(panelIcon); }
+});
+document.getElementById('mobWeightNext').addEventListener('click', () => {
+  if (state.weightIdx < 6) { state.weightIdx++; syncWeightUI(); render(); if (panelIcon) updatePanelPreview(panelIcon); }
+});
+function syncWeightUI() {
+  document.getElementById('weightLabel').textContent = WEIGHT_LABELS[state.weightIdx];
+  document.getElementById('mobWeightLabel').textContent = WEIGHT_LABELS[state.weightIdx];
+  document.getElementById('weightSlider').value = state.weightIdx;
+  document.getElementById('mobWeightPrev').disabled = state.weightIdx === 0;
+  document.getElementById('mobWeightNext').disabled = state.weightIdx === 6;
+}
+
+// Mobile size custom dropdown
+const mobSizeBtn = document.getElementById('mobSizeBtn');
+const mobSizeDropdown = document.getElementById('mobSizeDropdown');
+mobSizeBtn.addEventListener('click', e => {
+  e.stopPropagation();
+  const rect = mobSizeBtn.getBoundingClientRect();
+  mobSizeDropdown.style.top = (rect.bottom + 6) + 'px';
+  mobSizeDropdown.style.right = (window.innerWidth - rect.right) + 'px';
+  mobSizeDropdown.classList.toggle('open');
+});
+document.addEventListener('click', () => mobSizeDropdown.classList.remove('open'));
+document.querySelectorAll('.mob-size-option').forEach(opt => {
+  opt.addEventListener('click', () => {
+    panelSize = parseInt(opt.dataset.value);
+    document.getElementById('mobSizeLabel').textContent = opt.dataset.value + 'px';
+    document.querySelectorAll('.mob-size-option').forEach(o => o.classList.remove('active'));
+    opt.classList.add('active');
+    mobSizeDropdown.classList.remove('open');
+  });
+});
+
+// Mobile seg buttons
+document.querySelectorAll('.mob-seg .seg-btn').forEach(btn => btn.addEventListener('click', () => {
+  document.querySelectorAll('.seg-btn').forEach(b => b.classList.remove('on'));
+  document.querySelectorAll('.mob-seg .seg-btn, .seg .seg-btn').forEach(b => { if (b.dataset.style === btn.dataset.style) b.classList.add('on'); });
+  state.style = btn.dataset.style; render();
+  if (panelIcon) updatePanelPreview(panelIcon);
+}));
+
+// Mobile search input
+document.getElementById('searchMob').addEventListener('input', e => {
+  state.search = e.target.value;
+  document.getElementById('search').value = e.target.value;
+  document.getElementById('clearBtnMob').classList.toggle('visible', !!state.search);
+  render();
+});
+document.getElementById('clearBtnMob').addEventListener('click', () => {
+  state.search = '';
+  document.getElementById('searchMob').value = '';
+  document.getElementById('search').value = '';
+  document.getElementById('clearBtnMob').classList.remove('visible');
+  render();
+});
+
+// Tablet category dropdown
+function buildTabCatDropdown() {
+  const dropdown = document.getElementById('tabCatDropdown');
+  if (!dropdown) return;
+  dropdown.innerHTML = '';
+  const map = {};
+  iconsData.forEach(i => { const c = i.category || 'Other'; map[c] = (map[c] || 0) + 1; });
+  const total = iconsData.filter(i => i.category !== 'Popular').length;
+  const SIDEBAR_PINNED = ['Interface', 'Files & Data', 'Hardware', 'Map'];
+  const pinnedEntries = SIDEBAR_PINNED.filter(k => map[k]).map(k => [k, map[k]]);
+  const sorted = [...pinnedEntries, ...Object.entries(map).filter(([name]) => name !== 'Popular' && !SIDEBAR_PINNED.includes(name)).sort(([a],[b]) => a.localeCompare(b))];
+  [['All Categories', total], ...sorted].forEach(([name, count]) => {
+    const catKey = name === 'All Categories' ? 'All' : name;
+    const btn = document.createElement('button');
+    btn.className = 'tab-cat-option' + (state.category === catKey ? ' active' : '');
+    btn.innerHTML = '<span>' + toTitleCase(name) + '</span><span class="tab-cat-count">' + count + '</span>';
+    btn.addEventListener('click', () => {
+      state.category = catKey;
+      state.search = '';
+      document.getElementById('search').value = '';
+      document.getElementById('searchMob') && (document.getElementById('searchMob').value = '');
+      document.getElementById('tabCatLabel').textContent = toTitleCase(name);
+      document.getElementById('tabCatDropdown').classList.remove('open');
+      buildTabCatDropdown();
+      render();
+    });
+    dropdown.appendChild(btn);
+  });
+}
+
+const tabCatBtn = document.getElementById('tabCatBtn');
+const tabCatDropdown = document.getElementById('tabCatDropdown');
+if (tabCatBtn) {
+  tabCatBtn.addEventListener('click', e => {
+    e.stopPropagation();
+    const rect = tabCatBtn.getBoundingClientRect();
+    tabCatDropdown.style.top = (rect.bottom + 6) + 'px';
+    tabCatDropdown.style.left = rect.left + 'px';
+    tabCatDropdown.classList.toggle('open');
+  });
+  document.addEventListener('click', () => tabCatDropdown && tabCatDropdown.classList.remove('open'));
+}
+
+// Tablet weight slider
+const tabWeightSlider = document.getElementById('tabWeightSlider');
+const tabWeightLabel = document.getElementById('tabWeightLabel');
+if (tabWeightSlider) {
+  tabWeightSlider.addEventListener('input', () => {
+    state.weightIdx = parseInt(tabWeightSlider.value);
+    tabWeightLabel.textContent = WEIGHT_LABELS[state.weightIdx];
+    document.getElementById('weightLabel').textContent = WEIGHT_LABELS[state.weightIdx];
+    document.getElementById('weightSlider').value = state.weightIdx;
+    render();
+    if (panelIcon) updatePanelPreview(panelIcon);
+  });
+}
+
+// Tablet seg buttons
+document.querySelectorAll('.tab-seg .seg-btn').forEach(btn => btn.addEventListener('click', () => {
+  document.querySelectorAll('.seg-btn').forEach(b => b.classList.remove('on'));
+  document.querySelectorAll('.tab-seg .seg-btn, .seg .seg-btn, .mob-seg .seg-btn').forEach(b => { if (b.dataset.style === btn.dataset.style) b.classList.add('on'); });
+  state.style = btn.dataset.style; render();
+  if (panelIcon) updatePanelPreview(panelIcon);
+}));
+
+// Re-render panel preview on resize to fix icon size at breakpoints
+window.addEventListener('resize', () => {
+  if (panelIcon) updatePanelPreview(panelIcon);
+});
+
 loadIcons();
 </script>
+<div id="toast"></div>
 </body>
 </html>
