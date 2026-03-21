@@ -42,10 +42,11 @@ body { display: flex; flex-direction: column; }
 /* HEADER */
 header { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; padding: 0 24px; height: 94px; flex-shrink: 0; column-gap: 10px; }
 .logo-wrap { display: flex; align-items: center; gap: 8px; position: relative; top: -1px; }
-.logo { font-weight: 600; font-size: 23px; letter-spacing: -0.3px; transition: opacity .15s; }
-.logo:hover { opacity: 0.8; }.action-btn.primary:hover { background: #333; opacity: 0.8; }
-.action-btn.secondary:hover { background: #e8e8e8; opacity: 0.8; }
 .logo { font-weight: 600; font-size: 23px; letter-spacing: -0.3px; }
+.logo-wrap a { transition: opacity .15s; }
+.logo-wrap a:hover { opacity: 0.8; }
+.action-btn.primary:hover { background: #333; opacity: 0.8; }
+.action-btn.secondary:hover { background: #e8e8e8; opacity: 0.8; }
 .beta-badge { font-size: 9px; font-weight: 600; background: #ffc7d8; color: #141414; padding: 0 6px; height: 13px; line-height: 13px; border-radius: 20px; letter-spacing: 0.5px; text-transform: uppercase; display: inline-flex; align-items: center; justify-content: center; position: relative; top: -3px; left: -1px; }
 .header-search { display: flex; justify-content: center; align-items: center; width: 100%; min-width: 0; }
 .header-nav { display: flex; align-items: center; gap: 32px; justify-content: flex-end; position: relative; top: -1px; }
@@ -448,8 +449,54 @@ const CDN = 'https://cdn.jsdelivr.net/gh/turbaba/Iconoteka@main/icons.json?v=' +
 const WEIGHTS = ['thin','ultralight','light','regular','medium','semibold','bold'];
 const WEIGHT_LABELS = ['Thin','Ultralight','Light','Regular','Medium','Semibold','Bold'];
 
+const HYPHENATE_MAP = {
+  "up_left":"up-left","up_right":"up-right","up_down":"up-down","down_left":"down-left",
+  "down_right":"down-right","left_up":"left-up","left_down":"left-down","left_right":"left-right",
+  "right_up":"right-up","right_down":"right-down","north_east":"north-east","north_west":"north-west",
+  "south_east":"south-east","south_west":"south-west","wi_fi":"wi-fi","see_through":"see-through",
+  "up_to_date":"up-to-date","t_shirt":"t-shirt","x_ray":"x-ray",
+};
+
+const CAPITALIZE_MAP = {
+  "ai":"AI","ar":"AR","vr":"VR","mr":"MR","tv":"TV","pc":"PC","id":"ID","zip":"ZIP","qr":"QR",
+  "nfc":"NFC","url":"URL","gps":"GPS","dna":"DNA","ocr":"OCR","llm":"LLM","ml":"ML","iot":"IOT",
+  "sim":"SIM","esim":"eSIM","lte":"LTE","gsm":"GSM","usb":"USB","usba":"USB-A","usbb":"USB-B","usbc":"USB-C",
+  "hdmi":"HDMI","ssd":"SSD","hdd":"HDD","lan":"LAN","vpn":"VPN","cpu":"CPU","gpu":"GPU",
+  "html":"HTML","css":"CSS","sql":"SQL","svg":"SVG","eps":"EPS","mp4":"MP4","hd":"HD","hq":"HQ",
+  "fps":"FPS","ios":"iOS","atm":"ATM","otp":"OTP","2fa":"2FA","az":"A-Z","cta":"CTA","ui":"UI",
+  "ux":"UX","qa":"QA","cv":"CV","cc":"CC","dm":"DM","im":"IM","sos":"SOS","suv":"SUV","uav":"UAV",
+  "ev":"EV","ac":"AC","fm":"FM","am":"AM","ir":"IR","fx":"FX","cw":"CW","ccw":"CCW","wc":"WC",
+  "tm":"TM","www":"WWW","sms":"SMS","nlp":"NLP","tldr":"TLDR","nsfw":"NSFW","dnd":"DnD",
+  "nba":"NBA","nfl":"NFL","nhl":"NHL","mlb":"MLB","mrt":"MRT","cmd":"CMD","ctrl":"CTRL",
+  "otf":"OTF","ttf":"TTF","woff":"WOFF","asl":"ASL","wcag":"WCAG","ada":"ADA","cnd":"CnD",
+  "api":"API","sdk":"SDK","ram":"RAM","usd":"USD","eur":"EUR","gbp":"GBP","jpy":"JPY","krw":"KRW",
+  "rub":"RUB","amd":"AMD","azn":"AZN","gel":"GEL","kzt":"KZT","mnt":"MNT","uah":"UAH","inr":"INR",
+  "php":"PHP","try":"TRY","sar":"SAR","nis":"NIS","thb":"THB","btc":"BTC","eth":"ETH","bnb":"BNB",
+  "sol":"SOL","xrp":"XRP","trx":"TRX","usdt":"USDT","usdc":"USDC","3d":"3D","toc":"TOC","faq":"FAQ",
+  "kpi":"KPI","vip":"VIP","vod":"VOD","rw":"RW","ff":"FF","fwd":"FWD","daw":"DAW","eq":"EQ",
+  "cd":"CD","ip":"IP","uk":"UK","irn":"IRN","pa":"PA","sku":"SKU","pvc":"PVC","hdpe":"HDPE",
+  "ldpe":"LDPE","pp":"PP","ps":"PS","wpa":"WPA","xyz":"XYZ","nvme":"NVMe","lidar":"LiDAR",
+  "mysql":"MySQL","qbit":"QBit","om":"OM",
+};
+
+function formatSegment(seg) {
+  if (HYPHENATE_MAP[seg]) {
+    return HYPHENATE_MAP[seg].split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join('-');
+  }
+  const parts = seg.split('_');
+  for (let i = 1; i < parts.length; i++) {
+    const combo = parts.slice(i).join('_');
+    if (HYPHENATE_MAP[combo]) {
+      const prefix = parts.slice(0, i).map(w => CAPITALIZE_MAP[w] || (w.charAt(0).toUpperCase() + w.slice(1))).join(' ');
+      const hyphenated = HYPHENATE_MAP[combo].split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join('-');
+      return prefix + ' ' + hyphenated;
+    }
+  }
+  return parts.map(w => CAPITALIZE_MAP[w] || (w.charAt(0).toUpperCase() + w.slice(1))).join(' ');
+}
+
 function toTitleCase(str) {
-  return str.replace(/\b\w/g, c => c.toUpperCase());
+  return str.split(' ').map(w => CAPITALIZE_MAP[w.toLowerCase()] || (w.charAt(0).toUpperCase() + w.slice(1))).join(' ');
 }
 
 function hexLuminance(hex) {
@@ -757,7 +804,7 @@ function makeCard(icon) {
   card.appendChild(svgWrap);
 
   const label = document.createElement('div'); label.className = 'icon-label';
-  const labelText = toTitleCase((icon.displayName || icon.name).replace(/_/g, ' '));
+  const labelText = formatSegment(icon.name.split('-')[0]);
   label.textContent = labelText;
   card.appendChild(label);
 
@@ -795,7 +842,7 @@ function downloadSVG(icon, color, sz) {
   const a = document.createElement('a'); a.href = url; a.download = (icon.displayName || icon.name) + '.svg';
   document.body.appendChild(a); a.click(); document.body.removeChild(a);
   setTimeout(() => URL.revokeObjectURL(url), 100);
-  showToast('SVG for ' + (icon.displayName || icon.name).replace(/_/g, ' ') + ' Saved');
+  showToast('SVG for ' + formatSegment(icon.name.split('-')[0]) + ' Saved');
   trackDownload(icon, 'Save SVG', sz);
 }
 
@@ -812,7 +859,7 @@ function downloadPNG(icon, color, sz) {
     URL.revokeObjectURL(url);
     const a = document.createElement('a'); a.href = canvas.toDataURL('image/png'); a.download = (icon.displayName || icon.name) + '.png';
     document.body.appendChild(a); a.click(); document.body.removeChild(a);
-    showToast('PNG for ' + (icon.displayName || icon.name).replace(/_/g, ' ') + ' Saved');
+    showToast('PNG for ' + formatSegment(icon.name.split('-')[0]) + ' Saved');
     trackDownload(icon, 'Save PNG', sz);
   };
   img.src = url;
@@ -822,7 +869,7 @@ function copySVG(icon, sz) {
   sz = sz || panelSize || 24;
   const path = getPath(icon); if (!path) return;
   const svg = '<svg xmlns="http://www.w3.org/2000/svg" width="' + sz + '" height="' + sz + '" viewBox="0 0 24 24" fill="#141414"><path d="' + path + '"/></svg>';
-  navigator.clipboard.writeText(svg).then(() => showToast('SVG for ' + (icon.displayName || icon.name).replace(/_/g, ' ') + ' Copied')).catch(() => showToast('Copy failed'));
+  navigator.clipboard.writeText(svg).then(() => showToast('SVG for ' + formatSegment(icon.name.split('-')[0]) + ' Copied')).catch(() => showToast('Copy failed'));
   trackDownload(icon, 'Copy SVG', sz);
 }
 
@@ -867,7 +914,7 @@ function openPanel(icon) {
   const active = document.querySelector('[data-name="' + icon.name + '"]');
   if (active) active.classList.add('active-panel');
 
-  const name = toTitleCase((icon.displayName || icon.name).replace(/_/g, ' '));
+  const name = formatSegment(icon.name.split('-')[0]);
   const tags = parseTags(icon);
 
   const preview = document.getElementById('panelPreview');
@@ -899,7 +946,7 @@ function openPanel(icon) {
       const hoverColor = hexLuminance(hoverBg) > 0.35 ? '#141414' : '#ffffff';
       tag.style.setProperty('--tag-hover-bg', hoverBg);
       tag.style.setProperty('--tag-hover-color', hoverColor);
-      tag.textContent = toTitleCase(t.replace(/_/g, ' '));
+      tag.textContent = formatSegment(t);
       tag.addEventListener('click', () => {
         const searchVal = t.replace(/_/g, ' ');
         state.search = searchVal;
@@ -970,7 +1017,7 @@ function openPanel(icon) {
     const btn = document.createElement('button'); btn.className = 'copy-btn'; btn.textContent = label;
     btn.addEventListener('click', () => {
       navigator.clipboard.writeText(getText()).catch(() => {});
-      showToast(label + ' code for ' + toTitleCase((icon.displayName || icon.name).replace(/_/g,' ')) + ' Copied');
+      showToast(label + ' code for ' + formatSegment(icon.name.split('-')[0]) + ' Copied');
       trackDownload(icon, 'Copy ' + label);
     });
     return btn;
@@ -1031,7 +1078,8 @@ document.addEventListener('keydown', e => {
   if ((e.ctrlKey || e.metaKey) && e.key === 'k') { e.preventDefault(); document.getElementById('search').focus(); }
   if (e.key === 'Escape') { document.getElementById('search').blur(); document.getElementById('panel').classList.remove('open'); }
   const searchFocused = document.activeElement === document.getElementById('search');
-  if ((e.ctrlKey || e.metaKey) && e.key === 'c' && panelIcon && !searchFocused) { e.preventDefault(); copySVG(panelIcon); }
+  const hasSelection = window.getSelection && window.getSelection().toString().length > 0;
+  if ((e.ctrlKey || e.metaKey) && e.key === 'c' && panelIcon && !searchFocused && !hasSelection) { e.preventDefault(); copySVG(panelIcon); }
   if ((e.ctrlKey || e.metaKey) && e.key === 's' && panelIcon && !searchFocused) { e.preventDefault(); downloadSVG(panelIcon); }
 });
 
