@@ -459,7 +459,7 @@ const HYPHENATE_MAP = {
 
 const CAPITALIZE_MAP = {
   "ai":"AI","ar":"AR","vr":"VR","mr":"MR","tv":"TV","pc":"PC","id":"ID","zip":"ZIP","qr":"QR",
-  "nfc":"NFC","url":"URL","gps":"GPS","dna":"DNA","ocr":"OCR","llm":"LLM","ml":"ML","iot":"IOT",
+  "nfc":"NFC","url":"URL","gps":"GPS","dna":"DNA","ocr":"OCR","llm":"LLM","ml":"ML","iot":"IoT",
   "sim":"SIM","esim":"eSIM","lte":"LTE","gsm":"GSM","usb":"USB","usba":"USB-A","usbb":"USB-B","usbc":"USB-C",
   "hdmi":"HDMI","ssd":"SSD","hdd":"HDD","lan":"LAN","vpn":"VPN","cpu":"CPU","gpu":"GPU",
   "html":"HTML","css":"CSS","sql":"SQL","svg":"SVG","eps":"EPS","mp4":"MP4","hd":"HD","hq":"HQ",
@@ -476,23 +476,43 @@ const CAPITALIZE_MAP = {
   "kpi":"KPI","vip":"VIP","vod":"VOD","rw":"RW","ff":"FF","fwd":"FWD","daw":"DAW","eq":"EQ",
   "cd":"CD","ip":"IP","uk":"UK","irn":"IRN","pa":"PA","sku":"SKU","pvc":"PVC","hdpe":"HDPE",
   "ldpe":"LDPE","pp":"PP","ps":"PS","wpa":"WPA","xyz":"XYZ","nvme":"NVMe","lidar":"LiDAR",
-  "mysql":"MySQL","qbit":"QBit","om":"OM",
+  "mysql":"MySQL","qbit":"QBit","om":"OM","wifi":"Wi-Fi","tshirt":"T-Shirt",
 };
+
+const LOWERCASE_WORDS = new Set(['of','in','on','at','to','a','an','the','and','or','but','for','with','by','from','up','as','into','via','per']);
 
 function formatSegment(seg) {
   if (HYPHENATE_MAP[seg]) {
     return HYPHENATE_MAP[seg].split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join('-');
   }
   const parts = seg.split('_');
-  for (let i = 1; i < parts.length; i++) {
-    const combo = parts.slice(i).join('_');
-    if (HYPHENATE_MAP[combo]) {
-      const prefix = parts.slice(0, i).map(w => CAPITALIZE_MAP[w] || (w.charAt(0).toUpperCase() + w.slice(1))).join(' ');
-      const hyphenated = HYPHENATE_MAP[combo].split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join('-');
-      return prefix + ' ' + hyphenated;
+  const result = [];
+  let i = 0;
+  while (i < parts.length) {
+    // Try to match longest combo starting at i
+    let matched = false;
+    for (let j = parts.length; j > i + 1; j--) {
+      const combo = parts.slice(i, j).join('_');
+      if (HYPHENATE_MAP[combo]) {
+        const hyphenated = HYPHENATE_MAP[combo].split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join('-');
+        result.push(hyphenated);
+        i = j;
+        matched = true;
+        break;
+      }
+    }
+    if (!matched) {
+      const w = parts[i];
+      const isFirst = result.length === 0;
+      if (!isFirst && LOWERCASE_WORDS.has(w)) {
+        result.push(w);
+      } else {
+        result.push(CAPITALIZE_MAP[w] || (w.charAt(0).toUpperCase() + w.slice(1)));
+      }
+      i++;
     }
   }
-  return parts.map(w => CAPITALIZE_MAP[w] || (w.charAt(0).toUpperCase() + w.slice(1))).join(' ');
+  return result.join(' ');
 }
 
 function toTitleCase(str) {
@@ -1097,7 +1117,7 @@ function trackFailedSearch(query) {
       method: 'POST',
       body: JSON.stringify({ type: 'failed', query: q, userAgent: navigator.userAgent }),
     }).catch(() => {});
-  }, 1500);
+  }, 500);
 }
 function requestIcon(query) {
   const q = query.trim().toLowerCase();
