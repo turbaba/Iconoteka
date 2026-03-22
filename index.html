@@ -460,7 +460,7 @@ const HYPHENATE_MAP = {
 const CAPITALIZE_MAP = {
   "ai":"AI","ar":"AR","vr":"VR","mr":"MR","tv":"TV","pc":"PC","id":"ID","zip":"ZIP","qr":"QR",
   "nfc":"NFC","url":"URL","gps":"GPS","dna":"DNA","ocr":"OCR","llm":"LLM","ml":"ML","iot":"IoT",
-  "sim":"SIM","esim":"eSIM","lte":"LTE","gsm":"GSM","usb":"USB","usba":"USB-A","usbb":"USB-B","usbc":"USB-C",
+  "sim":"SIM","esim":"eSIM","lte":"LTE","gsm":"GSM","usb":"USB","usba":"USB A","usbb":"USB-B","usbc":"USB-C",
   "hdmi":"HDMI","ssd":"SSD","hdd":"HDD","lan":"LAN","vpn":"VPN","cpu":"CPU","gpu":"GPU",
   "html":"HTML","css":"CSS","sql":"SQL","svg":"SVG","eps":"EPS","mp4":"MP4","hd":"HD","hq":"HQ",
   "fps":"FPS","ios":"iOS","atm":"ATM","otp":"OTP","2fa":"2FA","az":"A-Z","cta":"CTA","ui":"UI",
@@ -479,7 +479,7 @@ const CAPITALIZE_MAP = {
   "mysql":"MySQL","qbit":"QBit","om":"OM","wifi":"Wi-Fi","tshirt":"T-Shirt",
 };
 
-const LOWERCASE_WORDS = new Set(['of','in','on','at','to','a','an','the','and','or','but','for','with','by','from','up','as','into','via','per']);
+const LOWERCASE_WORDS = new Set(['of','in','at','to','an','the','and','or','but','for','with','by','from','as','into','via','per']);
 
 function formatSegment(seg) {
   if (HYPHENATE_MAP[seg]) {
