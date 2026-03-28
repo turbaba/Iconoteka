@@ -46,7 +46,7 @@ header { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center
 .logo-wrap a { transition: opacity .15s; }
 .action-btn.primary:hover { background: #333; opacity: 0.8; }
 .action-btn.secondary:hover { background: #e8e8e8; opacity: 0.8; }
-.beta-badge { font-size: 9px; font-weight: 600; background: #ffc7d8; color: #141414; padding: 1px 5px 0 7px; height: 13px; line-height: 13px; border-radius: 20px; letter-spacing: 0.5px; text-transform: uppercase; display: inline-flex; align-items: center; justify-content: center; position: relative; top: -3px; left: -1px; }
+.beta-badge { font-size: 9px; font-weight: 600; background: #ffc7d8; color: #141414; padding: 1px 5px 0 7px; height: 13px; line-height: 13px; border-radius: 20px; letter-spacing: 0.5px; text-transform: uppercase; display: inline-flex; align-items: center; justify-content: center; position: relative; top: -1px; left: -1px; }
 .header-search { display: flex; justify-content: center; align-items: center; width: 100%; min-width: 0; }
 .header-nav { display: flex; align-items: center; gap: 32px; justify-content: flex-end; position: relative; top: -1px; }
 .header-link { font-size: 14px; color: var(--text); text-decoration: none; transition: color .15s; font-weight: 600; }
@@ -130,6 +130,7 @@ main::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
 /* ICON CARD */
 .icon-card { width: 104px; height: 128px; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding-top: 16px; gap: 8px; border-radius: 8px; cursor: pointer; background: transparent; border: 1px solid transparent; transition: background .1s, border-color .1s; color: var(--text); position: relative; flex-shrink: 0; overflow: hidden; }
 .icon-card:hover { background: rgba(242,242,243,0.7); border-color: transparent; }
+.icon-card.focused { background: rgba(242,242,243,0.7); border-color: var(--border); outline: none; }
 .icon-card.active-panel { background: #f2f2f3; border-color: transparent; }
 .icon-svg-wrap { display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; flex-shrink: 0; }
 .icon-label { font-size: 14px; color: var(--text-muted); text-align: center; line-height: 1.2; width: 100%; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; padding: 0 6px; }
@@ -169,11 +170,11 @@ main::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
 .panel-body-top { display: flex; flex-direction: column; gap: 14px; flex: 1; }
 .panel-body-bottom { padding: 0 0 20px 0; margin-top: 0; }
 .panel-body-bottom .slider-row { margin-bottom: 18px; }
-.panel-name { font-size: 29px; font-weight: 700; letter-spacing: -0.8px; line-height: 1.1; user-select: none; -webkit-user-select: none; }
+.panel-name { font-size: 29px; font-weight: 700; letter-spacing: -0.8px; line-height: 1.1; user-select: text; -webkit-user-select: text; cursor: text; }
 .panel-style-label { font-size: 12px; color: var(--text-muted); font-weight: 400; letter-spacing: 0.2px; margin-top: 4px; user-select: none; -webkit-user-select: none; }
 .tags-wrap { display: flex; flex-wrap: wrap; gap: 6px 4px; height: 58px; overflow: hidden; flex-shrink: 0; align-content: flex-start; }
-.tag { padding: 4px 10px; background: #f2f2f3; font-size: 12px; color: var(--text-muted); cursor: pointer; transition: background .15s, color .15s; user-select: none; -webkit-user-select: none; }
-.tag:hover { background: var(--tag-hover-bg, #e8e8e8); color: #141414; }
+.tag { padding: 4px 10px; background: #f2f2f3; font-size: 12px; color: var(--text-muted); cursor: pointer; transition: background .15s, color .15s; user-select: text; -webkit-user-select: text; }
+.tag:hover { background: #e8e8e8; color: #141414; }
 .tag-pill { border-radius: 20px; padding-left: 9px; padding-right: 9px; }
 .tag-rect { border-radius: 2px; }
 .tag-rounded { border-radius: 6px; }
@@ -465,7 +466,7 @@ const CAPITALIZE_MAP = {
   "html":"HTML","css":"CSS","sql":"SQL","svg":"SVG","eps":"EPS","mp4":"MP4","hd":"HD","hq":"HQ",
   "fps":"FPS","ios":"iOS","atm":"ATM","otp":"OTP","2fa":"2FA","az":"A-Z","cta":"CTA","ui":"UI",
   "ux":"UX","qa":"QA","cv":"CV","cc":"CC","dm":"DM","im":"IM","sos":"SOS","suv":"SUV","uav":"UAV",
-  "ev":"EV","ac":"AC","fm":"FM","am":"AM","ir":"IR","fx":"FX","cw":"CW","ccw":"CCW","wc":"WC",
+  "ev":"EV","ac":"AC","fm":"FM","am":"AM","pm":"PM","ir":"IR","fx":"FX","cw":"CW","ccw":"CCW","wc":"WC",
   "tm":"TM","www":"WWW","sms":"SMS","nlp":"NLP","tldr":"TLDR","nsfw":"NSFW","dnd":"DnD",
   "nba":"NBA","nfl":"NFL","nhl":"NHL","mlb":"MLB","mrt":"MRT","cmd":"CMD","ctrl":"CTRL",
   "otf":"OTF","ttf":"TTF","woff":"WOFF","asl":"ASL","wcag":"WCAG","ada":"ADA","cnd":"CnD",
@@ -762,13 +763,14 @@ function getPath(icon, wIdx) {
 
 function parseTags(icon) {
   const raw = icon.name || '';
-  const parts = raw.split('_'); parts.shift();
-  const tags = parts.join('_').split('-').filter(t => t.length > 1);
-  const extra = icon.searchTerms || [];
-  return [...new Set([...tags, ...extra])].filter(t => t && t !== raw);
+  const segments = raw.split('-');
+  segments.shift(); // remove first segment (icon name)
+  const tags = segments.filter(t => t.length > 1 && !/^[a-z]$/.test(t)); // remove single-char suffixes
+  return [...new Set(tags)].filter(t => t && t !== raw);
 }
 
 function render() {
+  state.focusedIdx = -1;
   const icons = getFiltered();
   const countable = icons.filter(i => i.category !== 'Popular').length;
   const countEl = document.getElementById('searchCount');
@@ -839,6 +841,12 @@ function makeCard(icon) {
       copySVG(icon);
       return;
     }
+    // Update focusedIdx so arrow keys start from here
+    const allCards = Array.from(document.querySelectorAll('.icon-card'));
+    state.focusedIdx = allCards.indexOf(card);
+    allCards.forEach(c => c.classList.remove('focused'));
+    card.classList.add('focused');
+
     if (panelIcon && panelIcon.name === icon.name) {
       copySVG(icon);
     } else {
@@ -962,19 +970,14 @@ function openPanel(icon) {
 
   if (tags.length) {
     const tagsWrap = document.createElement('div'); tagsWrap.className = 'tags-wrap';
-    const TAG_COLORS = ['#ffc7d8','#d4d4d8','#cae0f3','#c5edd9','#efe5d1','#f8d9cc','#abaab1','#79dee5','#11a54a','#dded47','#fc941c','#cfb9f8','#81808b','#20a5e0','#979c1a','#febd32','#f54c1d','#fca4ec','#829684','#cfbc13','#0b957e','#ae8b19','#966acc'];
     tags.forEach(t => {
       const tag = document.createElement('span');
       const tagTypes = ['tag-pill', 'tag-rect', 'tag-rounded'];
       const tagType = tagTypes[Math.floor(Math.random() * tagTypes.length)];
       tag.className = 'tag ' + tagType;
-      const hoverBg = TAG_COLORS[Math.floor(Math.random() * TAG_COLORS.length)];
-      const hoverColor = hexLuminance(hoverBg) > 0.35 ? '#141414' : '#ffffff';
-      tag.style.setProperty('--tag-hover-bg', hoverBg);
-      tag.style.setProperty('--tag-hover-color', hoverColor);
       tag.textContent = formatSegment(t);
       tag.addEventListener('click', () => {
-        const searchVal = t.replace(/_/g, ' ');
+        const searchVal = formatSegment(t).toLowerCase();
         state.search = searchVal;
         document.getElementById('search').value = searchVal;
         document.getElementById('clearBtn').classList.add('visible');
@@ -1102,15 +1105,119 @@ weightSlider.addEventListener('input', () => {
 
 document.addEventListener('keydown', e => {
   if ((e.ctrlKey || e.metaKey) && e.key === 'k') { e.preventDefault(); document.getElementById('search').focus(); }
-  if (e.key === 'Escape') { document.getElementById('search').blur(); document.getElementById('panel').classList.remove('open'); }
+  if (e.key === 'Escape') { document.getElementById('search').blur(); document.getElementById('panel').classList.remove('open'); state.focusedIdx = -1; }
   const searchFocused = document.activeElement === document.getElementById('search');
   const hasSelection = window.getSelection && window.getSelection().toString().length > 0;
+  if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'Enter' && panelIcon && !searchFocused) { e.preventDefault(); downloadPNG(panelIcon); }
   if ((e.ctrlKey || e.metaKey) && e.key === 'c' && panelIcon && !searchFocused && !hasSelection) { e.preventDefault(); copySVG(panelIcon); }
-  if ((e.ctrlKey || e.metaKey) && e.key === 's' && panelIcon && !searchFocused) { e.preventDefault(); downloadSVG(panelIcon); }
+  if ((e.ctrlKey || e.metaKey) && !e.shiftKey && e.key === 's' && panelIcon && !searchFocused) { e.preventDefault(); downloadSVG(panelIcon); }
+  if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 's' && panelIcon && !searchFocused) { e.preventDefault(); downloadPNG(panelIcon); }
+  if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'Enter' && panelIcon && !searchFocused) { e.preventDefault(); downloadPNG(panelIcon); }
+
+  if (searchFocused) return;
+  const arrows = ['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'];
+  if (!arrows.includes(e.key) && e.key !== 'Enter') return;
+
+  const icons = getFiltered();
+  if (!icons.length) return;
+
+  const grid = document.querySelector('main');
+  const cards = grid ? Array.from(grid.querySelectorAll('.icon-card')) : [];
+  if (!cards.length) return;
+
+  // Compute cols per section based on card positions within that section
+  function getColsForCard(card) {
+    const section = card.closest('.category-section');
+    if (!section) return 1;
+    const sectionCards = Array.from(section.querySelectorAll('.icon-card'));
+    if (!sectionCards.length) return 1;
+    const firstTop = sectionCards[0].getBoundingClientRect().top;
+    return sectionCards.filter(c => Math.abs(c.getBoundingClientRect().top - firstTop) < 5).length || 1;
+  }
+
+  if (state.focusedIdx === undefined) state.focusedIdx = -1;
+
+  // If no focused idx yet, start from the currently active panel icon
+  let idx = state.focusedIdx;
+  if (idx < 0 && panelIcon) {
+    idx = cards.findIndex(c => c.dataset.name === panelIcon.name);
+    if (idx < 0) idx = -1;
+  }
+
+  // Enter: copy/download active icon
+  if (e.key === 'Enter') {
+    const targetName = idx >= 0 && cards[idx] ? cards[idx].dataset.name : (panelIcon && panelIcon.name);
+    const icon = targetName && iconsData.find(i => i.name === targetName);
+    if (icon) {
+      if (e.shiftKey) downloadSVG(icon);
+      else copySVG(icon);
+    }
+    return;
+  }
+
+  if (e.key === 'ArrowRight') {
+    if (idx >= cards.length - 1) return;
+    idx = idx < 0 ? 0 : idx + 1;
+  } else if (e.key === 'ArrowLeft') {
+    if (idx <= 0) return;
+    idx = idx - 1;
+  } else if (e.key === 'ArrowDown') {
+    const curIdx = idx < 0 ? 0 : idx;
+    const curCard = cards[curIdx];
+    const curSection = curCard?.closest('.category-section');
+    const sectionCards = curSection ? Array.from(curSection.querySelectorAll('.icon-card')) : [];
+    const cols = getColsForCard(curCard);
+    const idxInSection = sectionCards.indexOf(curCard);
+    const nextInSection = idxInSection + cols;
+
+    if (nextInSection >= sectionCards.length) {
+      // Jump to first card of next category
+      const cats = Array.from(document.querySelectorAll('.category-section'));
+      const currentCatIdx = cats.indexOf(curSection);
+      if (currentCatIdx < cats.length - 1) {
+        const nextCatCards = Array.from(cats[currentCatIdx + 1].querySelectorAll('.icon-card'));
+        if (nextCatCards.length) {
+          cards.forEach(c => c.classList.remove('focused'));
+          nextCatCards[0].classList.add('focused');
+          nextCatCards[0].scrollIntoView({ block: 'nearest' });
+          const icon = iconsData.find(i => i.name === nextCatCards[0].dataset.name);
+          if (icon) openPanel(icon);
+          state.focusedIdx = cards.indexOf(nextCatCards[0]);
+          e.preventDefault();
+        }
+      }
+      return;
+    }
+    idx = cards.indexOf(sectionCards[nextInSection]);
+  } else if (e.key === 'ArrowUp') {
+    const curIdx = idx < 0 ? 0 : idx;
+    const curCard = cards[curIdx];
+    const curSection = curCard?.closest('.category-section');
+    const sectionCards = curSection ? Array.from(curSection.querySelectorAll('.icon-card')) : [];
+    const cols = getColsForCard(curCard);
+    const idxInSection = sectionCards.indexOf(curCard);
+    const prevInSection = idxInSection - cols;
+    if (prevInSection < 0) return; // first row, do nothing
+    idx = cards.indexOf(sectionCards[prevInSection]);
+    if (idx < 0) return;
+  }
+
+  if (idx < 0) idx = 0;
+  e.preventDefault();
+  state.focusedIdx = idx;
+
+  cards.forEach(c => c.classList.remove('focused'));
+  if (cards[idx]) {
+    cards[idx].classList.add('focused');
+    cards[idx].scrollIntoView({ block: 'nearest' });
+    const iconName = cards[idx].dataset.name;
+    const icon = iconsData.find(i => i.name === iconName);
+    if (icon) openPanel(icon);
+  }
 });
 
 // Track failed searches
-const SHEET_URL = 'https://script.google.com/macros/s/AKfycbypc8jSM4yoJzqBXbdo05pxNupgwz7h4k8ypMtaIFGeCpUvm0tUlAWVy7qIOkdwtGm-sA/exec';
+const SHEET_URL = 'https://script.google.com/macros/s/AKfycbzhAmBQR-xVQUlcBsVmjYChuiU6UvkfdazAigiXqRWNOOz8BKj6EN6cNc2Tc5swVVxXhw/exec';
 const _tracked = new Set();
 let _trackTimer = null;
 function trackFailedSearch(query) {
