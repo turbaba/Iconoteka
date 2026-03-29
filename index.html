@@ -74,8 +74,8 @@ body { display: flex; flex-direction: column; }
 /* HEADER */
 header { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; padding: 0 24px; height: 94px; flex-shrink: 0; column-gap: 10px; }
 .logo-wrap { display: flex; align-items: center; gap: 8px; position: relative; top: -1px; }
-.logo { font-weight: 550; font-size: 23px; letter-spacing: -0.3px; }
-.logo-wrap a { transition: opacity .15s; color: inherit; text-decoration: none; }
+.logo { font-weight: 550; font-size: 23px; letter-spacing: -0.3px; color: var(--text); }
+.logo-wrap a { transition: opacity .15s; color: var(--text); text-decoration: none; }
 .action-btn.primary:hover { background: #333; opacity: 0.8; }
 .action-btn.secondary:hover { background: var(--ui-surface-hover); opacity: 0.8; }
 .beta-badge { font-size: 9px; font-weight: 600; background: #ffc7d8; color: #141414; padding: 1px 5px 0 7px; height: 13px; line-height: 13px; border-radius: 20px; letter-spacing: 0.5px; text-transform: uppercase; display: inline-flex; align-items: center; justify-content: center; position: relative; top: -1px; left: -1px; }
@@ -467,6 +467,13 @@ main::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
         </div>
       </div>
       <div class="sidebar-ver"><span class="footer-ver" id="footerVer">V02.00.102</span><span class="footer-ver">Made by Oleg Turbaba</span></div>
+      <div style="padding: 0 24px 20px; display:flex; flex-direction:column; gap:8px;">
+        <div style="display:flex; justify-content:space-between;"><span class="footer-ver">Test slider</span><span class="footer-ver" id="testWeightLabel">Regular</span></div>
+        <div class="slider-track-wrap">
+          <div class="slider-stops-line"><div class="slider-stop"></div><div class="slider-stop"></div><div class="slider-stop"></div><div class="slider-stop"></div><div class="slider-stop"></div><div class="slider-stop"></div><div class="slider-stop"></div></div>
+          <input type="range" class="weight-slider" id="testWeightSlider" min="0" max="6" step="1" value="3"/>
+        </div>
+      </div>
     </div>
   </aside>
 
@@ -486,6 +493,7 @@ main::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
 <button id="themeToggle" title="Toggle theme" aria-label="Toggle dark mode">
   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 22C10.1667 22 8.48333 21.5583 6.95 20.675C5.41667 19.7917 4.20833 18.5833 3.325 17.05C2.44167 15.5167 2 13.8333 2 12C2 10.1667 2.44167 8.48333 3.325 6.95C4.20833 5.41667 5.41667 4.20833 6.95 3.325C8.48333 2.44167 10.1667 2 12 2C13.8333 2 15.5167 2.44167 17.05 3.325C18.5833 4.20833 19.7917 5.41667 20.675 6.95C21.5583 8.48333 22 10.1667 22 12C22 13.8333 21.5583 15.5167 20.675 17.05C19.7917 18.5833 18.5833 19.7917 17.05 20.675C15.5167 21.5583 13.8333 22 12 22ZM12 20.025C13.4833 20.025 14.8333 19.675 16.05 18.975C17.2833 18.2583 18.25 17.2917 18.95 16.075C19.6667 14.8417 20.025 13.4833 20.025 12C20.025 10.5167 19.6667 9.16667 18.95 7.95C18.25 6.71667 17.2833 5.75 16.05 5.05C14.8333 4.33333 13.4833 3.975 12 3.975V20.025Z"/></svg>
 </button>
+<div id="toast"></div>
 <div id="toast"></div>
 
 <script>
@@ -886,6 +894,31 @@ function render() {
   }
 }
 
+// Fast path: only swap SVG paths on visible cards, no DOM rebuild
+function fastUpdate() {
+  const t0 = performance.now();
+  const cards = document.querySelectorAll('.icon-card');
+  cards.forEach(card => {
+    const icon = iconsData.find(i => i.name === card.dataset.name);
+    if (!icon) return;
+    const path = getPath(icon);
+    const p = card.querySelector('svg path');
+    if (p && path) p.setAttribute('d', path);
+    else if (!p && path) {
+      const svgWrap = card.querySelector('.icon-svg-wrap');
+      if (svgWrap) {
+        const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        svg.setAttribute('width', '48'); svg.setAttribute('height', '48');
+        svg.setAttribute('viewBox', '0 0 24 24'); svg.setAttribute('fill', 'currentColor');
+        const newP = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        newP.setAttribute('d', path); svg.appendChild(newP);
+        svgWrap.innerHTML = ''; svgWrap.appendChild(svg);
+      }
+    }
+  });
+  console.log('fastUpdate:', (performance.now() - t0).toFixed(1) + 'ms');
+}
+
 function makeCard(icon) {
   const path = getPath(icon);
   const card = document.createElement('div');
@@ -1161,7 +1194,7 @@ document.getElementById('clearBtn').addEventListener('click', () => {
 });
 document.querySelectorAll('.seg-btn').forEach(btn => btn.addEventListener('click', () => {
   document.querySelectorAll('.seg-btn').forEach(b => b.classList.remove('on'));
-  btn.classList.add('on'); state.style = btn.dataset.style; render();
+  btn.classList.add('on'); state.style = btn.dataset.style; fastUpdate();
   if (panelIcon) updatePanelPreview(panelIcon);
 }));
 
@@ -1170,7 +1203,7 @@ const weightLabel = document.getElementById('weightLabel');
 weightSlider.addEventListener('input', () => {
   state.weightIdx = parseInt(weightSlider.value);
   weightLabel.textContent = WEIGHT_LABELS[state.weightIdx];
-  render();
+  fastUpdate();
   if (panelIcon) updatePanelPreview(panelIcon);
 });
 
@@ -1310,7 +1343,9 @@ function requestIcon(query) {
     method: 'POST',
     body: JSON.stringify({ type: 'request', query: q, userAgent: navigator.userAgent }),
   }).catch(() => {});
-  showToast('Request sent — we\'ll look into it!');
+  const main = document.getElementById('main');
+  const empty = main.querySelector('.empty');
+  if (empty) empty.innerHTML = 'Request sent — we\'ll look into it!';
 }
 
 function trackDownload(icon, action, sz) {
@@ -1508,6 +1543,18 @@ document.getElementById('themeToggle').addEventListener('click', () => {
   document.documentElement.setAttribute('data-theme', newTheme);
   localStorage.setItem('iconoteka-theme', newTheme);
   fetch(SHEET_URL, { method: 'POST', body: JSON.stringify({ type: 'theme', theme: newTheme, action: 'toggle' }) }).catch(() => {});
+});
+
+// Test weight slider
+const testWeightSlider = document.getElementById('testWeightSlider');
+const testWeightLabel = document.getElementById('testWeightLabel');
+testWeightSlider.addEventListener('input', () => {
+  state.weightIdx = parseInt(testWeightSlider.value);
+  testWeightLabel.textContent = WEIGHT_LABELS[state.weightIdx];
+  document.getElementById('weightLabel').textContent = WEIGHT_LABELS[state.weightIdx];
+  document.getElementById('weightSlider').value = state.weightIdx;
+  fastUpdate();
+  if (panelIcon) updatePanelPreview(panelIcon);
 });
 
 loadIcons();
