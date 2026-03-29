@@ -467,13 +467,6 @@ main::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
         </div>
       </div>
       <div class="sidebar-ver"><span class="footer-ver" id="footerVer">V02.00.102</span><span class="footer-ver">Made by Oleg Turbaba</span></div>
-      <div style="padding: 0 24px 20px; display:flex; flex-direction:column; gap:8px;">
-        <div style="display:flex; justify-content:space-between;"><span class="footer-ver">Test slider</span><span class="footer-ver" id="testWeightLabel">Regular</span></div>
-        <div class="slider-track-wrap">
-          <div class="slider-stops-line"><div class="slider-stop"></div><div class="slider-stop"></div><div class="slider-stop"></div><div class="slider-stop"></div><div class="slider-stop"></div><div class="slider-stop"></div><div class="slider-stop"></div></div>
-          <input type="range" class="weight-slider" id="testWeightSlider" min="0" max="6" step="1" value="3"/>
-        </div>
-      </div>
     </div>
   </aside>
 
@@ -1543,18 +1536,6 @@ document.getElementById('themeToggle').addEventListener('click', () => {
   document.documentElement.setAttribute('data-theme', newTheme);
   localStorage.setItem('iconoteka-theme', newTheme);
   fetch(SHEET_URL, { method: 'POST', body: JSON.stringify({ type: 'theme', theme: newTheme, action: 'toggle' }) }).catch(() => {});
-});
-
-// Test weight slider
-const testWeightSlider = document.getElementById('testWeightSlider');
-const testWeightLabel = document.getElementById('testWeightLabel');
-testWeightSlider.addEventListener('input', () => {
-  state.weightIdx = parseInt(testWeightSlider.value);
-  testWeightLabel.textContent = WEIGHT_LABELS[state.weightIdx];
-  document.getElementById('weightLabel').textContent = WEIGHT_LABELS[state.weightIdx];
-  document.getElementById('weightSlider').value = state.weightIdx;
-  fastUpdate();
-  if (panelIcon) updatePanelPreview(panelIcon);
 });
 
 loadIcons();
