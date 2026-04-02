@@ -162,7 +162,7 @@ main::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
 /* ICON CARD */
 .icon-card { width: 104px; height: 128px; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding-top: 16px; gap: 8px; border-radius: 8px; cursor: pointer; background: transparent; border: 1px solid transparent; transition: background .1s, border-color .1s; color: var(--text); position: relative; flex-shrink: 0; overflow: hidden; }
 .icon-card:hover { background: var(--ui-card-hover); border-color: transparent; }
-.icon-card.focused { background: var(--ui-card-hover); border-color: var(--border); outline: none; }
+.icon-card.focused { background: var(--ui-card-hover); border-color: transparent; outline: none; }
 .icon-card.active-panel { background: var(--ui-surface); border-color: transparent; }
 .icon-svg-wrap { display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; flex-shrink: 0; }
 .icon-label { font-size: 14px; color: var(--text-muted); text-align: center; line-height: 1.2; width: 100%; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; padding: 0 6px; }
@@ -192,6 +192,9 @@ main::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
 
 /* PANEL */
 #panel { position: fixed; top: 94px; right: calc(-1 * var(--panel-w) - 60px); height: min(700px, calc(100vh - 94px - 10px)); width: var(--panel-w); background: var(--ui-panel); border: none; border-radius: 16px; display: flex; flex-direction: column; z-index: 500; transition: right .25s cubic-bezier(.4,0,.2,1); box-shadow: 0 8px 30px rgba(0,0,0,0.08), 0 0px 20px rgba(0,0,0,0.05); overflow: hidden; }
+[data-theme="dark"] .logo { color: #ffffff; }
+[data-theme="dark"] #logomark { color: #ffffff; }
+[data-theme="dark"] .logo-wrap a { color: #ffffff; }
 [data-theme="dark"] #panel { box-shadow: 0 8px 40px rgba(0,0,0,0.5), 0 0px 20px rgba(0,0,0,0.3); }
 #logomark { color: var(--text); }
 #panel.open { right: 20px; }
@@ -232,6 +235,9 @@ main::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
 .size-pill { height: 28px; padding: 0 12px; border: 1px solid var(--border); border-radius: 20px; background: transparent; font-size: 13px; font-family: 'Inter', sans-serif; color: var(--text-muted); cursor: pointer; transition: all .1s; }
 .size-pill:hover { border-color: #aaa; color: var(--text); }
 .size-pill.active { background: var(--text); color: #fff; border-color: var(--text); }
+.size-input { opacity: 1; transition: opacity .15s; }
+.size-input:hover { opacity: 0.6; }
+.size-input:focus { opacity: 1; cursor: text; }
 .tablet-controls { display: none; }
 .burger-btn { display: none; background: none; border: none; cursor: pointer; padding: 4px; color: var(--text); }
 
@@ -1091,8 +1097,23 @@ function openPanel(icon) {
   const sizeSliderRow = document.createElement('div'); sizeSliderRow.className = 'slider-row';
   const sizeLabelRow = document.createElement('div'); sizeLabelRow.className = 'slider-label-row';
   const sizeLabelLeft = document.createElement('span'); sizeLabelLeft.className = 'slider-label'; sizeLabelLeft.textContent = 'Export size';
-  const sizeLabelRight = document.createElement('span'); sizeLabelRight.className = 'slider-val'; sizeLabelRight.textContent = panelSize + 'px';
-  sizeLabelRow.appendChild(sizeLabelLeft); sizeLabelRow.appendChild(sizeLabelRight);
+  const sizeInput = document.createElement('input');
+  sizeInput.type = 'text'; sizeInput.value = panelSize + 'px';
+  sizeInput.className = 'size-input';
+  sizeInput.style.cssText = 'width:48px;text-align:right;border:none;background:none;font-size:14px;font-family:Inter,sans-serif;font-weight:500;color:var(--text);outline:none;cursor:text;border-radius:4px;padding:1px 3px;transition:background .15s;';
+  sizeInput.addEventListener('focus', () => { sizeInput.value = panelSize; sizeInput.select(); });
+  sizeInput.addEventListener('blur', () => {
+    const val = parseInt(sizeInput.value);
+    if (!isNaN(val) && val > 0 && val <= 2048) {
+      panelSize = val;
+      const closest = SIZE_STEPS.reduce((a, b) => Math.abs(b - val) < Math.abs(a - val) ? b : a);
+      sizeSlider.value = SIZE_STEPS.indexOf(closest);
+    }
+    sizeInput.value = panelSize + 'px';
+    styleEl.textContent = (state.style === 'stroke' ? 'Stroke' : 'Fill') + ' ' + WEIGHT_LABELS[state.weightIdx] + ' ' + panelSize + 'px';
+  });
+  sizeInput.addEventListener('keydown', e => { if (e.key === 'Enter') sizeInput.blur(); });
+  sizeLabelRow.appendChild(sizeLabelLeft); sizeLabelRow.appendChild(sizeInput);
   const sizeSlider = document.createElement('input'); sizeSlider.type = 'range'; sizeSlider.className = 'weight-slider';
   sizeSlider.min = 0; sizeSlider.max = SIZE_STEPS.length - 1; sizeSlider.step = 1;
   sizeSlider.value = SIZE_STEPS.indexOf(panelSize) >= 0 ? SIZE_STEPS.indexOf(panelSize) : 2;
@@ -1102,7 +1123,7 @@ function openPanel(icon) {
   sizeTrackWrap.appendChild(sizeStopsLine); sizeTrackWrap.appendChild(sizeSlider);
   sizeSlider.addEventListener('input', () => {
     panelSize = SIZE_STEPS[parseInt(sizeSlider.value)];
-    sizeLabelRight.textContent = panelSize + 'px';
+    sizeInput.value = panelSize + 'px';
     styleEl.textContent = (state.style === 'stroke' ? 'Stroke' : 'Fill') + ' ' + WEIGHT_LABELS[state.weightIdx] + ' ' + panelSize + 'px';
   });
   sizeSliderRow.appendChild(sizeLabelRow); sizeSliderRow.appendChild(sizeTrackWrap);
@@ -1193,7 +1214,16 @@ document.querySelectorAll('.seg-btn').forEach(btn => btn.addEventListener('click
 
 const weightSlider = document.getElementById('weightSlider');
 const weightLabel = document.getElementById('weightLabel');
-weightSlider.addEventListener('input', () => {
+function handleWeightSlider(slider, onUpdate) {
+  ['input', 'change', 'pointermove'].forEach(evt => {
+    slider.addEventListener(evt, e => {
+      if (evt === 'pointermove' && e.buttons === 0) return;
+      onUpdate();
+    });
+  });
+}
+
+handleWeightSlider(weightSlider, () => {
   state.weightIdx = parseInt(weightSlider.value);
   weightLabel.textContent = WEIGHT_LABELS[state.weightIdx];
   fastUpdate();
@@ -1475,12 +1505,12 @@ if (tabCatBtn) {
 const tabWeightSlider = document.getElementById('tabWeightSlider');
 const tabWeightLabel = document.getElementById('tabWeightLabel');
 if (tabWeightSlider) {
-  tabWeightSlider.addEventListener('input', () => {
+  handleWeightSlider(tabWeightSlider, () => {
     state.weightIdx = parseInt(tabWeightSlider.value);
     tabWeightLabel.textContent = WEIGHT_LABELS[state.weightIdx];
     document.getElementById('weightLabel').textContent = WEIGHT_LABELS[state.weightIdx];
     document.getElementById('weightSlider').value = state.weightIdx;
-    render();
+    fastUpdate();
     if (panelIcon) updatePanelPreview(panelIcon);
   });
 }
