@@ -106,9 +106,9 @@ aside { width: 280px; flex-shrink: 0; display: flex; flex-direction: column; ove
 .seg-btn:hover { color: var(--text); }
 .seg-btn.on { background: var(--ui-seg-on); color: var(--text); font-weight: 500; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
 .slider-row { display: flex; flex-direction: column; gap: 8px; margin: 6px 0; }
-.slider-label-row { display: flex; justify-content: space-between; }
-.slider-label { font-size: 14px; color: var(--text-muted); }
-.slider-val { font-size: 14px; color: var(--text); font-weight: 500; }
+.slider-label-row { display: flex; justify-content: space-between; align-items: baseline; }
+.slider-label { font-size: 12px; color: var(--text-muted); }
+.slider-val { font-size: 12px; color: var(--text); font-weight: 500; }
 .slider-track-wrap { position: relative; height: 14px; display: flex; align-items: center; }
 .weight-slider { -webkit-appearance: none; appearance: none; width: 100%; height: 4px; border-radius: 2px; outline: none; cursor: pointer; position: relative; z-index: 1; background: transparent; }
 .weight-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; border-radius: 50%; background: var(--text); cursor: pointer; transition: transform .1s; position: relative; z-index: 2; }
@@ -130,6 +130,8 @@ aside { width: 280px; flex-shrink: 0; display: flex; flex-direction: column; ove
 .cat-list-wrap.has-scrollbar .cat-count { right: -14px; }
 .sidebar-ver { padding: 26px 24px 20px; margin-top: auto; flex-shrink: 0; display: flex; justify-content: space-between; align-items: center; }
 .footer-ver { font-size: 11px; color: var(--text-muted); opacity: 0.5; }
+.footer-link { color: inherit; text-decoration: none; transition: opacity .15s; }
+.footer-link:hover { opacity: 0.8; }
 .sidebar-footer { display: none; }
 
 /* MAIN */
@@ -153,7 +155,7 @@ aside { width: 280px; flex-shrink: 0; display: flex; flex-direction: column; ove
 main { flex: 1; padding: 0px 30px 40px 30px; display: flex; flex-direction: column; align-items: center; }
 main::-webkit-scrollbar { width: 4px; }
 main::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
-.category-section { margin-bottom: 32px; width: 100%; max-width: 1468px; padding-top: 28px; }
+.category-section { margin-bottom: 32px; width: 100%; max-width: 1468px; padding-top: 28px; margin-left: auto; margin-right: auto; }
 .category-section:first-child { padding-top: 0; }
 .category-title { font-size: 14px; font-weight: 500; color: var(--text); padding: 0 0 20px 2px; display: flex; align-items: baseline; gap: 6px; }
 .category-title span { opacity: 0.6; font-size: 14px; font-weight: 400; color: #81808b; }
@@ -187,8 +189,8 @@ main::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
 /* TOOLTIP */
 #tooltip { position: fixed; background: var(--text); color: #fff; font-size: 12px; font-family: 'Inter', sans-serif; padding: 4px 9px; border-radius: 4px; pointer-events: none; opacity: 0; transition: opacity .1s; z-index: 1000; white-space: nowrap; }
 #tooltip.visible { opacity: 1; }
-#themeToggle { position: fixed; bottom: 17px; right: 17px; width: 32px; height: 32px; border-radius: 50%; background: none; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #555555; z-index: 1500; transition: color .15s; opacity: 0.6; }
-#themeToggle:hover { opacity: 1; color: #333333; }
+#themeToggle { background: none; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--text-muted); opacity: 0.5; padding: 0; transition: opacity .15s; flex-shrink: 0; }
+#themeToggle:hover { opacity: 1; }
 
 /* PANEL */
 #panel { position: fixed; top: 94px; right: calc(-1 * var(--panel-w) - 60px); height: min(700px, calc(100vh - 94px - 10px)); width: var(--panel-w); background: var(--ui-panel); border: none; border-radius: 16px; display: flex; flex-direction: column; z-index: 500; transition: right .25s cubic-bezier(.4,0,.2,1); box-shadow: 0 8px 30px rgba(0,0,0,0.08), 0 0px 20px rgba(0,0,0,0.05); overflow: hidden; }
@@ -198,6 +200,8 @@ main::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
 [data-theme="dark"] #panel { box-shadow: 0 8px 40px rgba(0,0,0,0.5), 0 0px 20px rgba(0,0,0,0.3); }
 #logomark { color: var(--text); }
 #panel.open { right: 20px; }
+.main-wrap { transition: padding-right .25s cubic-bezier(.4,0,.2,1); }
+body.panel-open .main-wrap { padding-right: calc(var(--panel-w) + 20px); }
 .panel-preview { width: 100%; aspect-ratio: 1; background: var(--surface); display: flex; align-items: center; justify-content: center; flex-shrink: 0; position: relative; cursor: pointer; border-radius: 16px 16px 0 0; overflow: hidden; user-select: none; -webkit-user-select: none; }
 .panel-close { position: absolute; top: 12px; right: 12px; background: transparent; border: none; cursor: pointer; height: 26px; width: 26px; padding: 0; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 16px; font-family: 'Inter', sans-serif; font-weight: 400; z-index: 10; transition: opacity .15s; user-select: none; -webkit-user-select: none; }
 .panel-close:hover { opacity: 0.8; }
@@ -209,9 +213,9 @@ main::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
 .panel-body-top { display: flex; flex-direction: column; gap: 14px; flex: 1; }
 .panel-body-bottom { padding: 0 0 20px 0; margin-top: 0; }
 .panel-body-bottom .slider-row { margin-bottom: 18px; }
-.panel-name { font-size: 29px; font-weight: 700; letter-spacing: -0.8px; line-height: 1.1; user-select: text; -webkit-user-select: text; cursor: text; }
+.panel-name { font-size: 27px; font-weight: 700; letter-spacing: -0.8px; line-height: 1.1; user-select: text; -webkit-user-select: text; cursor: text; }
 .panel-style-label { font-size: 12px; color: var(--text-muted); font-weight: 400; letter-spacing: 0.2px; margin-top: 4px; user-select: none; -webkit-user-select: none; }
-.tags-wrap { display: flex; flex-wrap: wrap; gap: 6px 4px; height: 54px; overflow: hidden; flex-shrink: 0; align-content: flex-start; }
+.tags-wrap { display: flex; flex-wrap: wrap; gap: 6px 4px; height: 54px; overflow: hidden; flex-shrink: 0; align-content: flex-start; margin-top: 4px; }
 .tag { padding: 4px 10px; background: var(--ui-surface); font-size: 12px; color: var(--text-muted); cursor: pointer; transition: background .15s, color .15s; user-select: text !important; -webkit-user-select: text !important; }
 .tag:hover { background: var(--ui-surface-hover); color: var(--text); }
 .tag-pill { border-radius: 20px; padding-left: 9px; padding-right: 9px; }
@@ -219,7 +223,7 @@ main::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
 .tag-rounded { border-radius: 6px; }
 .panel-section-label { font-size: 11px; font-weight: 500; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
 .actions-list { display: flex; flex-direction: column; gap: 6px; margin-top: 6px; }
-.action-btn { display: flex; align-items: center; justify-content: center; height: 40px; padding: 0 16px 2px; border-radius: var(--radius); cursor: pointer; font-size: 14px; font-family: 'Inter', sans-serif; transition: all .1s; width: 100%; font-weight: 600; border: none; }
+.action-btn { display: flex; align-items: center; justify-content: center; height: 40px; padding: 0 16px 2px; border-radius: var(--radius); cursor: pointer; font-size: 13px; font-family: 'Inter', sans-serif; transition: all .1s; width: 100%; font-weight: 600; border: none; }
 .action-btn.primary { background: var(--text); color: #fff; }
 .action-btn.primary:hover { background: #333; }
 .action-btn.secondary { background: var(--ui-surface); color: var(--text); }
@@ -228,16 +232,23 @@ main::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
 [data-theme="dark"] .action-btn.primary:hover { background: var(--text); opacity: 0.85; }
 .action-btn.success { opacity: 0.6; }
 .copy-row { display: flex; align-items: center; gap: 2px; margin-top: 6px; flex-wrap: nowrap; white-space: nowrap; }
-.copy-label { font-size: 14px; color: var(--text-muted); margin-right: 6px; }
-.copy-btn { background: none; border: none; cursor: pointer; font-size: 14px; font-weight: 600; font-family: 'Inter', sans-serif; color: var(--text); padding: 3px 4px; border-radius: 4px; transition: all .1s; }
+.copy-label { font-size: 13px; color: var(--text-muted); margin-right: 6px; }
+.copy-btn { background: none; border: none; cursor: pointer; font-size: 12px; font-weight: 600; font-family: 'Inter', sans-serif; color: var(--text); padding: 3px 4px; border-radius: 4px; transition: opacity .1s; }
 .copy-btn:hover { background: none; color: var(--text); opacity: 0.8; }
 .copy-btn.success { color: #999; }
 .size-pill { height: 28px; padding: 0 12px; border: 1px solid var(--border); border-radius: 20px; background: transparent; font-size: 13px; font-family: 'Inter', sans-serif; color: var(--text-muted); cursor: pointer; transition: all .1s; }
 .size-pill:hover { border-color: #aaa; color: var(--text); }
 .size-pill.active { background: var(--text); color: #fff; border-color: var(--text); }
-.size-input { opacity: 1; transition: opacity .15s; }
-.size-input:hover { opacity: 0.6; }
-.size-input:focus { opacity: 1; cursor: text; }
+.size-combobox-wrap { position: relative; display: inline-flex; align-items: center; background: var(--ui-surface); border-radius: 6px; transition: background .15s; }
+.size-combobox-wrap:hover { background: var(--ui-surface-hover); }
+.size-combobox { width: 59px; text-align: left; border: none; background: none; font-size: 12px; font-family: 'Inter', sans-serif; font-weight: 600; color: var(--text); outline: none; cursor: text; padding: 4px 0 4px 10px; line-height: 1; }
+.size-combobox-arrow { display: flex; align-items: center; padding: 0 8px 0 2px; color: var(--text-muted); cursor: pointer; }
+.size-combobox-arrow:hover { color: var(--text); }
+.size-dropdown-menu { display: none; position: fixed; top: auto; bottom: auto; background: var(--ui-panel); border-radius: 8px; box-shadow: 0 4px 16px rgba(0,0,0,0.18); padding: 4px; z-index: 2000; flex-direction: column; gap: 2px; min-width: 90px; }
+.size-dropdown-menu.open { display: flex; }
+.size-dropdown-opt { background: none; border: none; cursor: pointer; font-size: 12px; font-family: 'Inter', sans-serif; font-weight: 500; color: var(--text); padding: 6px 10px; border-radius: 4px; text-align: left; transition: background .1s; }
+.size-dropdown-opt:hover { background: var(--ui-surface); }
+.size-dropdown-opt.active { font-weight: 700; }
 .tablet-controls { display: none; }
 .burger-btn { display: none; background: none; border: none; cursor: pointer; padding: 4px; color: var(--text); }
 
@@ -472,7 +483,7 @@ main::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
         <div class="cat-list" id="catList">
         </div>
       </div>
-      <div class="sidebar-ver"><span class="footer-ver" id="footerVer">V02.00.102</span><span class="footer-ver">Made by Oleg Turbaba</span></div>
+      <div class="sidebar-ver"><span class="footer-ver" id="footerVer">V02.00.145. Made by <a href="https://turbaba.com" target="_blank" class="footer-link">Oleg Turbaba</a></span><button id="themeToggle" title="Toggle theme" aria-label="Toggle dark mode"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 22C10.1667 22 8.48333 21.5583 6.95 20.675C5.41667 19.7917 4.20833 18.5833 3.325 17.05C2.44167 15.5167 2 13.8333 2 12C2 10.1667 2.44167 8.48333 3.325 6.95C4.20833 5.41667 5.41667 4.20833 6.95 3.325C8.48333 2.44167 10.1667 2 12 2C13.8333 2 15.5167 2.44167 17.05 3.325C18.5833 4.20833 19.7917 5.41667 20.675 6.95C21.5583 8.48333 22 10.1667 22 12C22 13.8333 21.5583 15.5167 20.675 17.05C19.7917 18.5833 18.5833 19.7917 17.05 20.675C15.5167 21.5583 13.8333 22 12 22ZM12 20.025C13.4833 20.025 14.8333 19.675 16.05 18.975C17.2833 18.2583 18.25 17.2917 18.95 16.075C19.6667 14.8417 20.025 13.4833 20.025 12C20.025 10.5167 19.6667 9.16667 18.95 7.95C18.25 6.71667 17.2833 5.75 16.05 5.05C14.8333 4.33333 13.4833 3.975 12 3.975V20.025Z"/></svg></button></div>
     </div>
   </aside>
 
@@ -489,9 +500,6 @@ main::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
   <div class="panel-body" id="panelBody"></div>
 </div>
 
-<button id="themeToggle" title="Toggle theme" aria-label="Toggle dark mode">
-  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 22C10.1667 22 8.48333 21.5583 6.95 20.675C5.41667 19.7917 4.20833 18.5833 3.325 17.05C2.44167 15.5167 2 13.8333 2 12C2 10.1667 2.44167 8.48333 3.325 6.95C4.20833 5.41667 5.41667 4.20833 6.95 3.325C8.48333 2.44167 10.1667 2 12 2C13.8333 2 15.5167 2.44167 17.05 3.325C18.5833 4.20833 19.7917 5.41667 20.675 6.95C21.5583 8.48333 22 10.1667 22 12C22 13.8333 21.5583 15.5167 20.675 17.05C19.7917 18.5833 18.5833 19.7917 17.05 20.675C15.5167 21.5583 13.8333 22 12 22ZM12 20.025C13.4833 20.025 14.8333 19.675 16.05 18.975C17.2833 18.2583 18.25 17.2917 18.95 16.075C19.6667 14.8417 20.025 13.4833 20.025 12C20.025 10.5167 19.6667 9.16667 18.95 7.95C18.25 6.71667 17.2833 5.75 16.05 5.05C14.8333 4.33333 13.4833 3.975 12 3.975V20.025Z"/></svg>
-</button>
 <div id="toast"></div>
 <div id="toast"></div>
 
@@ -640,7 +648,8 @@ async function loadIcons() {
     const data = await res.json();
     iconsData = data.icons || [];
     meta = data.meta || {};
-    document.getElementById('footerVer').textContent = (meta.version ? 'V' + meta.version : 'V02.00.102');
+    const ver = meta.version ? 'V' + meta.version : 'V02.00.145';
+    document.getElementById('footerVer').innerHTML = ver + '. Made by <a href="https://turbaba.com" target="_blank" class="footer-link">Oleg Turbaba</a>';
     buildSidebar();
     buildTabCatDropdown();
     render();
@@ -849,6 +858,7 @@ function parseTags(icon) {
 
 function render() {
   state.focusedIdx = -1;
+  _fastUpdatePending = false;
   const icons = getFiltered();
   const countable = icons.filter(i => i.category !== 'Popular').length;
   const countEl = document.getElementById('searchCount');
@@ -894,10 +904,16 @@ function render() {
 }
 
 // Fast path: only swap SVG paths on visible cards, no DOM rebuild
+let _fastUpdatePending = false;
 function fastUpdate() {
-  const t0 = performance.now();
-  const cards = document.querySelectorAll('.icon-card');
-  cards.forEach(card => {
+  _fastUpdatePending = true;
+  const mainWrap = document.querySelector('.main-wrap');
+  if (!mainWrap) return;
+  const top = mainWrap.scrollTop;
+  const bottom = top + mainWrap.clientHeight;
+  document.querySelectorAll('.icon-card').forEach(card => {
+    const cardTop = card.offsetTop;
+    if (cardTop + 128 < top || cardTop > bottom) return;
     const icon = iconsData.find(i => i.name === card.dataset.name);
     if (!icon) return;
     const path = getPath(icon);
@@ -915,7 +931,6 @@ function fastUpdate() {
       }
     }
   });
-  console.log('fastUpdate:', (performance.now() - t0).toFixed(1) + 'ms');
 }
 
 function makeCard(icon) {
@@ -1060,6 +1075,8 @@ function openPanel(icon) {
 
   const body = document.getElementById('panelBody');
   body.innerHTML = '';
+  // Remove any lingering size dropdown from body
+  document.querySelectorAll('.size-dropdown-menu').forEach(el => el.remove());
 
   const topDiv = document.createElement('div'); topDiv.className = 'panel-body-top';
   const bottomDiv = document.createElement('div'); bottomDiv.className = 'panel-body-bottom';
@@ -1091,43 +1108,90 @@ function openPanel(icon) {
     topDiv.appendChild(tagsWrap);
   }
 
-  // Size slider
-  const SIZE_STEPS = [16, 20, 24, 36, 48];
-  const sizeSec = document.createElement('div'); sizeSec.style.marginTop = '-4px';
-  const sizeSliderRow = document.createElement('div'); sizeSliderRow.className = 'slider-row';
-  const sizeLabelRow = document.createElement('div'); sizeLabelRow.className = 'slider-label-row';
+  // Size control: combobox (editable + dropdown)
+  const SIZE_STEPS = [16, 20, 24, 36, 48, 96, 512];
+  const sizeSec = document.createElement('div'); sizeSec.style.marginTop = '11px';
+  const sizeLabelRow = document.createElement('div');
+  sizeLabelRow.style.cssText = 'display:flex;align-items:baseline;justify-content:flex-start;gap:10px;';
   const sizeLabelLeft = document.createElement('span'); sizeLabelLeft.className = 'slider-label'; sizeLabelLeft.textContent = 'Export size';
+
+  const sizeComboWrap = document.createElement('div');
+  sizeComboWrap.className = 'size-combobox-wrap';
+  sizeComboWrap.addEventListener('click', e => e.stopPropagation());
+
   const sizeInput = document.createElement('input');
   sizeInput.type = 'text'; sizeInput.value = panelSize + 'px';
-  sizeInput.className = 'size-input';
-  sizeInput.style.cssText = 'width:48px;text-align:right;border:none;background:none;font-size:14px;font-family:Inter,sans-serif;font-weight:500;color:var(--text);outline:none;cursor:text;border-radius:4px;padding:1px 3px;transition:background .15s;';
-  sizeInput.addEventListener('focus', () => { sizeInput.value = panelSize; sizeInput.select(); });
+  sizeInput.className = 'size-combobox';
+
+  const sizeArrow = document.createElement('span');
+  sizeArrow.className = 'size-combobox-arrow';
+  sizeArrow.innerHTML = '<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>';
+  sizeArrow.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (sizeDropdownMenu.classList.contains('open')) {
+      sizeDropdownMenu.classList.remove('open');
+    } else {
+      const rect = sizeComboWrap.getBoundingClientRect();
+      const dropdownHeight = 200; // approximate max height
+      const spaceBelow = window.innerHeight - rect.bottom;
+      if (spaceBelow < dropdownHeight) {
+        sizeDropdownMenu.style.top = '';
+        sizeDropdownMenu.style.bottom = (window.innerHeight - rect.top + 4) + 'px';
+      } else {
+        sizeDropdownMenu.style.bottom = '';
+        sizeDropdownMenu.style.top = (rect.bottom + 4) + 'px';
+      }
+      sizeDropdownMenu.style.left = rect.left + 'px';
+      sizeDropdownMenu.classList.add('open');
+    }
+  });
+  document.addEventListener('click', () => sizeDropdownMenu.classList.remove('open'));
+
+  const sizeDropdownMenu = document.createElement('div');
+  sizeDropdownMenu.className = 'size-dropdown-menu';
+
+  function updateSizeDropdownActive() {
+    sizeDropdownMenu.querySelectorAll('.size-dropdown-opt').forEach(o => o.classList.toggle('active', parseInt(o.textContent) === panelSize));
+  }
+
+  SIZE_STEPS.forEach(s => {
+    const opt = document.createElement('button');
+    opt.className = 'size-dropdown-opt' + (s === panelSize ? ' active' : '');
+    opt.textContent = s + 'px';
+    opt.addEventListener('mousedown', e => {
+      e.preventDefault(); // prevent blur on input
+      panelSize = s;
+      sizeInput.value = panelSize + 'px';
+      updateSizeDropdownActive();
+      styleEl.textContent = (state.style === 'stroke' ? 'Stroke' : 'Fill') + ' ' + WEIGHT_LABELS[state.weightIdx] + ' ' + panelSize + 'px';
+      sizeDropdownMenu.classList.remove('open');
+    });
+    sizeDropdownMenu.appendChild(opt);
+  });
+
+  sizeInput.addEventListener('focus', () => {
+    sizeInput.value = panelSize;
+    sizeInput.select();
+  });
   sizeInput.addEventListener('blur', () => {
     const val = parseInt(sizeInput.value);
-    if (!isNaN(val) && val > 0 && val <= 2048) {
-      panelSize = val;
-      const closest = SIZE_STEPS.reduce((a, b) => Math.abs(b - val) < Math.abs(a - val) ? b : a);
-      sizeSlider.value = SIZE_STEPS.indexOf(closest);
-    }
+    if (!isNaN(val) && val > 0 && val <= 2048) panelSize = val;
     sizeInput.value = panelSize + 'px';
+    updateSizeDropdownActive();
     styleEl.textContent = (state.style === 'stroke' ? 'Stroke' : 'Fill') + ' ' + WEIGHT_LABELS[state.weightIdx] + ' ' + panelSize + 'px';
+    sizeDropdownMenu.classList.remove('open');
   });
-  sizeInput.addEventListener('keydown', e => { if (e.key === 'Enter') sizeInput.blur(); });
-  sizeLabelRow.appendChild(sizeLabelLeft); sizeLabelRow.appendChild(sizeInput);
-  const sizeSlider = document.createElement('input'); sizeSlider.type = 'range'; sizeSlider.className = 'weight-slider';
-  sizeSlider.min = 0; sizeSlider.max = SIZE_STEPS.length - 1; sizeSlider.step = 1;
-  sizeSlider.value = SIZE_STEPS.indexOf(panelSize) >= 0 ? SIZE_STEPS.indexOf(panelSize) : 2;
-  const sizeTrackWrap = document.createElement('div'); sizeTrackWrap.className = 'slider-track-wrap';
-  const sizeStopsLine = document.createElement('div'); sizeStopsLine.className = 'slider-stops-line';
-  SIZE_STEPS.forEach(() => { const s = document.createElement('div'); s.className = 'slider-stop'; sizeStopsLine.appendChild(s); });
-  sizeTrackWrap.appendChild(sizeStopsLine); sizeTrackWrap.appendChild(sizeSlider);
-  sizeSlider.addEventListener('input', () => {
-    panelSize = SIZE_STEPS[parseInt(sizeSlider.value)];
-    sizeInput.value = panelSize + 'px';
-    styleEl.textContent = (state.style === 'stroke' ? 'Stroke' : 'Fill') + ' ' + WEIGHT_LABELS[state.weightIdx] + ' ' + panelSize + 'px';
+  sizeInput.addEventListener('keydown', e => {
+    if (e.key === 'Enter') sizeInput.blur();
+    if (e.key === 'Escape') { sizeInput.value = panelSize + 'px'; sizeInput.blur(); }
   });
-  sizeSliderRow.appendChild(sizeLabelRow); sizeSliderRow.appendChild(sizeTrackWrap);
-  sizeSec.appendChild(sizeSliderRow); bottomDiv.appendChild(sizeSec);
+
+  sizeComboWrap.appendChild(sizeInput);
+  sizeComboWrap.appendChild(sizeArrow);
+  document.body.appendChild(sizeDropdownMenu);
+  sizeLabelRow.appendChild(sizeLabelLeft);
+  sizeLabelRow.appendChild(sizeComboWrap);
+  sizeSec.appendChild(sizeLabelRow); // appended to list later after saveRow
 
   const actionSec = document.createElement('div');
   const list = document.createElement('div'); list.className = 'actions-list';
@@ -1155,6 +1219,7 @@ function openPanel(icon) {
   dlPngBtn.addEventListener('click', () => downloadPNG(icon, null, panelSize));
   saveRow.appendChild(dlPngBtn);
   list.appendChild(saveRow);
+  list.appendChild(sizeSec);
 
   const copyRow = document.createElement('div'); copyRow.className = 'copy-row';
   const copyLbl = document.createElement('span'); copyLbl.className = 'copy-label'; copyLbl.textContent = 'Copy code for:';
@@ -1178,6 +1243,7 @@ function openPanel(icon) {
   actionSec.appendChild(list); bottomDiv.appendChild(actionSec);
   body.appendChild(topDiv); body.appendChild(bottomDiv);
   document.getElementById('panel').classList.add('open');
+  document.body.classList.add('panel-open');
   history.replaceState(null, '', '#' + encodeURIComponent(icon.name.split('-')[0]));
 }
 
@@ -1192,6 +1258,7 @@ document.getElementById('panelPreview').addEventListener('click', e => {
 
 document.getElementById('panelClose').addEventListener('click', () => {
   document.getElementById('panel').classList.remove('open');
+  document.body.classList.remove('panel-open');
   history.replaceState(null, '', window.location.pathname + window.location.search);
   document.querySelectorAll('.icon-card').forEach(c => c.classList.remove('active-panel'));
   panelIcon = null;
@@ -1232,7 +1299,7 @@ handleWeightSlider(weightSlider, () => {
 
 document.addEventListener('keydown', e => {
   if ((e.ctrlKey || e.metaKey) && e.key === 'k') { e.preventDefault(); document.getElementById('search').focus(); }
-  if (e.key === 'Escape') { document.getElementById('search').blur(); document.getElementById('panel').classList.remove('open'); state.focusedIdx = -1; }
+  if (e.key === 'Escape') { document.getElementById('search').blur(); document.getElementById('panel').classList.remove('open'); document.body.classList.remove('panel-open'); state.focusedIdx = -1; }
   const searchFocused = document.activeElement === document.getElementById('search');
   const hasSelection = window.getSelection && window.getSelection().toString().length > 0;
   if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'Enter' && panelIcon && !searchFocused) { e.preventDefault(); downloadPNG(panelIcon); }
@@ -1527,6 +1594,8 @@ document.querySelectorAll('.tab-seg .seg-btn').forEach(btn => btn.addEventListen
 window.addEventListener('resize', () => {
   if (panelIcon) updatePanelPreview(panelIcon);
 });
+const _mainWrapEl = document.querySelector('.main-wrap');
+if (_mainWrapEl) _mainWrapEl.addEventListener('scroll', () => { if (_fastUpdatePending) fastUpdate(); });
 
 // Logomark hover — swap to random icon
 let LOGOMARK_PATH = null;
