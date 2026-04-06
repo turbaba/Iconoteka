@@ -912,8 +912,8 @@ function fastUpdate() {
   _fastUpdatePending = true;
   const mainWrap = document.querySelector('.main-wrap');
   if (!mainWrap) return;
-  const top = mainWrap.scrollTop;
-  const bottom = top + mainWrap.clientHeight;
+  const top = mainWrap.scrollTop - 300;
+  const bottom = top + mainWrap.clientHeight + 600;
   document.querySelectorAll('.icon-card').forEach(card => {
     const cardTop = card.offsetTop;
     if (cardTop + 128 < top || cardTop > bottom) return;
