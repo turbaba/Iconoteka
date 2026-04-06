@@ -647,6 +647,8 @@ async function loadIcons() {
     const res = await fetch(CDN);
     const data = await res.json();
     iconsData = data.icons || [];
+    iconsMap = {};
+    iconsData.forEach(i => { iconsMap[i.name] = i; });
     meta = data.meta || {};
     const ver = meta.version ? 'V' + meta.version : 'V02.00.145';
     document.getElementById('footerVer').innerHTML = ver + '. Made by <a href="https://turbaba.com" target="_blank" class="footer-link">Oleg Turbaba</a>';
@@ -905,6 +907,7 @@ function render() {
 
 // Fast path: only swap SVG paths on visible cards, no DOM rebuild
 let _fastUpdatePending = false;
+let iconsMap = {};
 function fastUpdate() {
   _fastUpdatePending = true;
   const mainWrap = document.querySelector('.main-wrap');
@@ -914,7 +917,7 @@ function fastUpdate() {
   document.querySelectorAll('.icon-card').forEach(card => {
     const cardTop = card.offsetTop;
     if (cardTop + 128 < top || cardTop > bottom) return;
-    const icon = iconsData.find(i => i.name === card.dataset.name);
+    const icon = iconsMap[card.dataset.name];
     if (!icon) return;
     const path = getPath(icon);
     const p = card.querySelector('svg path');
