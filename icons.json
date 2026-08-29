@@ -2,7 +2,7 @@
   "meta": {
     "version": "02.00.03",
     "count": 1336,
-    "updatedAt": "2026-08-29T15:41:25.931Z",
+    "updatedAt": "2026-08-29T16:09:49.364Z",
     "cdn": "https://cdn.jsdelivr.net/gh/turbaba/iconoteka@main/icons.json"
   },
   "icons": [
@@ -9962,17 +9962,18 @@
       }
     },
     {
-      "name": "doc_info-guide-ruler-straight_ruler-measure-length-line-draw",
+      "name": "doc_info-document_info-info_document-info_doc-information-details-about-metadata-properties",
       "displayName": "Doc_info",
       "searchTerms": [
         "doc_info",
-        "guide",
-        "ruler",
-        "straight_ruler",
-        "measure",
-        "length",
-        "line",
-        "draw"
+        "document_info",
+        "info_document",
+        "info_doc",
+        "information",
+        "details",
+        "about",
+        "metadata",
+        "properties"
       ],
       "category": "Files & Data",
       "variants": {
