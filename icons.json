@@ -2,7 +2,7 @@
   "meta": {
     "version": "02.00.03",
     "count": 1336,
-    "updatedAt": "2026-08-29T15:26:40.344Z",
+    "updatedAt": "2026-08-29T15:41:25.931Z",
     "cdn": "https://cdn.jsdelivr.net/gh/turbaba/iconoteka@main/icons.json"
   },
   "icons": [
@@ -33886,10 +33886,10 @@
       }
     },
     {
-      "name": "classical_building_vs_16",
-      "displayName": "Classical_building_vs_16",
+      "name": "classical_building",
+      "displayName": "Classical_building",
       "searchTerms": [
-        "classical_building_vs_16"
+        "classical_building"
       ],
       "category": "Map",
       "variants": {
