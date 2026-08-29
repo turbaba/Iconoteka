@@ -16,7 +16,6 @@
 
 const fs            = require("fs");
 const path          = require("path");
-const { execSync }  = require("child_process");
 
 const ICONS_DIR = path.join(__dirname, "../icons");
 const OUTPUT    = path.join(__dirname, "../icons.json");
@@ -155,14 +154,8 @@ function build() {
     icon.variants = sorted;
   }
 
-  // Version: 02.00.{git commit count}
-  let commitCount = "00";
-  try {
-    commitCount = execSync("git rev-list --count HEAD", { cwd: __dirname }).toString().trim();
-  } catch {
-    console.warn("⚠️  Could not get git commit count, using 00");
-  }
-  const version = `02.00.${commitCount}`;
+  // Version comes from package.json — bump "version" there for a release
+  const version = require("../package.json").version;
 
   const output = {
     meta: {
