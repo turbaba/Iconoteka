@@ -2,7 +2,7 @@
   "meta": {
     "version": "02.00.03",
     "count": 1336,
-    "updatedAt": "2026-08-29T16:09:49.364Z",
+    "updatedAt": "2026-08-29T21:01:15.207Z",
     "cdn": "https://cdn.jsdelivr.net/gh/turbaba/iconoteka@main/icons.json"
   },
   "icons": [
@@ -21616,10 +21616,11 @@
       }
     },
     {
-      "name": "utilities_utility_bills-electricity-energy-power-voltage-mains-heat",
-      "displayName": "Utilities_utility_bills",
+      "name": "utilities-utility_bills-electricity-energy-power-voltage-mains-heat",
+      "displayName": "Utilities",
       "searchTerms": [
-        "utilities_utility_bills",
+        "utilities",
+        "utility_bills",
         "electricity",
         "energy",
         "power",
