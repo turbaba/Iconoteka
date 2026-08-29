@@ -79,9 +79,9 @@
   .spinner { width: 18px; height: 18px; border: 2px solid var(--figma-color-border); border-top-color: var(--figma-color-bg-brand); border-radius: 50%; animation: spin .7s linear infinite; }
   @keyframes spin { to { transform: rotate(360deg); } }
   .retry-btn { margin-top: 4px; height: 26px; padding: 0 12px; background: var(--figma-color-bg-brand); color: var(--figma-color-text-onbrand); border: none; border-radius: 4px; font-size: 11px; cursor: pointer; }
-  .empty { padding: 32px 8px; text-align: center; color: var(--figma-color-text-tertiary); }
-  .empty-link { display: inline-block; margin-top: 8px; color: var(--figma-color-text-brand); font-size: 11px; text-decoration: none; }
-  .empty-link:hover { text-decoration: underline; }
+  .empty { padding: 32px 8px; text-align: center; color: var(--figma-color-text-tertiary); overflow-wrap: break-word; word-break: break-word; }
+  .empty-link { display: inline-block; margin-top: 8px; color: var(--figma-color-text); font-size: 11px; text-decoration: none; font-weight: 600; background: none; border: none; cursor: pointer; padding: 0; font-family: inherit; }
+  .empty-link:hover { opacity: 0.8; }
   .cat-header { font-size: 12px; font-weight: 400; color: var(--figma-color-text-tertiary); opacity: 0.7; text-transform: none; letter-spacing: 0; padding: 4px 0 4px 8px; }
   .footer { display: flex; align-items: center; justify-content: space-between; padding: 0 16px; height: 32px; min-height: 32px; max-height: 32px; flex-shrink: 0; flex-grow: 0; overflow: hidden; margin-top: -1px; }
   .footer-links { display: flex; gap: 14px; align-items: center; }
@@ -108,7 +108,49 @@
 </div>
 
 <script>
-const CDN = "https://raw.githubusercontent.com/turbaba/Iconoteka/main/icons.json?v=" + Date.now();
+const CDN = "https://cdn.jsdelivr.net/gh/turbaba/Iconoteka@main/icons.json?v=" + Date.now();
+
+const SHEET_URL = "https://script.google.com/macros/s/AKfycbypc8jSM4yoJzqBXbdo05pxNupgwz7h4k8ypMtaIFGeCpUvm0tUlAWVy7qIOkdwtGm-sA/exec";
+
+function trackDownload(iconName, actionName) {
+  const cleanName = String(iconName || '').split('-')[0].toLowerCase().trim().replace(/_/g, ' ');
+  if (!cleanName) return;
+  const payload = {
+    type: 'download',
+    icon: cleanName,
+    action: actionName,
+    style: state.style,
+    weight: WEIGHTS[state.weightIdx].key,
+    size: state.size
+  };
+  console.log('[Iconoteka tracking]', payload);
+  fetch(SHEET_URL, {
+    method: 'POST',
+    body: JSON.stringify(payload)
+  }).catch(() => {});
+}
+
+function trackFailed(query, type = 'failed') {
+  fetch(SHEET_URL, {
+    method: 'POST',
+    body: JSON.stringify({ type, query: query.toLowerCase().trim(), userAgent: navigator.userAgent })
+  }).catch(() => {});
+}
+
+let failedSearchTimer = null;
+const failedTrackedQueries = new Set();
+
+function getEmptyMessage(q) {
+  const escaped = q.replace(/"/g, '&quot;');
+  const messages = [
+    `"${escaped}"? Never heard of it.`,
+    `Looked everywhere. No "${escaped}".`,
+    `"${escaped}" is playing hide and seek.`,
+    `We have ${allIcons.filter(i => i.category !== 'Popular').length} icons. "${escaped}" is not one of them.`,
+    `"${escaped}" doesn't exist here. Yet.`
+  ];
+  return messages[Math.floor(Math.random() * messages.length)];
+}
 
 const WEIGHTS = [
   { key: "thin",        label: "Thin",      stroke: 0.75 },
@@ -208,8 +250,8 @@ function render() {
     <div class="grid-wrap">
       ${filtered.length === 0
         ? `<div class="empty">
-            Sorry, we don\'t have this icon yet.<br/>
-            <a class="empty-link" href="https://mail.google.com/mail/u/0/?fs=1&tf=cm&source=mailto&to=hello@iconoteka.com" target="_blank">Submit a request →</a>
+            ${getEmptyMessage(state.query)}<br/>
+            <button class="empty-link" id="request-link">Request Icon</button>
           </div>`
         : (() => {
             const byCategory = {};
@@ -250,8 +292,24 @@ function render() {
 function bindEvents(filtered) {
   document.getElementById("search")?.addEventListener("input", e => {
     state.query = e.target.value;
+    clearTimeout(failedSearchTimer);
     const pos = e.target.selectionStart;
     render();
+    const filtered = allIcons.filter(icon => {
+      const q = state.query.toLowerCase();
+      return !q || icon.name.includes(q)
+        || (icon.searchTerms || []).some(t => t.includes(q))
+        || icon.displayName?.toLowerCase().includes(q);
+    });
+    if (state.query && filtered.length === 0) {
+      failedSearchTimer = setTimeout(() => {
+        const q = state.query.trim().toLowerCase();
+        if (!failedTrackedQueries.has(q)) {
+          failedTrackedQueries.add(q);
+          trackFailed(q, 'failed');
+        }
+      }, 1500);
+    }
     const el = document.getElementById("search");
     if (el) { el.focus(); el.setSelectionRange(pos, pos); }
   });
@@ -277,6 +335,7 @@ function bindEvents(filtered) {
       if (!path) return;
       const svgString = makeInsertSVG(path, 24, WEIGHTS[state.weightIdx].stroke, state.style === "fill");
       parent.postMessage({ pluginMessage: { type: "insert-icon", name: icon.displayName || icon.name, svgString, size: state.size } }, "*");
+      trackDownload(icon.name, 'Insert to Figma');
       state.inserted = icon.name;
       render();
       setTimeout(() => { state.inserted = null; render(); }, 400);
@@ -288,6 +347,7 @@ function bindEvents(filtered) {
       const svgString = makeInsertSVG(path, 24, WEIGHTS[state.weightIdx].stroke, state.style === "fill");
       e.dataTransfer.setData("text/plain", JSON.stringify({ name: icon.displayName || icon.name, svgString }));
       e.dataTransfer.effectAllowed = "copy";
+      trackDownload(icon.name, 'Insert to Figma');
       const ghost = document.createElement("div");
       ghost.style.cssText = "position:fixed;top:-100px;left:-100px;";
       ghost.innerHTML = svgString;
@@ -295,6 +355,11 @@ function bindEvents(filtered) {
       e.dataTransfer.setDragImage(ghost, 12, 12);
       setTimeout(() => document.body.removeChild(ghost), 0);
     });
+  });
+
+  document.getElementById("request-link")?.addEventListener("click", function() {
+    trackFailed(state.query, 'request');
+    this.outerHTML = '<span style="display:inline-block;margin-top:8px;font-size:11px;color:var(--figma-color-text-tertiary);">Request sent — we\'ll look into it!</span>';
   });
 
   // Align tooltips based on horizontal position
