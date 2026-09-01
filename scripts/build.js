@@ -51,6 +51,78 @@ function capitalize(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
+// ── Display-name rules ────────────────────────────────────────────────────────
+// Canonical source for icon labels. Previously lived in the website's index.html,
+// which meant the plugin (reading displayName from icons.json) never saw them.
+// Keep these here so every consumer gets the same label.
+const HYPHENATE_MAP = {
+  "up_left":"up-left","up_right":"up-right","up_down":"up-down","down_left":"down-left",
+  "down_right":"down-right","left_up":"left-up","left_down":"left-down","left_right":"left-right",
+  "right_up":"right-up","right_down":"right-down","north_east":"north-east","north_west":"north-west",
+  "south_east":"south-east","south_west":"south-west","wi_fi":"wi-fi","see_through":"see-through",
+  "up_to_date":"up-to-date","t_shirt":"t-shirt","x_ray":"x-ray","add_on":"add-on","top_up":"top-up","auto_renew":"auto-renew",
+};
+
+const CAPITALIZE_MAP = {
+  "zoom_in":"Zoom In",
+  "ai":"AI","ar":"AR","vr":"VR","mr":"MR","tv":"TV","pc":"PC","id":"ID","zip":"ZIP","qr":"QR",
+  "nfc":"NFC","url":"URL","gps":"GPS","dna":"DNA","ocr":"OCR","llm":"LLM","ml":"ML","iot":"IoT",
+  "sim":"SIM","esim":"eSIM","lte":"LTE","gsm":"GSM","usb":"USB","usba":"USB A","usbb":"USB-B","usbc":"USB-C",
+  "hdmi":"HDMI","ssd":"SSD","hdd":"HDD","lan":"LAN","vpn":"VPN","cpu":"CPU","gpu":"GPU",
+  "html":"HTML","css":"CSS","sql":"SQL","svg":"SVG","eps":"EPS","mp4":"MP4","hd":"HD","hq":"HQ",
+  "fps":"FPS","ios":"iOS","atm":"ATM","otp":"OTP","2fa":"2FA","az":"A-Z","cta":"CTA","ui":"UI",
+  "ux":"UX","qa":"QA","cv":"CV","cc":"CC","dm":"DM","im":"IM","sos":"SOS","suv":"SUV","uav":"UAV",
+  "ev":"EV","ac":"AC","fm":"FM","am":"AM","pm":"PM","ir":"IR","fx":"FX","cw":"CW","ccw":"CCW","wc":"WC",
+  "tm":"TM","www":"WWW","sms":"SMS","nlp":"NLP","tldr":"TLDR","nsfw":"NSFW","dnd":"DnD",
+  "nba":"NBA","nfl":"NFL","nhl":"NHL","mlb":"MLB","mrt":"MRT","cmd":"CMD","ctrl":"CTRL",
+  "otf":"OTF","ttf":"TTF","woff":"WOFF","asl":"ASL","wcag":"WCAG","ada":"ADA","cnd":"CnD",
+  "api":"API","sdk":"SDK","ram":"RAM","usd":"USD","eur":"EUR","gbp":"GBP","jpy":"JPY","krw":"KRW",
+  "rub":"RUB","amd":"AMD","azn":"AZN","gel":"GEL","kzt":"KZT","mnt":"MNT","uah":"UAH","inr":"INR",
+  "php":"PHP","try":"TRY","sar":"SAR","nis":"NIS","thb":"THB","btc":"BTC","eth":"ETH","bnb":"BNB",
+  "sol":"SOL","xrp":"XRP","trx":"TRX","usdt":"USDT","usdc":"USDC","3d":"3D","toc":"TOC","faq":"FAQ",
+  "kpi":"KPI","vip":"VIP","vod":"VOD","rw":"RW","ff":"FF","fwd":"FWD","daw":"DAW","eq":"EQ",
+  "cd":"CD","ip":"IP","uk":"UK","irn":"IRN","pa":"PA","sku":"SKU","pvc":"PVC","hdpe":"HDPE",
+  "ldpe":"LDPE","pp":"PP","ps":"PS","wpa":"WPA","xyz":"XYZ","nvme":"NVMe","lidar":"LiDAR",
+  "aids":"AIDS","hiv":"HIV","api":"API","x_ray":"X-ray","avi":"AVI","mpeg":"MPEG","mov":"MOV","fr":"FR","wifi":"Wi-Fi","wi_fi":"Wi-Fi","defi":"DeFi","top_up":"Top-Up","lol":"LOL","ipad":"iPad","hifi":"Hi-Fi","rmb":"RMB","lmb":"LMB","mmb":"MMB","iphone":"iPhone","fpv":"FPV","macos":"macOS","mv":"MV","a_z":"A-Z","ne":"NE","auto_renew":"Auto-Renew",
+};
+
+const LOWERCASE_WORDS = new Set(['of','in','at','to','an','the','and','or','but','for','with','by','from','as','into','via','per']);
+
+function formatSegment(seg) {
+  if (CAPITALIZE_MAP[seg]) return CAPITALIZE_MAP[seg];
+  if (HYPHENATE_MAP[seg]) {
+    return HYPHENATE_MAP[seg].split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join('-');
+  }
+  const parts = seg.split('_');
+  const result = [];
+  let i = 0;
+  while (i < parts.length) {
+    // Try to match longest combo starting at i
+    let matched = false;
+    for (let j = parts.length; j > i + 1; j--) {
+      const combo = parts.slice(i, j).join('_');
+      if (HYPHENATE_MAP[combo]) {
+        const hyphenated = HYPHENATE_MAP[combo].split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join('-');
+        result.push(hyphenated);
+        i = j;
+        matched = true;
+        break;
+      }
+    }
+    if (!matched) {
+      const w = parts[i];
+      const isFirst = result.length === 0;
+      if (!isFirst && LOWERCASE_WORDS.has(w)) {
+        result.push(w);
+      } else {
+        result.push(CAPITALIZE_MAP[w] || (w.charAt(0).toUpperCase() + w.slice(1)));
+      }
+      i++;
+    }
+  }
+  return result.join(' ');
+}
+
 function parseFilename(filename) {
   // Remove .svg
   const base = filename.replace(/\.svg$/i, "");
@@ -70,7 +142,7 @@ function parseFilename(filename) {
 
   return {
     fullName:    nameParts.join("-"),
-    displayName: capitalize(nameParts[0]),
+    displayName: formatSegment(nameParts[0]),
     searchTerms: nameParts,
     weight,
     style,
@@ -162,7 +234,7 @@ function build() {
       version,
       count:     icons.length,
       updatedAt: new Date().toISOString(),
-      cdn:       "https://cdn.jsdelivr.net/gh/turbaba/iconoteka@main/icons.json",
+      cdn:       `https://cdn.jsdelivr.net/gh/turbaba/Iconoteka@${version}/icons.json`,
     },
     icons,
   };
