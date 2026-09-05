@@ -1,8 +1,8 @@
 {
   "meta": {
-    "version": "02.00.05",
+    "version": "02.00.06",
     "count": 1336,
-    "updatedAt": "2026-09-01T18:57:53.581Z",
+    "updatedAt": "2026-09-05T15:34:21.988Z",
     "cdn": "https://cdn.jsdelivr.net/gh/turbaba/iconoteka@main/icons.json"
   },
   "icons": [
@@ -41,12 +41,13 @@
       }
     },
     {
-      "name": "align_horizontal-align_center_horizontal-center-middle-vertical-axis-balance",
+      "name": "align_horizontal-align_center_horizontal-center-centre-middle-vertical-axis-balance",
       "displayName": "Align_horizontal",
       "searchTerms": [
         "align_horizontal",
         "align_center_horizontal",
         "center",
+        "centre",
         "middle",
         "vertical",
         "axis",
@@ -178,12 +179,13 @@
       }
     },
     {
-      "name": "align_vertical-align_center_vertical-center-middle-horizontal-axis-balance",
+      "name": "align_vertical-align_center_vertical-center-centre-middle-horizontal-axis-balance",
       "displayName": "Align_vertical",
       "searchTerms": [
         "align_vertical",
         "align_center_vertical",
         "center",
+        "centre",
         "middle",
         "horizontal",
         "axis",
@@ -1587,12 +1589,11 @@
       }
     },
     {
-      "name": "arrow_in_circle_right-arrow_in_circle-arrow_in_circled-arrow_right_in_circle",
+      "name": "arrow_in_circle_right-arrow_in_circle-arrow_right_in_circle",
       "displayName": "Arrow_in_circle_right",
       "searchTerms": [
         "arrow_in_circle_right",
         "arrow_in_circle",
-        "arrow_in_circled",
         "arrow_right_in_circle"
       ],
       "category": "Arrows",
@@ -4106,11 +4107,11 @@
       }
     },
     {
-      "name": "exit-wayout-logout-exit_left-leave-door-quit-signout",
+      "name": "exit-way_out-logout-exit_left-leave-door-quit-signout",
       "displayName": "Exit",
       "searchTerms": [
         "exit",
-        "wayout",
+        "way_out",
         "logout",
         "exit_left",
         "leave",
@@ -6039,12 +6040,13 @@
       }
     },
     {
-      "name": "chats-talk-dialog-conversation-discussion-chat_bubbles-messaging-im-instant_message-dm-direct_message",
+      "name": "chats-talk-dialog-dialogue-conversation-discussion-chat_bubbles-messaging-im-instant_message-dm-direct_message",
       "displayName": "Chats",
       "searchTerms": [
         "chats",
         "talk",
         "dialog",
+        "dialogue",
         "conversation",
         "discussion",
         "chat_bubbles",
@@ -6607,7 +6609,7 @@
       }
     },
     {
-      "name": "message-speech_balloon-chat-comment-speech_bubble-bubble-say-dialog",
+      "name": "message-speech_balloon-chat-comment-speech_bubble-bubble-say-dialog-dialogue",
       "displayName": "Message",
       "searchTerms": [
         "message",
@@ -6617,7 +6619,8 @@
         "speech_bubble",
         "bubble",
         "say",
-        "dialog"
+        "dialog",
+        "dialogue"
       ],
       "category": "Communications",
       "variants": {
@@ -7661,7 +7664,7 @@
       }
     },
     {
-      "name": "face_big_smile-smile_big-big_smile-happy-happiness-joy-delight-elated-grin-emoji-mrd-morda",
+      "name": "face_big_smile-smile_big-big_smile-happy-happiness-joy-delight-elated-grin-emoji-mrd",
       "displayName": "Face_big_smile",
       "searchTerms": [
         "face_big_smile",
@@ -7674,8 +7677,7 @@
         "elated",
         "grin",
         "emoji",
-        "mrd",
-        "morda"
+        "mrd"
       ],
       "category": "Emotions",
       "variants": {
@@ -11099,7 +11101,7 @@
       }
     },
     {
-      "name": "folder_add-add_folder-new_folder-mkdir-create-organize",
+      "name": "folder_add-add_folder-new_folder-mkdir-create-organize-organise",
       "displayName": "Folder_add",
       "searchTerms": [
         "folder_add",
@@ -11107,7 +11109,8 @@
         "new_folder",
         "mkdir",
         "create",
-        "organize"
+        "organize",
+        "organise"
       ],
       "category": "Files & Data",
       "variants": {
@@ -11351,13 +11354,14 @@
       }
     },
     {
-      "name": "folder-directory-files-organize-container-storage",
+      "name": "folder-directory-files-organize-organise-container-storage",
       "displayName": "Folder",
       "searchTerms": [
         "folder",
         "directory",
         "files",
         "organize",
+        "organise",
         "container",
         "storage"
       ],
@@ -11520,7 +11524,7 @@
       }
     },
     {
-      "name": "insurance-shield-protection-safety-security-secure-protect-defense-guard-firewall",
+      "name": "insurance-shield-protection-safety-security-secure-protect-defense-defence-guard-firewall",
       "displayName": "Insurance",
       "searchTerms": [
         "insurance",
@@ -11531,6 +11535,7 @@
         "secure",
         "protect",
         "defense",
+        "defence",
         "guard",
         "firewall"
       ],
@@ -14483,13 +14488,13 @@
       }
     },
     {
-      "name": "canned_food-food_canned-canned-tincan",
+      "name": "canned_food-food_canned-canned-tin_can",
       "displayName": "Canned_food",
       "searchTerms": [
         "canned_food",
         "food_canned",
         "canned",
-        "tincan"
+        "tin_can"
       ],
       "category": "Food & Drinks",
       "variants": {
@@ -21066,11 +21071,10 @@
       }
     },
     {
-      "name": "houseplant-homeplant-potted_plant-indoor-decor-green-nature",
+      "name": "houseplant-potted_plant-indoor-decor-green-nature",
       "displayName": "Houseplant",
       "searchTerms": [
         "houseplant",
-        "homeplant",
         "potted_plant",
         "indoor",
         "decor",
@@ -23232,7 +23236,7 @@
       }
     },
     {
-      "name": "bookmark-add_to_bookmark-later-mark-remember-favorite-pin-wishlist",
+      "name": "bookmark-add_to_bookmark-later-mark-remember-favorite-favourite-pin-wishlist",
       "displayName": "Bookmark",
       "searchTerms": [
         "bookmark",
@@ -23241,6 +23245,7 @@
         "mark",
         "remember",
         "favorite",
+        "favourite",
         "pin",
         "wishlist"
       ],
@@ -25552,7 +25557,7 @@
       }
     },
     {
-      "name": "cyber_security-web_security-online_security-hacker-threat-firewall-defense-network-protect",
+      "name": "cyber_security-web_security-online_security-hacker-threat-firewall-defense-defence-network-protect",
       "displayName": "Cyber_security",
       "searchTerms": [
         "cyber_security",
@@ -25562,6 +25567,7 @@
         "threat",
         "firewall",
         "defense",
+        "defence",
         "network",
         "protect"
       ],
@@ -25814,7 +25820,7 @@
       }
     },
     {
-      "name": "domain-house_in_circle-company-site-url-organization-web-home",
+      "name": "domain-house_in_circle-company-site-url-organization-organisation-web-home",
       "displayName": "Domain",
       "searchTerms": [
         "domain",
@@ -25823,6 +25829,7 @@
         "site",
         "url",
         "organization",
+        "organisation",
         "web",
         "home"
       ],
@@ -26310,7 +26317,7 @@
       }
     },
     {
-      "name": "frame-artboard-board-canvas-design-container-layout-border-modal-dialog",
+      "name": "frame-artboard-board-canvas-design-container-layout-border-modal-dialog-dialogue",
       "displayName": "Frame",
       "searchTerms": [
         "frame",
@@ -26322,7 +26329,8 @@
         "layout",
         "border",
         "modal",
-        "dialog"
+        "dialog",
+        "dialogue"
       ],
       "category": "Interface",
       "variants": {
@@ -26639,13 +26647,14 @@
       }
     },
     {
-      "name": "heart-like-love-favorite-wish-charity-donation-donate-dasha-dida-dora-reaction-wishlist",
+      "name": "heart-like-love-favorite-favourite-wish-charity-donation-donate-dasha-dida-dora-reaction-wishlist",
       "displayName": "Heart",
       "searchTerms": [
         "heart",
         "like",
         "love",
         "favorite",
+        "favourite",
         "wish",
         "charity",
         "donation",
@@ -27283,7 +27292,7 @@
       }
     },
     {
-      "name": "list_reorder-reorder_list-list_edit-edit_list-drag-sort-arrange-move-organize-stepper",
+      "name": "list_reorder-reorder_list-list_edit-edit_list-drag-sort-arrange-move-organize-organise-stepper",
       "displayName": "List_reorder",
       "searchTerms": [
         "list_reorder",
@@ -27295,6 +27304,7 @@
         "arrange",
         "move",
         "organize",
+        "organise",
         "stepper"
       ],
       "category": "Interface",
@@ -28776,10 +28786,11 @@
       }
     },
     {
-      "name": "program-software-execute-script-prototype-interaction",
+      "name": "program-programme-software-execute-script-prototype-interaction",
       "displayName": "Program",
       "searchTerms": [
         "program",
+        "programme",
         "software",
         "execute",
         "script",
@@ -30569,12 +30580,10 @@
       }
     },
     {
-      "name": "slider_horizontal-slider_hor-sliders_hor",
+      "name": "slider_horizontal",
       "displayName": "Slider_horizontal",
       "searchTerms": [
-        "slider_horizontal",
-        "slider_hor",
-        "sliders_hor"
+        "slider_horizontal"
       ],
       "category": "Interface",
       "variants": {
@@ -31519,12 +31528,13 @@
       }
     },
     {
-      "name": "text_justify_center-justify_center-centered-balanced-typeset-layout-align",
+      "name": "text_justify_center-justify_center-centered-centred-balanced-typeset-layout-align",
       "displayName": "Text_justify_center",
       "searchTerms": [
         "text_justify_center",
         "justify_center",
         "centered",
+        "centred",
         "balanced",
         "typeset",
         "layout",
@@ -33265,13 +33275,14 @@
       }
     },
     {
-      "name": "window_macos-modal-popup-dialog",
+      "name": "window_macos-modal-popup-dialog-dialogue",
       "displayName": "Window_macos",
       "searchTerms": [
         "window_macos",
         "modal",
         "popup",
-        "dialog"
+        "dialog",
+        "dialogue"
       ],
       "category": "Interface",
       "variants": {
@@ -33306,13 +33317,14 @@
       }
     },
     {
-      "name": "window_windows-modal-popup-dialog",
+      "name": "window_windows-modal-popup-dialog-dialogue",
       "displayName": "Window_windows",
       "searchTerms": [
         "window_windows",
         "modal",
         "popup",
-        "dialog"
+        "dialog",
+        "dialogue"
       ],
       "category": "Interface",
       "variants": {
@@ -33505,7 +33517,7 @@
       }
     },
     {
-      "name": "anchor-marine-port-navy-harbor-stable-nautical",
+      "name": "anchor-marine-port-navy-harbor-harbour-stable-nautical",
       "displayName": "Anchor",
       "searchTerms": [
         "anchor",
@@ -33513,6 +33525,7 @@
         "port",
         "navy",
         "harbor",
+        "harbour",
         "stable",
         "nautical"
       ],
@@ -34059,13 +34072,13 @@
       }
     },
     {
-      "name": "die-casino-dice-gamedie-board-random-gambling-chance-luck-roll",
+      "name": "die-casino-dice-game_die-board-random-gambling-chance-luck-roll",
       "displayName": "Die",
       "searchTerms": [
         "die",
         "casino",
         "dice",
-        "gamedie",
+        "game_die",
         "board",
         "random",
         "gambling",
@@ -34322,12 +34335,13 @@
       }
     },
     {
-      "name": "gem-gemstone-jewelry-precious-luxury-ring-jewel-sparkle",
+      "name": "gem-gemstone-jewelry-jewellery-precious-luxury-ring-jewel-sparkle",
       "displayName": "Gem",
       "searchTerms": [
         "gem",
         "gemstone",
         "jewelry",
+        "jewellery",
         "precious",
         "luxury",
         "ring",
@@ -34417,12 +34431,13 @@
       }
     },
     {
-      "name": "good_place-favorite_place-favorite-starred-saved-venue",
+      "name": "good_place-favorite_place-favorite-favourite-starred-saved-venue",
       "displayName": "Good_place",
       "searchTerms": [
         "good_place",
         "favorite_place",
         "favorite",
+        "favourite",
         "starred",
         "saved",
         "venue"
@@ -36595,7 +36610,7 @@
       }
     },
     {
-      "name": "recycling_7-plastic_bottle-plastic-other_plastic-other-mixed-type7-recycle-eco-recycling_seven",
+      "name": "recycling_7-plastic_bottle-plastic-other_plastic-other-mixed-type_7-recycle-eco-recycling_seven",
       "displayName": "Recycling_7",
       "searchTerms": [
         "recycling_7",
@@ -36604,7 +36619,7 @@
         "other_plastic",
         "other",
         "mixed",
-        "type7",
+        "type_7",
         "recycle",
         "eco",
         "recycling_seven"
@@ -37224,7 +37239,7 @@
       }
     },
     {
-      "name": "library_add-add_library-add_to_library-collection-organize-catalog",
+      "name": "library_add-add_library-add_to_library-collection-organize-organise-catalog-catalogue",
       "displayName": "Library_add",
       "searchTerms": [
         "library_add",
@@ -37232,7 +37247,9 @@
         "add_to_library",
         "collection",
         "organize",
-        "catalog"
+        "organise",
+        "catalog",
+        "catalogue"
       ],
       "category": "Multimedia",
       "variants": {
@@ -37267,12 +37284,13 @@
       }
     },
     {
-      "name": "library_list-browse-catalog-contents-explore",
+      "name": "library_list-browse-catalog-catalogue-contents-explore",
       "displayName": "Library_list",
       "searchTerms": [
         "library_list",
         "browse",
         "catalog",
+        "catalogue",
         "contents",
         "explore"
       ],
@@ -37309,7 +37327,7 @@
       }
     },
     {
-      "name": "library_media-collection-media-media_collection-assets-catalog-browse",
+      "name": "library_media-collection-media-media_collection-assets-catalog-catalogue-browse",
       "displayName": "Library_media",
       "searchTerms": [
         "library_media",
@@ -37318,6 +37336,7 @@
         "media_collection",
         "assets",
         "catalog",
+        "catalogue",
         "browse"
       ],
       "category": "Multimedia",
@@ -37353,7 +37372,7 @@
       }
     },
     {
-      "name": "library_music-music_library-collection_music-music_collection-songs-albums-audio-collection-catalog",
+      "name": "library_music-music_library-collection_music-music_collection-songs-albums-audio-collection-catalog-catalogue",
       "displayName": "Library_music",
       "searchTerms": [
         "library_music",
@@ -37364,7 +37383,8 @@
         "albums",
         "audio",
         "collection",
-        "catalog"
+        "catalog",
+        "catalogue"
       ],
       "category": "Multimedia",
       "variants": {
@@ -37399,7 +37419,7 @@
       }
     },
     {
-      "name": "library_video-video_library-videos-clips-collection-catalog-media",
+      "name": "library_video-video_library-videos-clips-collection-catalog-catalogue-media",
       "displayName": "Library_video",
       "searchTerms": [
         "library_video",
@@ -37408,6 +37428,7 @@
         "clips",
         "collection",
         "catalog",
+        "catalogue",
         "media"
       ],
       "category": "Multimedia",
@@ -37762,7 +37783,7 @@
       }
     },
     {
-      "name": "playlist_add-add_playlist-playlist_create-create_playlist-add_to_playlist-queue-create-organize",
+      "name": "playlist_add-add_playlist-playlist_create-create_playlist-add_to_playlist-queue-create-organize-organise",
       "displayName": "Playlist_add",
       "searchTerms": [
         "playlist_add",
@@ -37772,7 +37793,8 @@
         "add_to_playlist",
         "queue",
         "create",
-        "organize"
+        "organize",
+        "organise"
       ],
       "category": "Multimedia",
       "variants": {
@@ -39064,14 +39086,14 @@
       }
     },
     {
-      "name": "leaf-ecology-nature-natural-leafs-eco-green-organic-plant-wind",
+      "name": "leaf-ecology-nature-natural-leaves-eco-green-organic-plant-wind",
       "displayName": "Leaf",
       "searchTerms": [
         "leaf",
         "ecology",
         "nature",
         "natural",
-        "leafs",
+        "leaves",
         "eco",
         "green",
         "organic",
@@ -39378,7 +39400,7 @@
       }
     },
     {
-      "name": "tulip-macro-spring-garden-bloom-floral-decorative-flowe-botanical",
+      "name": "tulip-macro-spring-garden-bloom-floral-decorative-flower-botanical",
       "displayName": "Tulip",
       "searchTerms": [
         "tulip",
@@ -39388,7 +39410,7 @@
         "bloom",
         "floral",
         "decorative",
-        "flowe",
+        "flower",
         "botanical"
       ],
       "category": "Nature",
@@ -39995,13 +40017,15 @@
       }
     },
     {
-      "name": "palette-artist_palette-color-colors-design-art-paint-creative-theme-gradient",
+      "name": "palette-artist_palette-color-colour-colors-colours-design-art-paint-creative-theme-gradient",
       "displayName": "Palette",
       "searchTerms": [
         "palette",
         "artist_palette",
         "color",
+        "colour",
         "colors",
+        "colours",
         "design",
         "art",
         "paint",
@@ -41491,7 +41515,7 @@
       }
     },
     {
-      "name": "group_of_people-crowd-audience-team-organization-workforce",
+      "name": "group_of_people-crowd-audience-team-organization-organisation-workforce",
       "displayName": "Group_of_people",
       "searchTerms": [
         "group_of_people",
@@ -41499,6 +41523,7 @@
         "audience",
         "team",
         "organization",
+        "organisation",
         "workforce"
       ],
       "category": "People",
@@ -43553,13 +43578,14 @@
       }
     },
     {
-      "name": "folder-directory-files-organize-container-storage",
+      "name": "folder-directory-files-organize-organise-container-storage",
       "displayName": "Folder",
       "searchTerms": [
         "folder",
         "directory",
         "files",
         "organize",
+        "organise",
         "container",
         "storage"
       ],
@@ -43689,13 +43715,14 @@
       }
     },
     {
-      "name": "heart-like-love-favorite-wish-charity-donation-donate-dasha-dida-dora-reaction-wishlist",
+      "name": "heart-like-love-favorite-favourite-wish-charity-donation-donate-dasha-dida-dora-reaction-wishlist",
       "displayName": "Heart",
       "searchTerms": [
         "heart",
         "like",
         "love",
         "favorite",
+        "favourite",
         "wish",
         "charity",
         "donation",
@@ -43944,7 +43971,7 @@
       }
     },
     {
-      "name": "message-speech_balloon-chat-comment-speech_bubble-bubble-say-dialog",
+      "name": "message-speech_balloon-chat-comment-speech_bubble-bubble-say-dialog-dialogue",
       "displayName": "Message",
       "searchTerms": [
         "message",
@@ -43954,7 +43981,8 @@
         "speech_bubble",
         "bubble",
         "say",
-        "dialog"
+        "dialog",
+        "dialogue"
       ],
       "category": "Popular",
       "variants": {
@@ -44431,7 +44459,7 @@
       }
     },
     {
-      "name": "star-rate-star_5-star_five-rating-favorite-quality-highlight-top",
+      "name": "star-rate-star_5-star_five-rating-favorite-favourite-quality-highlight-top",
       "displayName": "Star",
       "searchTerms": [
         "star",
@@ -44440,6 +44468,7 @@
         "star_five",
         "rating",
         "favorite",
+        "favourite",
         "quality",
         "highlight",
         "top"
@@ -45007,12 +45036,12 @@
       }
     },
     {
-      "name": "half_circle_right-right_half_circle-halfmoon-crescent-partial-shape",
+      "name": "half_circle_right-right_half_circle-half_moon-crescent-partial-shape",
       "displayName": "Half_circle_right",
       "searchTerms": [
         "half_circle_right",
         "right_half_circle",
-        "halfmoon",
+        "half_moon",
         "crescent",
         "partial",
         "shape"
@@ -45044,14 +45073,14 @@
       }
     },
     {
-      "name": "half_circle-half_circle_left-left_half_circle-clay-halfmoon-crescent-partial-shape",
+      "name": "half_circle-half_circle_left-left_half_circle-clay-half_moon-crescent-partial-shape",
       "displayName": "Half_circle",
       "searchTerms": [
         "half_circle",
         "half_circle_left",
         "left_half_circle",
         "clay",
-        "halfmoon",
+        "half_moon",
         "crescent",
         "partial",
         "shape"
@@ -45638,7 +45667,7 @@
       }
     },
     {
-      "name": "star-rate-star_5-star_five-rating-favorite-quality-highlight-top",
+      "name": "star-rate-star_5-star_five-rating-favorite-favourite-quality-highlight-top",
       "displayName": "Star",
       "searchTerms": [
         "star",
@@ -45647,6 +45676,7 @@
         "star_five",
         "rating",
         "favorite",
+        "favourite",
         "quality",
         "highlight",
         "top"
@@ -46141,7 +46171,7 @@
       }
     },
     {
-      "name": "medal-first_place-reward-rewards-gold-winner-champion-top-number1-prize",
+      "name": "medal-first_place-reward-rewards-gold-winner-champion-top-number_1-prize",
       "displayName": "Medal",
       "searchTerms": [
         "medal",
@@ -46152,7 +46182,7 @@
         "winner",
         "champion",
         "top",
-        "number1",
+        "number_1",
         "prize"
       ],
       "category": "Sports",
@@ -46562,7 +46592,7 @@
       }
     },
     {
-      "name": "emergency-star_of_life-sos-911-critical-help-urgent-firstaid",
+      "name": "emergency-star_of_life-sos-911-critical-help-urgent-first_aid",
       "displayName": "Emergency",
       "searchTerms": [
         "emergency",
@@ -46572,7 +46602,7 @@
         "critical",
         "help",
         "urgent",
-        "firstaid"
+        "first_aid"
       ],
       "category": "Symbols",
       "variants": {
@@ -46607,13 +46637,12 @@
       }
     },
     {
-      "name": "infinity-perpetuity-eternity-foreverness-everlasting-endlessness-permanence-timelessness",
+      "name": "infinity-perpetuity-eternity-everlasting-endlessness-permanence-timelessness",
       "displayName": "Infinity",
       "searchTerms": [
         "infinity",
         "perpetuity",
         "eternity",
-        "foreverness",
         "everlasting",
         "endlessness",
         "permanence",
@@ -50258,10 +50287,11 @@
       }
     },
     {
-      "name": "airplane-travel-plane-flight-fly-air-aviation-jet-trip",
+      "name": "airplane-aeroplane-travel-plane-flight-fly-air-aviation-jet-trip",
       "displayName": "Airplane",
       "searchTerms": [
         "airplane",
+        "aeroplane",
         "travel",
         "plane",
         "flight",
@@ -51001,13 +51031,13 @@
       }
     },
     {
-      "name": "flight_mode_off-flight_off-nofly-nofly_zone",
+      "name": "flight_mode_off-flight_off-no_fly-no_fly_zone",
       "displayName": "Flight_mode_off",
       "searchTerms": [
         "flight_mode_off",
         "flight_off",
-        "nofly",
-        "nofly_zone"
+        "no_fly",
+        "no_fly_zone"
       ],
       "category": "Transportation",
       "variants": {
@@ -53360,11 +53390,12 @@
       }
     },
     {
-      "name": "rainbow-colorful-pride-spectrum-weather-arc",
+      "name": "rainbow-colorful-colourful-pride-spectrum-weather-arc",
       "displayName": "Rainbow",
       "searchTerms": [
         "rainbow",
         "colorful",
+        "colourful",
         "pride",
         "spectrum",
         "weather",

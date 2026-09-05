@@ -1,9 +1,39 @@
 {
   "name": "iconoteka",
-  "version": "02.00.05",
+  "version": "2.0.6",
+  "libraryVersion": "02.00.06",
   "description": "A clean, open-source icon library for modern products",
   "license": "MIT",
   "author": "turbaba",
+  "homepage": "https://beta.iconoteka.com",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/turbaba/Iconoteka.git"
+  },
+  "bugs": {
+    "url": "https://github.com/turbaba/Iconoteka/issues"
+  },
+  "keywords": [
+    "icons",
+    "icon-set",
+    "svg",
+    "ui",
+    "user-interface",
+    "design-system",
+    "figma",
+    "icon-library"
+  ],
+  "files": [
+    "icons.json",
+    "README.md",
+    "LICENSE"
+  ],
+  "main": "icons.json",
+  "exports": {
+    ".": "./icons.json",
+    "./icons.json": "./icons.json"
+  },
+  "sideEffects": false,
   "scripts": {
     "build": "node scripts/build.js",
     "dev": "node scripts/build.js --watch"

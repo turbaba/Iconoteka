@@ -155,7 +155,10 @@ function build() {
   }
 
   // Version comes from package.json — bump "version" there for a release
-  const version = require("../package.json").version;
+  // npm needs semver in "version"; the library's display string lives in
+  // "libraryVersion" and is what the website and plugin show.
+  const pkg = require("../package.json");
+  const version = pkg.libraryVersion || pkg.version;
 
   const output = {
     meta: {
