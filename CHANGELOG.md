@@ -2,6 +2,17 @@
 
 Library versions use the `02.00.08` form.
 
+## 02.00.09 — 7 Sep 2026
+
+- Removed the white background rectangle from every SVG. It was a Figma export
+  artifact — 15 286 of them across 14 942 files — and put a white box behind
+  the icon on any non-white background.
+- Paths now ship `fill="currentColor"` instead of `fill="black"`, so an icon
+  inherits the surrounding text colour. Matches how Heroicons, Phosphor and
+  Material Symbols ship.
+
+`icons.json` is unaffected: the build only ever extracted the `<path>` data.
+
 ## 02.00.08 — 7 Sep 2026
 
 - `meta.popular` lists the curated selection by icon identity, so consumers get

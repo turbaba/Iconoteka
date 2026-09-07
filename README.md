@@ -24,7 +24,7 @@ search, drag the icon onto the canvas.
 **One icon at a time** — every icon is a standalone SVG on the CDN:
 
 ```
-https://cdn.jsdelivr.net/gh/turbaba/Iconoteka@02.00.08/Icons/Interface/bell-notification-notify-reminder-ring-sound-r-s.svg
+https://cdn.jsdelivr.net/gh/turbaba/Iconoteka@02.00.09/Icons/Interface/bell-notification-notify-reminder-ring-sound-r-s.svg
 ```
 
 The path is `Icons/{Category}/{name}-{weight}-{style}.svg`, where weight is one
@@ -32,8 +32,8 @@ of `t` `u` `l` `r` `m` `s` `b` (thin → bold) and style is `s` for stroke or `f
 for fill. Categories with spaces need URL-encoding: `Files%20%26%20Data`.
 
 **Inline in your markup** — both styles are outlined paths, so an icon is a
-single `<path>` with no stroke attributes. Use `currentColor` and it inherits
-the surrounding text colour:
+single `<path>` with no stroke attributes. Every SVG ships with
+`fill="currentColor"`, so it inherits the surrounding text colour:
 
 ```html
 <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
@@ -44,13 +44,14 @@ the surrounding text colour:
 Swap the weight or style by changing one letter in the filename — the geometry
 is designed to stay optically balanced across all seven weights.
 
-## Working with the whole set
+## Using the full set
 
-Only needed if you're building a picker, a design system integration or
-something similar. `icons.json` carries every icon and variant in one file:
+`icons.json` carries every icon and variant in one file — useful for bundling
+the set into a design system, generating components, or pulling icons at build
+time:
 
 ```
-https://cdn.jsdelivr.net/gh/turbaba/Iconoteka@02.00.08/icons.json
+https://cdn.jsdelivr.net/gh/turbaba/Iconoteka@02.00.09/icons.json
 ```
 
 Pin the tag rather than `@main` — jsDelivr caches branch URLs for up to 7 days.
@@ -58,7 +59,7 @@ Pin the tag rather than `@main` — jsDelivr caches branch URLs for up to 7 days
 ```json
 {
   "meta": {
-    "version": "02.00.08",
+    "version": "02.00.09",
     "count": 1298,
     "categories": 23,
     "popular": ["ai", "alert", "bank_card", "bell", "…"]

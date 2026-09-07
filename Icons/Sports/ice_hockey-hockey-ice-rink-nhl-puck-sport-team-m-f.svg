@@ -1,4 +1,3 @@
 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-<rect width="24" height="24" fill="white"/>
-<path d="M13.075 3H15.825L9.975 19.25C9.575 20.35 8.575 21 7.525 21H2V17H8.025L13.075 3ZM14 17H22V21H14V17Z" fill="black"/>
+<path d="M13.075 3H15.825L9.975 19.25C9.575 20.35 8.575 21 7.525 21H2V17H8.025L13.075 3ZM14 17H22V21H14V17Z" fill="currentColor"/>
 </svg>
