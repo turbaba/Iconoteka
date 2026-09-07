@@ -12,9 +12,42 @@ A universal, open-source library of precisely designed pictograms.
 | **14 942** shapes | complete coverage for almost any use case |
 | **23** categories | Arrows, Interface, Hardware, Nature, Transportation, … |
 
-## Install
+## Adding icons to your project
 
-Pull `icons.json` from the CDN:
+Take the icons you need — there's no need to install or clone the whole
+library.
+
+**In Figma** — install the
+[plugin](https://www.figma.com/community/plugin/1675995752572535073/iconoteka),
+search, drag the icon onto the canvas.
+
+**One icon at a time** — every icon is a standalone SVG on the CDN:
+
+```
+https://cdn.jsdelivr.net/gh/turbaba/Iconoteka@02.00.08/Icons/Interface/bell-notification-notify-reminder-ring-sound-r-s.svg
+```
+
+The path is `Icons/{Category}/{name}-{weight}-{style}.svg`, where weight is one
+of `t` `u` `l` `r` `m` `s` `b` (thin → bold) and style is `s` for stroke or `f`
+for fill. Categories with spaces need URL-encoding: `Files%20%26%20Data`.
+
+**Inline in your markup** — both styles are outlined paths, so an icon is a
+single `<path>` with no stroke attributes. Use `currentColor` and it inherits
+the surrounding text colour:
+
+```html
+<svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
+  <path d="M3 15.55C4.675 13.225 5 11.45 5 8.5…" fill="currentColor"/>
+</svg>
+```
+
+Swap the weight or style by changing one letter in the filename — the geometry
+is designed to stay optically balanced across all seven weights.
+
+## Working with the whole set
+
+Only needed if you're building a picker, a design system integration or
+something similar. `icons.json` carries every icon and variant in one file:
 
 ```
 https://cdn.jsdelivr.net/gh/turbaba/Iconoteka@02.00.08/icons.json
@@ -22,49 +55,33 @@ https://cdn.jsdelivr.net/gh/turbaba/Iconoteka@02.00.08/icons.json
 
 Pin the tag rather than `@main` — jsDelivr caches branch URLs for up to 7 days.
 
-Or clone the repo for the raw SVGs.
-
-## Usage
-
-`icons.json` holds one entry per icon with every variant nested inside:
-
 ```json
 {
-  "name": "leaf-ecology-nature-natural-leaves-eco-green-organic-plant-wind",
-  "displayName": "Leaf",
-  "searchTerms": ["leaf", "ecology", "nature", "natural", "leaves"],
-  "category": "Nature",
-  "variants": {
-    "regular": { "stroke": "M12 2.5…", "fill": "M12 2.5…" }
-  }
+  "meta": {
+    "version": "02.00.08",
+    "count": 1298,
+    "categories": 23,
+    "popular": ["ai", "alert", "bank_card", "bell", "…"]
+  },
+  "icons": [
+    {
+      "name": "leaf-ecology-nature-natural-leaves-eco-green-organic-plant-wind",
+      "displayName": "Leaf",
+      "searchTerms": ["leaf", "ecology", "nature", "natural", "leaves"],
+      "category": "Nature",
+      "variants": { "regular": { "stroke": "M12 2.5…", "fill": "M12 2.5…" } }
+    }
+  ]
 }
 ```
 
 The first segment of `name` is the icon's identity; the rest are search-only
-aliases. A curated selection carries `"popular": true`, and `meta` lists the
-same set by identity:
+aliases, so match on the identity rather than the full string. Weights are
+keyed `thin`, `ultralight`, `light`, `regular`, `medium`, `semibold`, `bold`,
+each holding a `stroke` and/or `fill` path.
 
-```json
-"meta": {
-  "version": "02.00.08",
-  "count": 1298,
-  "categories": 23,
-  "popular": ["ai", "alert", "bank_card", "bell", "…"]
-}
-```
-
-Popular is a flag, not a category — no icon or file is stored twice. Weights are keyed `thin`, `ultralight`, `light`, `regular`, `medium`,
-`semibold`, `bold`, each with `stroke` and/or `fill` holding an SVG path.
-
-Raw SVGs live under `Icons/{Category}/`, named
-`{keywords}-{weight}-{style}.svg` — weight is one of `t u l r m s b`, style is
-`f` (fill) or `s` (stroke).
-
-Rebuild `icons.json` from the SVGs with:
-
-```bash
-node scripts/build.js
-```
+A curated selection carries `"popular": true`, listed by identity in
+`meta.popular`. Popular is a flag, not a category — no icon is stored twice.
 
 ## Design
 
