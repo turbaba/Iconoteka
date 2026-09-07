@@ -1,0 +1,35 @@
+name: Icon problem
+description: Report a drawing, naming or search issue with an existing icon
+title: "[Fix] "
+labels: ["bug"]
+body:
+  - type: input
+    id: icon
+    attributes:
+      label: Which icon?
+      description: Its name, or the search term that finds it.
+    validations:
+      required: true
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What kind of problem?
+      options:
+        - Drawing — shape, weight or alignment looks wrong
+        - Naming — wrong or misleading name
+        - Search — can't be found by an obvious keyword
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: detail
+    attributes:
+      label: Details
+      description: What you expected, and what you got. Screenshots welcome.
+    validations:
+      required: true
+  - type: input
+    id: weights
+    attributes:
+      label: Which weights/styles?
+      placeholder: e.g. thin + ultralight, stroke only

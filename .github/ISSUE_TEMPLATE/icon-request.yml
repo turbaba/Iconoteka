@@ -1,0 +1,25 @@
+name: Icon request
+description: Suggest an icon that's missing from the library
+title: "[Icon] "
+labels: ["icon request"]
+body:
+  - type: textarea
+    id: icons
+    attributes:
+      label: Which icon(s)?
+      description: One per line. A short name plus what it should depict.
+      placeholder: |
+        sim_card — a SIM card, for device settings
+        parachute — a parachute, for backup/recovery flows
+    validations:
+      required: true
+  - type: input
+    id: context
+    attributes:
+      label: What are you building?
+      description: Helps judge the metaphor and which category it belongs in.
+  - type: input
+    id: searched
+    attributes:
+      label: What did you search for?
+      description: If you looked and found nothing, the exact words you tried.
