@@ -183,12 +183,20 @@ function build() {
   const pkg = require("../package.json");
   const version = pkg.libraryVersion || pkg.version;
 
+  // Curated "Popular" selection, in list order, so consumers get it from
+  // icons.json alone without needing the repo.
+  const popularNames = [...popularSet].filter(id =>
+    icons.some(i => i.name.split("-")[0] === id)
+  );
+
   const output = {
     meta: {
       version,
       count:     icons.length,
+      categories: categories.length,
       updatedAt: new Date().toISOString(),
       cdn:       `https://cdn.jsdelivr.net/gh/turbaba/Iconoteka@${version}/icons.json`,
+      popular:   popularNames,
     },
     icons,
   };

@@ -2,6 +2,12 @@
 
 Library versions use the `02.00.06` form; npm mirrors them as `2.0.6`.
 
+## 02.00.08 — 7 Sep 2026
+
+- `meta.popular` lists the curated selection by icon identity, so consumers get
+  it from `icons.json` alone — `scripts/popular.json` isn't in the npm package.
+- `meta.categories` added.
+
 ## 02.00.07 — 7 Sep 2026
 
 - **"Popular" is no longer a category.** It was a duplicate of 38 icons that

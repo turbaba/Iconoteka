@@ -21,7 +21,7 @@ npm install iconoteka
 Or pull `icons.json` straight from the CDN:
 
 ```
-https://cdn.jsdelivr.net/gh/turbaba/Iconoteka@02.00.07/icons.json
+https://cdn.jsdelivr.net/gh/turbaba/Iconoteka@02.00.08/icons.json
 ```
 
 Pin the tag rather than `@main` — jsDelivr caches branch URLs for up to 7 days.
@@ -43,7 +43,19 @@ Pin the tag rather than `@main` — jsDelivr caches branch URLs for up to 7 days
 ```
 
 The first segment of `name` is the icon's identity; the rest are search-only
-aliases. Weights are keyed `thin`, `ultralight`, `light`, `regular`, `medium`,
+aliases. A curated selection carries `"popular": true`, and `meta` lists the
+same set by identity:
+
+```json
+"meta": {
+  "version": "02.00.08",
+  "count": 1298,
+  "categories": 23,
+  "popular": ["ai", "alert", "bank_card", "bell", "…"]
+}
+```
+
+Popular is a flag, not a category — no icon or file is stored twice. Weights are keyed `thin`, `ultralight`, `light`, `regular`, `medium`,
 `semibold`, `bold`, each with `stroke` and/or `fill` holding an SVG path.
 
 Raw SVGs live under `Icons/{Category}/`, named
