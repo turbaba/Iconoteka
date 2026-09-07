@@ -14,17 +14,15 @@ A universal, open-source library of precisely designed pictograms.
 
 ## Install
 
-```bash
-npm install iconoteka
-```
-
-Or pull `icons.json` straight from the CDN:
+Pull `icons.json` from the CDN:
 
 ```
 https://cdn.jsdelivr.net/gh/turbaba/Iconoteka@02.00.08/icons.json
 ```
 
 Pin the tag rather than `@main` — jsDelivr caches branch URLs for up to 7 days.
+
+Or clone the repo for the raw SVGs.
 
 ## Usage
 
