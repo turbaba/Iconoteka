@@ -10,7 +10,7 @@ A universal, open-source library of precisely designed pictograms.
 | **7** weights | Thin, Ultralight, Light, Regular, Medium, Semibold, Bold |
 | **2** styles | stroke and fill, across every weight |
 | **14 942** shapes | complete coverage for almost any use case |
-| **24** categories | Arrows, Interface, Hardware, Nature, Transportation, … |
+| **23** categories | Arrows, Interface, Hardware, Nature, Transportation, … |
 
 ## Install
 
@@ -21,7 +21,7 @@ npm install iconoteka
 Or pull `icons.json` straight from the CDN:
 
 ```
-https://cdn.jsdelivr.net/gh/turbaba/Iconoteka@02.00.06/icons.json
+https://cdn.jsdelivr.net/gh/turbaba/Iconoteka@02.00.07/icons.json
 ```
 
 Pin the tag rather than `@main` — jsDelivr caches branch URLs for up to 7 days.

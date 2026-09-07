@@ -2,6 +2,21 @@
 
 Library versions use the `02.00.06` form; npm mirrors them as `2.0.6`.
 
+## 02.00.07 — 7 Sep 2026
+
+- **"Popular" is no longer a category.** It was a duplicate of 38 icons that
+  already live in other categories — 428 duplicated SVGs, and every consumer
+  iterating `icons` got those 38 twice.
+- Those icons now carry `"popular": true` on their real entry. The curated
+  selection lives in `scripts/popular.json`, keyed by icon identity.
+- `icons.json` is 1 298 entries (was 1 336 with the duplicates) and 14 942
+  shapes, matching the published figures.
+- `meta.cdn` now pins the release tag instead of `@main`, which jsDelivr
+  caches for up to 7 days.
+
+**Migration:** anything filtering `category === "Popular"` should read the
+`popular` flag instead. Category lists drop from 24 to 23.
+
 ## 02.00.06 — 5 Sep 2026
 
 - Fixed malformed search keywords across the library: `flowe` → `flower`,

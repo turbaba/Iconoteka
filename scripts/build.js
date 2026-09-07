@@ -18,6 +18,7 @@ const fs            = require("fs");
 const path          = require("path");
 
 const ICONS_DIR = path.join(__dirname, "../icons");
+const POPULAR   = path.join(__dirname, "popular.json");
 const OUTPUT    = path.join(__dirname, "../icons.json");
 const WATCH     = process.argv.includes("--watch");
 
@@ -93,6 +94,13 @@ function build() {
     return fs.statSync(path.join(ICONS_DIR, f)).isDirectory();
   });
 
+  // "Popular" is a curated view, not a category. The icons live in their real
+  // categories; this list just flags them, so no SVG is stored twice.
+  let popularSet = new Set();
+  if (fs.existsSync(POPULAR)) {
+    popularSet = new Set(JSON.parse(fs.readFileSync(POPULAR, "utf8")));
+  }
+
   if (categories.length === 0) {
     console.warn("⚠️  No category folders found in /icons/");
   }
@@ -145,6 +153,21 @@ function build() {
     a.category.localeCompare(b.category) || a.name.localeCompare(b.name)
   );
 
+  // Flag the curated "Popular" selection by icon identity (first name segment)
+  let popularHits = 0;
+  for (const icon of icons) {
+    if (popularSet.has(icon.name.split("-")[0])) {
+      icon.popular = true;
+      popularHits++;
+    }
+  }
+  const missingPopular = [...popularSet].filter(
+    id => !icons.some(i => i.name.split("-")[0] === id)
+  );
+  if (missingPopular.length) {
+    console.warn(`\u26a0\ufe0f  popular.json lists ${missingPopular.length} unknown icon(s): ${missingPopular.join(", ")}`);
+  }
+
   // Sort variants by weight order
   for (const icon of icons) {
     const sorted = {};
@@ -165,7 +188,7 @@ function build() {
       version,
       count:     icons.length,
       updatedAt: new Date().toISOString(),
-      cdn:       "https://cdn.jsdelivr.net/gh/turbaba/iconoteka@main/icons.json",
+      cdn:       `https://cdn.jsdelivr.net/gh/turbaba/Iconoteka@${version}/icons.json`,
     },
     icons,
   };
