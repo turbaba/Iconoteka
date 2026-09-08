@@ -26,9 +26,8 @@ import { Bell } from "iconoteka-vue";
 | `variant` | `stroke` · `fill` | `stroke` | outline or solid |
 | `size` | number · string | `24` | width and height |
 
-Stroke and fill switch freely at any weight. Where an icon's solid form is the
-same at every weight it's stored once and served for all of them, and where an
-icon has no solid form the stroke renders.
+Where an icon's solid form is the same at every weight it's stored once and
+served for all of them. Where an icon has no solid form, the stroke renders.
 
 Anything else is spread onto the `<svg>`. Icons paint with
 `fill="currentColor"`, so they inherit the surrounding text colour.

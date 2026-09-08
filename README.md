@@ -8,7 +8,7 @@ A universal, open-source library of precisely designed pictograms.
 |---|---|
 | **1 298** icons | from rapid prototyping to real-world wayfinding systems |
 | **7** weights | Thin, Ultralight, Light, Regular, Medium, Semibold, Bold |
-| **2** styles | stroke and fill, switchable across all seven weights |
+| **2** styles | stroke and fill |
 | **14 942** shapes | complete coverage for almost any use case |
 | **23** categories | Arrows, Interface, Hardware, Nature, Transportation, … |
 
