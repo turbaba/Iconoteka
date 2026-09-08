@@ -3,7 +3,7 @@
     "version": "02.00.09",
     "count": 1298,
     "categories": 23,
-    "updatedAt": "2026-09-08T20:04:49.780Z",
+    "updatedAt": "2026-09-08T21:12:12.799Z",
     "cdn": "https://cdn.jsdelivr.net/gh/turbaba/Iconoteka@02.00.09/icons.json",
     "popular": [
       "ai",
@@ -7712,7 +7712,7 @@
       }
     },
     {
-      "name": "face_big_smile-smile_big-big_smile-happy-happiness-joy-delight-elated-grin-emoji-mrd",
+      "name": "face_big_smile-smile_big-big_smile-happy-happiness-joy-delight-elated-grin-emoji-mrd-morda",
       "displayName": "Face_big_smile",
       "searchTerms": [
         "face_big_smile",
@@ -7725,7 +7725,8 @@
         "elated",
         "grin",
         "emoji",
-        "mrd"
+        "mrd",
+        "morda"
       ],
       "category": "Emotions",
       "variants": {

@@ -2,6 +2,12 @@
 
 Library versions use the `02.00.08` form.
 
+## 02.00.10 — 8 Sep 2026
+
+- Restored the `morda` keyword on `face_big_smile`. It was removed in 02.00.06
+  as an unrecognised token; it's deliberate and personal, like `dasha`, `dida`
+  and `dora` on the heart.
+
 ## 02.00.09 — 7 Sep 2026
 
 - Removed the white background rectangle from every SVG. It was a Figma export
