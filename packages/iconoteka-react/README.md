@@ -1,7 +1,7 @@
 # iconoteka-react
 
 [Iconoteka](https://beta.iconoteka.com) icons as React components — 1298
-icons in 7 weights, stroke throughout and fill on 954 of them.
+icons, seven weights, stroke and fill.
 
 ```bash
 npm install iconoteka-react
@@ -21,11 +21,11 @@ import { Bell, Heart } from "iconoteka-react";
 |---|---|---|---|
 | `weight` | `thin` · `ultralight` · `light` · `regular` · `medium` · `semibold` · `bold` | `regular` | stroke thickness |
 | `variant` | `stroke` · `fill` | `stroke` | outline or solid |
-
-A solid form usually doesn't change with stroke weight, so 137 icons store one
-fill rather than seven identical copies. Asking for `variant="fill"` at any
-weight returns it. The 344 icons that are stroke-only render their stroke.
 | `size` | number · string | `24` | width and height |
+
+Stroke and fill switch freely at any weight. Where an icon's solid form is the
+same at every weight it's stored once and served for all of them, and where an
+icon has no solid form the stroke renders.
 
 Anything else is spread onto the `<svg>`. Icons paint with
 `fill="currentColor"`, so they inherit the surrounding text colour.
