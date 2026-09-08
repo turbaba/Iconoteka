@@ -44,6 +44,25 @@ single `<path>` with no stroke attributes. Every SVG ships with
 Swap the weight or style by changing one letter in the filename — the geometry
 is designed to stay optically balanced across all seven weights.
 
+## Framework packages
+
+Icons as components, generated from the same SVGs:
+
+```bash
+npm install iconoteka-react    # or iconoteka-vue, iconoteka-svelte
+```
+
+```jsx
+import { Bell } from "iconoteka-react";
+
+<Bell />
+<Bell weight="bold" variant="fill" size={32} />
+```
+
+`weight` takes any of the seven, `variant` is `stroke` or `fill`, and anything
+else is spread onto the `<svg>`. Each icon is its own module, so bundlers drop
+what you don't import.
+
 ## Using the full set
 
 `icons.json` carries every icon and variant in one file — useful for bundling

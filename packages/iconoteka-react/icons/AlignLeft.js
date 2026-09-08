@@ -1,0 +1,14 @@
+import { createElement } from "react";
+
+const p = {"thin":{"stroke":"M3.50049 3V21H3.00049V3H3.50049ZM10.4755 8.75L10.8255 9.1L8.12549 11.75H20.9755V12.225H8.10049L10.8255 14.9L10.4755 15.25L7.22549 12L10.4755 8.75Z"},"ultralight":{"stroke":"M4.00049 3V21H3.00049V3H4.00049ZM10.6505 8.575L11.3005 9.25L8.85049 11.5H20.9755V12.475H8.82549L11.3005 14.75L10.6505 15.425L7.22549 12L10.6505 8.575Z"},"light":{"stroke":"M4.50049 3V21H3.00049V3H4.50049ZM9.90049 9.325V11.275H21.0005V12.725H9.90049V14.675L7.22549 12L9.90049 9.325Z"},"regular":{"stroke":"M5.00049 3V21H3.00049V3H5.00049ZM10.7255 8.5V11.025H21.0005V12.975H10.7255V15.5L7.22549 12L10.7255 8.5Z"},"medium":{"stroke":"M5.62549 3V21H3.00049V3H5.62549ZM11.5505 8V10.725H21.0005V13.275H11.5505V16L7.55049 12L11.5505 8Z"},"semibold":{"stroke":"M6.22549 3V21H3.00049V3H6.22549ZM12.4005 7.5V10.45H20.9755V13.55H12.4005V16.5L7.90049 12L12.4005 7.5Z"},"bold":{"stroke":"M6.85049 3V21H3.00049V3H6.85049ZM13.2255 7V10.15H20.9755V13.85H13.2255V17L8.22549 12L13.2255 7Z"}};
+
+export default function AlignLeft({ weight = "regular", variant = "stroke", size = 24, ...rest }) {
+  const w = p[weight] || p.regular;
+  const d = w[variant] || w.stroke || w.fill;
+  return createElement(
+    "svg",
+    { width: size, height: size, viewBox: "0 0 24 24", fill: "none",
+      xmlns: "http://www.w3.org/2000/svg", ...rest },
+    createElement("path", { d, fill: "currentColor" })
+  );
+}

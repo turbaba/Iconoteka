@@ -1,0 +1,46 @@
+{
+  "name": "iconoteka-svelte",
+  "version": "2.0.9",
+  "description": "Iconoteka icons as Svelte components — 1298 icons, 7 weights, 2 styles",
+  "license": "MIT",
+  "author": "turbaba",
+  "homepage": "https://beta.iconoteka.com",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/turbaba/Iconoteka.git",
+    "directory": "packages/iconoteka-svelte"
+  },
+  "keywords": [
+    "icons",
+    "iconoteka",
+    "svg",
+    "svelte",
+    "design-system"
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "svelte": "./index.js",
+  "main": "./index.js",
+  "types": "./index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "svelte": "./index.js",
+      "default": "./index.js"
+    },
+    "./icons/*": "./icons/*"
+  },
+  "files": [
+    "icons",
+    "index.js",
+    "index.d.ts",
+    "README.md",
+    "LICENSE"
+  ],
+  "peerDependencies": {
+    "svelte": ">=4"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

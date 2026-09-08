@@ -1,0 +1,45 @@
+{
+  "name": "iconoteka-vue",
+  "version": "2.0.9",
+  "description": "Iconoteka icons as Vue components — 1298 icons, 7 weights, 2 styles",
+  "license": "MIT",
+  "author": "turbaba",
+  "homepage": "https://beta.iconoteka.com",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/turbaba/Iconoteka.git",
+    "directory": "packages/iconoteka-vue"
+  },
+  "keywords": [
+    "icons",
+    "iconoteka",
+    "svg",
+    "vue",
+    "design-system"
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "main": "./index.js",
+  "module": "./index.js",
+  "types": "./index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "default": "./index.js"
+    },
+    "./icons/*": "./icons/*"
+  },
+  "files": [
+    "icons",
+    "index.js",
+    "index.d.ts",
+    "README.md",
+    "LICENSE"
+  ],
+  "peerDependencies": {
+    "vue": ">=3"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

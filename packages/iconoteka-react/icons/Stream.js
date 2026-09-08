@@ -1,0 +1,14 @@
+import { createElement } from "react";
+
+const p = {"thin":{"stroke":"M3.5 20.525H20.5V12.2H3.5V20.525ZM3 21V3H21V21H3ZM3.5 11.725H20.5V3.475H3.5V11.725Z","fill":"M3 11.75V3H21V11.75H3ZM3 21V12.225H21V21H3Z"},"ultralight":{"stroke":"M3.975 20.075H20.025V12.45H3.975V20.075ZM3 21V3H21V21H3ZM3.975 11.5H20.025V3.925H3.975V11.5Z","fill":"M3 11.5V3H21V11.5H3ZM3 21V12.475H21V21H3Z"},"light":{"stroke":"M4.425 19.6H19.575V12.675H4.425V19.6ZM3 21V3H21V21H3ZM4.425 11.3H19.575V4.4H4.425V11.3Z","fill":"M3 11.25V3H21V11.25H3ZM3 21V12.75H21V21H3Z"},"regular":{"stroke":"M4.9 19.15H19.1V12.925H4.9V19.15ZM3 21V3H21V21H3ZM4.9 11.075H19.1V4.85H4.9V11.075Z","fill":"M3 11V3H21V11H3ZM3 21V13H21V21H3Z"},"medium":{"stroke":"M5.425 18.625H18.575V13.175H5.425V18.625ZM3 21V3H21V21H3ZM5.425 10.825H18.575V5.375H5.425V10.825Z","fill":"M3 11V3H21V11H3ZM3 21V13H21V21H3Z"},"semibold":{"stroke":"M5.975 18.075H18.025V13.45H5.975V18.075ZM3 21V3H21V21H3ZM5.975 10.55H18.025V5.925H5.975V10.55Z","fill":"M3 11V3H21V11H3ZM3 21V13H21V21H3Z"},"bold":{"stroke":"M6.5 17.55H17.5V13.7H6.5V17.55ZM3 21V3H21V21H3ZM6.5 10.3H17.5V6.45H6.5V10.3Z","fill":"M3 11V3H21V11H3ZM3 21V13H21V21H3Z"}};
+
+export default function Stream({ weight = "regular", variant = "stroke", size = 24, ...rest }) {
+  const w = p[weight] || p.regular;
+  const d = w[variant] || w.stroke || w.fill;
+  return createElement(
+    "svg",
+    { width: size, height: size, viewBox: "0 0 24 24", fill: "none",
+      xmlns: "http://www.w3.org/2000/svg", ...rest },
+    createElement("path", { d, fill: "currentColor" })
+  );
+}

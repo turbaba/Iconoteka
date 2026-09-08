@@ -1,0 +1,24 @@
+import { h } from "vue";
+
+const p = {"thin":{"stroke":"M11.7505 0.5H12.2505V19.075L18.7755 12.525L19.1255 12.875L12.0005 20L4.87549 12.875L5.22549 12.525L11.7505 19.075V0.5ZM5.00049 23.025H19.0005V23.5H5.00049V23.025Z"},"ultralight":{"stroke":"M11.5005 0.5H12.5005V18.275L18.4505 12.2L19.1255 12.875L12.0005 20L4.87549 12.875L5.55049 12.2L11.5005 18.275V0.5ZM5.00049 22.55H19.0005V23.5H5.00049V22.55Z"},"light":{"stroke":"M11.2755 0.5H12.7255V17.45L18.1005 11.85L19.1255 12.875L12.0005 20L4.87549 12.875L5.90049 11.85L11.2755 17.45V0.5ZM5.00049 22.075H19.0005V23.5H5.00049V22.075Z"},"regular":{"stroke":"M11.0255 0.5H12.9755V16.625L17.7755 11.525L19.1255 12.875L12.0005 20L4.87549 12.875L6.22549 11.525L11.0255 16.625V0.5ZM5.00049 21.6H19.0005V23.5H5.00049V21.6Z"},"medium":{"stroke":"M10.7255 0.5H13.2755V15L17.3255 10.725L19.1255 12.55L12.0005 19.675L4.87549 12.55L6.67549 10.725L10.7255 15V0.5ZM5.00049 21H19.0005V23.5H5.00049V21Z"},"semibold":{"stroke":"M10.4255 0.5H13.5755V13.975H17.1755L12.0005 19.225L6.82549 13.975H10.4255V0.5ZM5.00049 20.375H19.0005V23.5H5.00049V20.375Z"},"bold":{"stroke":"M10.1005 0.5H13.9005V12.85H17.7505L12.0005 18.65L6.25049 12.85H10.1005V0.5ZM5.00049 19.75H19.0005V23.5H5.00049V19.75Z"}};
+
+export default {
+  name: "TabDown",
+  props: {
+    weight:  { type: String, default: "regular" },
+    variant: { type: String, default: "stroke" },
+    size:    { type: [Number, String], default: 24 }
+  },
+  setup(props, { attrs }) {
+    return () => {
+      const w = p[props.weight] || p.regular;
+      const d = w[props.variant] || w.stroke || w.fill;
+      return h(
+        "svg",
+        { width: props.size, height: props.size, viewBox: "0 0 24 24",
+          fill: "none", xmlns: "http://www.w3.org/2000/svg", ...attrs },
+        [h("path", { d, fill: "currentColor" })]
+      );
+    };
+  }
+};

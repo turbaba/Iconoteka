@@ -1,0 +1,24 @@
+import { h } from "vue";
+
+const p = {"thin":{"stroke":"M12.0005 1.825L1.82549 12L12.0005 22.175L22.1755 12L12.0005 1.825ZM12.0005 1.125L22.8755 12L12.0005 22.875L1.12549 12L12.0005 1.125Z","fill":"M12 1.125L22.875 12L12 22.875L1.125 12L12 1.125Z"},"ultralight":{"stroke":"M12.0005 2.5L2.50049 12L12.0005 21.5L21.5005 12L12.0005 2.5ZM12.0005 1.125L22.8755 12L12.0005 22.875L1.12549 12L12.0005 1.125Z"},"light":{"stroke":"M12.0005 3.175L3.17549 12L12.0005 20.825L20.8255 12L12.0005 3.175ZM12.0005 1.125L22.8755 12L12.0005 22.875L1.12549 12L12.0005 1.125Z"},"regular":{"stroke":"M12.0005 3.85L3.85049 12L12.0005 20.15L20.1505 12L12.0005 3.85ZM12.0005 1.125L22.8755 12L12.0005 22.875L1.12549 12L12.0005 1.125Z"},"medium":{"stroke":"M12.0005 4.6L4.60049 12L12.0005 19.4L19.4005 12L12.0005 4.6ZM12.0005 1.125L22.8755 12L12.0005 22.875L1.12549 12L12.0005 1.125Z"},"semibold":{"stroke":"M12.0005 5.35L5.35049 12L12.0005 18.65L18.6505 12L12.0005 5.35ZM12.0005 1.125L22.8755 12L12.0005 22.875L1.12549 12L12.0005 1.125Z"},"bold":{"stroke":"M12.0005 6.1L6.10049 12L12.0005 17.9L17.9005 12L12.0005 6.1ZM12.0005 1.125L22.8755 12L12.0005 22.875L1.12549 12L12.0005 1.125Z"}};
+
+export default {
+  name: "Diamond",
+  props: {
+    weight:  { type: String, default: "regular" },
+    variant: { type: String, default: "stroke" },
+    size:    { type: [Number, String], default: 24 }
+  },
+  setup(props, { attrs }) {
+    return () => {
+      const w = p[props.weight] || p.regular;
+      const d = w[props.variant] || w.stroke || w.fill;
+      return h(
+        "svg",
+        { width: props.size, height: props.size, viewBox: "0 0 24 24",
+          fill: "none", xmlns: "http://www.w3.org/2000/svg", ...attrs },
+        [h("path", { d, fill: "currentColor" })]
+      );
+    };
+  }
+};

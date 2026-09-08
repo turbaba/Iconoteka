@@ -1,0 +1,14 @@
+import { createElement } from "react";
+
+const p = {"thin":{"stroke":"M14.6755 8H15.1755V21H14.6755V8ZM8.82549 13H9.32549V21H8.82549V13ZM3.00049 17H3.50049V21H3.00049V17Z"},"ultralight":{"stroke":"M14.3505 8H15.3255V21H14.3505V8ZM8.67549 13H9.62549V21H8.67549V13ZM3.00049 17H3.97549V21H3.00049V17Z"},"light":{"stroke":"M14.0505 8H15.4755V21H14.0505V8ZM8.50049 13H9.95049V21H8.50049V13ZM3.00049 17H4.42549V21H3.00049V17Z"},"regular":{"stroke":"M13.7255 8H15.6255V21H13.7255V8ZM8.35049 13H10.2505V21H8.35049V13ZM3.00049 17H4.90049V21H3.00049V17Z"},"medium":{"stroke":"M13.3755 8H15.8005V21H13.3755V8ZM8.17549 13H10.6005V21H8.17549V13ZM3.00049 17H5.42549V21H3.00049V17Z"},"semibold":{"stroke":"M13.0255 8H16.0005V21H13.0255V8ZM8.00049 13H10.9755V21H8.00049V13ZM3.00049 17H5.97549V21H3.00049V17Z"},"bold":{"stroke":"M12.6755 8H16.1755V21H12.6755V8ZM7.82549 13H11.3255V21H7.82549V13ZM3.00049 17H6.50049V21H3.00049V17Z"}};
+
+export default function Signal3({ weight = "regular", variant = "stroke", size = 24, ...rest }) {
+  const w = p[weight] || p.regular;
+  const d = w[variant] || w.stroke || w.fill;
+  return createElement(
+    "svg",
+    { width: size, height: size, viewBox: "0 0 24 24", fill: "none",
+      xmlns: "http://www.w3.org/2000/svg", ...rest },
+    createElement("path", { d, fill: "currentColor" })
+  );
+}

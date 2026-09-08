@@ -1,0 +1,24 @@
+import { h } from "vue";
+
+const p = {"thin":{"stroke":"M16.0005 11.75V12.225H2.00049V11.75H16.0005ZM22.0005 20.525V21H2.00049V20.525H22.0005ZM10.0005 3V3.475H2.00049V3H10.0005Z"},"ultralight":{"stroke":"M16.0005 11.525V12.475H2.00049V11.525H16.0005ZM22.0005 20.05V21H2.00049V20.05H22.0005ZM10.0005 3V3.95H2.00049V3H10.0005Z"},"light":{"stroke":"M16.0005 11.275V12.7H2.00049V11.275H16.0005ZM22.0005 19.575V21H2.00049V19.575H22.0005ZM10.0005 3V4.425H2.00049V3H10.0005Z"},"regular":{"stroke":"M16.0005 11.05V12.95H2.00049V11.05H16.0005ZM22.0005 19.1V21H2.00049V19.1H22.0005ZM10.0005 3V4.9H2.00049V3H10.0005Z"},"medium":{"stroke":"M16.0005 10.775V13.225H2.00049V10.775H16.0005ZM22.0005 18.525V21H2.00049V18.525H22.0005ZM10.0005 3V5.475H2.00049V3H10.0005Z"},"semibold":{"stroke":"M16.0005 10.475V13.525H2.00049V10.475H16.0005ZM22.0005 17.975V21H2.00049V17.975H22.0005ZM10.0005 3V6.025H2.00049V3H10.0005Z"},"bold":{"stroke":"M16.0005 10.2V13.8H2.00049V10.2H16.0005ZM22.0005 17.4V21H2.00049V17.4H22.0005ZM10.0005 3V6.6H2.00049V3H10.0005Z"}};
+
+export default {
+  name: "SortLowToHigh",
+  props: {
+    weight:  { type: String, default: "regular" },
+    variant: { type: String, default: "stroke" },
+    size:    { type: [Number, String], default: 24 }
+  },
+  setup(props, { attrs }) {
+    return () => {
+      const w = p[props.weight] || p.regular;
+      const d = w[props.variant] || w.stroke || w.fill;
+      return h(
+        "svg",
+        { width: props.size, height: props.size, viewBox: "0 0 24 24",
+          fill: "none", xmlns: "http://www.w3.org/2000/svg", ...attrs },
+        [h("path", { d, fill: "currentColor" })]
+      );
+    };
+  }
+};

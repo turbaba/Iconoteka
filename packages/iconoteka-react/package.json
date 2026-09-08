@@ -1,0 +1,45 @@
+{
+  "name": "iconoteka-react",
+  "version": "2.0.9",
+  "description": "Iconoteka icons as React components — 1298 icons, 7 weights, 2 styles",
+  "license": "MIT",
+  "author": "turbaba",
+  "homepage": "https://beta.iconoteka.com",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/turbaba/Iconoteka.git",
+    "directory": "packages/iconoteka-react"
+  },
+  "keywords": [
+    "icons",
+    "iconoteka",
+    "svg",
+    "react",
+    "design-system"
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "main": "./index.js",
+  "module": "./index.js",
+  "types": "./index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "default": "./index.js"
+    },
+    "./icons/*": "./icons/*"
+  },
+  "files": [
+    "icons",
+    "index.js",
+    "index.d.ts",
+    "README.md",
+    "LICENSE"
+  ],
+  "peerDependencies": {
+    "react": ">=17"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

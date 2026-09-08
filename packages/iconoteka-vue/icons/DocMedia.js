@@ -1,0 +1,24 @@
+import { h } from "vue";
+
+const p = {"thin":{"stroke":"M4.00049 22V2H15.4255L20.0005 6.575V22H4.00049ZM4.50049 21.525H19.5005V6.75L15.2255 2.475H4.50049V21.525ZM9.47549 15.3L15.1755 12L9.47549 8.675V15.3ZM9.02549 16.05V7.925L16.0255 12L9.02549 16.05Z","fill":"M4 22V2H15.425L20 6.575V22H4ZM9.15 15.875L15.8 12L9.15 8.125V15.875Z"},"ultralight":{"stroke":"M4.00049 22V2H15.4255L20.0005 6.575V22H4.00049ZM4.97549 21.075H19.0255V6.925L15.0505 2.925H4.97549V21.075ZM9.87549 14.625L14.4255 12.025L9.87549 9.4V14.625ZM9.05049 16.075V7.95L16.0505 12.025L9.05049 16.075Z"},"light":{"stroke":"M4.00049 22V2H15.4255L20.0005 6.575V22H4.00049ZM5.42549 20.6H18.5755V7.125L14.8505 3.4H5.42549V20.6ZM10.2505 14.275V9.7L14.2255 12L10.2505 14.275Z"},"regular":{"stroke":"M4.00049 22V2H15.4255L20.0005 6.575V22H4.00049ZM5.90049 20.15H18.1005V7.3L14.6755 3.85H5.90049V20.15ZM10.0255 14.625V9.35L14.5755 12L10.0255 14.625Z"},"medium":{"stroke":"M4.00049 22V2H15.4255L20.0005 6.575V22H4.00049ZM6.45049 19.6H17.5505V7.525L14.4255 4.4H6.45049V19.6ZM9.77549 14.975V9L14.8755 12L9.77549 14.975Z"},"semibold":{"stroke":"M4.00049 22V2H15.4255L20.0005 6.575V22H4.00049ZM7.00049 19.05H17.0005V7.775L14.2005 4.95H7.00049V19.05ZM9.47549 15.325V8.65L15.2005 12L9.47549 15.325Z"},"bold":{"stroke":"M4.00049 22V2H15.4255L20.0005 6.575V22H4.00049ZM7.55049 18.5H16.4505V8L13.9505 5.5H7.55049V18.5ZM9.22549 15.65V8.325L15.5005 12L9.22549 15.65Z"}};
+
+export default {
+  name: "DocMedia",
+  props: {
+    weight:  { type: String, default: "regular" },
+    variant: { type: String, default: "stroke" },
+    size:    { type: [Number, String], default: 24 }
+  },
+  setup(props, { attrs }) {
+    return () => {
+      const w = p[props.weight] || p.regular;
+      const d = w[props.variant] || w.stroke || w.fill;
+      return h(
+        "svg",
+        { width: props.size, height: props.size, viewBox: "0 0 24 24",
+          fill: "none", xmlns: "http://www.w3.org/2000/svg", ...attrs },
+        [h("path", { d, fill: "currentColor" })]
+      );
+    };
+  }
+};

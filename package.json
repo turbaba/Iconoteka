@@ -13,8 +13,9 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "node scripts/build.js",
-    "test": "node scripts/build.js && npm run smoke -w iconoteka-mcp --if-present"
+    "build": "node scripts/build.js && node scripts/build-wrappers.js",
+    "build:data": "node scripts/build.js",
+    "build:wrappers": "node scripts/build-wrappers.js"
   },
   "engines": {
     "node": ">=18"

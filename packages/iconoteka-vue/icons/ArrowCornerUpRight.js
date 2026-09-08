@@ -1,0 +1,24 @@
+import { h } from "vue";
+
+const p = {"thin":{"stroke":"M21.7505 8.1748L21.4005 8.5248L15.7505 2.8248V20.9998H3.00049V20.5248H15.2505V2.8248L9.60049 8.5248L9.25049 8.1748L15.5005 1.9248L21.7505 8.1748Z"},"ultralight":{"stroke":"M21.9005 8.3248L21.2255 9.0248L16.0005 3.6248V20.9998H3.00049V20.0498H15.0005V3.6248L9.77549 9.0248L9.10049 8.3248L15.5005 1.9248L21.9005 8.3248Z"},"light":{"stroke":"M22.0755 8.4998L21.0505 9.4998L16.2255 4.4248V20.9998H3.00049V19.5748H14.7755V4.4248L9.95049 9.4998L8.92549 8.4998L15.5005 1.9248L22.0755 8.4998Z"},"regular":{"stroke":"M22.2255 8.6498L20.8755 9.9998L16.4755 5.2498V20.9998H3.00049V19.0998H14.5255V5.2498L10.1255 9.9998L8.77549 8.6498L15.5005 1.9248L22.2255 8.6498Z"},"medium":{"stroke":"M22.2505 8.6748L20.4505 10.4748L16.7755 6.3498V20.9998H3.00049V18.4498H14.2255V6.3498L10.5505 10.4748L8.75049 8.6748L15.5005 1.9248L22.2505 8.6748Z"},"semibold":{"stroke":"M20.6755 7.0998H17.0755V20.9998H3.00049V17.8748H13.9255V7.0998H10.3255L15.5005 1.9248L20.6755 7.0998Z"},"bold":{"stroke":"M21.2505 7.6748H17.3755V20.9998H3.00049V17.2998H13.6255V7.6748H9.75049L15.5005 1.9248L21.2505 7.6748Z"}};
+
+export default {
+  name: "ArrowCornerUpRight",
+  props: {
+    weight:  { type: String, default: "regular" },
+    variant: { type: String, default: "stroke" },
+    size:    { type: [Number, String], default: 24 }
+  },
+  setup(props, { attrs }) {
+    return () => {
+      const w = p[props.weight] || p.regular;
+      const d = w[props.variant] || w.stroke || w.fill;
+      return h(
+        "svg",
+        { width: props.size, height: props.size, viewBox: "0 0 24 24",
+          fill: "none", xmlns: "http://www.w3.org/2000/svg", ...attrs },
+        [h("path", { d, fill: "currentColor" })]
+      );
+    };
+  }
+};

@@ -1,0 +1,24 @@
+import { h } from "vue";
+
+const p = {"thin":{"stroke":"M9.45049 15.5L15.4755 12L9.45049 8.5V15.5ZM8.97549 16.3V7.7L16.3755 12L8.97549 16.3ZM2.50049 4.475V19.525H21.5005V4.475H2.50049ZM2.00049 4H22.0005V20H2.00049V4Z","fill":"M2 4H22V20H2V4ZM9.25 16L16.1 12L9.25 8V16Z"},"ultralight":{"stroke":"M9.85049 14.775L14.6505 12.025L9.85049 9.25V14.775ZM8.97549 16.325V7.725L16.3755 12.025L8.97549 16.325ZM2.97549 4.925V19.075H21.0255V4.925H2.97549ZM2.00049 4H22.0005V20H2.00049V4Z"},"light":{"stroke":"M10.1755 14.425V9.575L14.3755 12L10.1755 14.425ZM3.42549 5.4V18.6H20.5755V5.4H3.42549ZM2.00049 4H22.0005V20H2.00049V4Z"},"regular":{"stroke":"M9.92549 14.8V9.2L14.7255 12L9.92549 14.8ZM3.90049 5.85V18.15H20.1005V5.85H3.90049ZM2.00049 4H22.0005V20H2.00049V4Z"},"medium":{"stroke":"M9.70049 15.075V8.9L15.0005 12L9.70049 15.075ZM4.45049 6.4V17.6H19.5505V6.4H4.45049ZM2.00049 4H22.0005V20H2.00049V4Z"},"semibold":{"stroke":"M9.47549 15.4V8.6L15.3005 12L9.47549 15.4ZM5.00049 6.95V17.05H19.0005V6.95H5.00049ZM2.00049 4H22.0005V20H2.00049V4Z"},"bold":{"stroke":"M9.27549 15.65V8.325L15.5505 12L9.27549 15.65ZM5.55049 7.5V16.5H18.4505V7.5H5.55049ZM2.00049 4H22.0005V20H2.00049V4Z"}};
+
+export default {
+  name: "VideoFile",
+  props: {
+    weight:  { type: String, default: "regular" },
+    variant: { type: String, default: "stroke" },
+    size:    { type: [Number, String], default: 24 }
+  },
+  setup(props, { attrs }) {
+    return () => {
+      const w = p[props.weight] || p.regular;
+      const d = w[props.variant] || w.stroke || w.fill;
+      return h(
+        "svg",
+        { width: props.size, height: props.size, viewBox: "0 0 24 24",
+          fill: "none", xmlns: "http://www.w3.org/2000/svg", ...attrs },
+        [h("path", { d, fill: "currentColor" })]
+      );
+    };
+  }
+};
