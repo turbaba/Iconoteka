@@ -48,13 +48,25 @@ is designed to stay optically balanced across all seven weights.
 
 `icons.json` carries every icon and variant in one file — useful for bundling
 the set into a design system, generating components, or pulling icons at build
-time:
+time.
+
+```bash
+npm install iconoteka
+```
+
+```js
+import icons from "iconoteka" with { type: "json" };  // ESM
+const icons = require("iconoteka");                   // CommonJS
+```
+
+Or fetch it from the CDN:
 
 ```
 https://cdn.jsdelivr.net/gh/turbaba/Iconoteka@02.00.09/icons.json
 ```
 
 Pin the tag rather than `@main` — jsDelivr caches branch URLs for up to 7 days.
+The npm package contains `icons.json` only; the raw SVGs stay in the repo.
 
 ```json
 {
