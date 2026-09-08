@@ -135,7 +135,7 @@ function manifest(pkgName, extra) {
   return {
     name: pkgName,
     version: VERSION,
-    description: `Iconoteka icons as ${extra.label} components — 1298 icons, 7 weights, 2 styles`,
+    description: `Iconoteka icons as ${extra.label} components — 1298 icons in 7 weights, stroke and fill`,
     license: "MIT",
     author: "turbaba",
     homepage: "https://beta.iconoteka.com",
@@ -158,7 +158,7 @@ function readme(pkgName, label, usage) {
   return `# ${pkgName}
 
 [Iconoteka](https://beta.iconoteka.com) icons as ${label} components — 1298
-icons, 7 weights, 2 styles.
+icons in 7 weights, stroke throughout and fill on 954 of them.
 
 \`\`\`bash
 npm install ${pkgName}
@@ -172,6 +172,10 @@ ${usage}
 |---|---|---|---|
 | \`weight\` | \`thin\` · \`ultralight\` · \`light\` · \`regular\` · \`medium\` · \`semibold\` · \`bold\` | \`regular\` | stroke thickness |
 | \`variant\` | \`stroke\` · \`fill\` | \`stroke\` | outline or solid |
+
+Not every icon has a fill at every weight — 817 do at all seven, 137 at some.
+Asking for a fill that doesn't exist falls back to the stroke rather than
+rendering nothing.
 | \`size\` | number · string | \`24\` | width and height |
 
 Anything else is spread onto the \`<svg>\`. Icons paint with
