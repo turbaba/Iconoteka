@@ -1,10 +1,11 @@
 import { createElement } from "react";
 
 const p = {"thin":{"stroke":"M16.2755 19.4998V19.9998H4.00049V7.7248H4.50049L4.47549 19.1748L20.1255 3.5498L20.4755 3.8998L4.82549 19.5248L16.2755 19.4998Z"},"ultralight":{"stroke":"M16.5255 19.0248V19.9998H4.00049V7.4748H4.97549L4.90049 18.4248L19.7755 3.5498L20.4755 4.2498L5.57549 19.0998L16.5255 19.0248Z"},"light":{"stroke":"M16.7505 18.5248V19.9998H4.00049V7.2498H5.47549L5.35049 17.6248L19.4505 3.5498L20.4755 4.5748L6.37549 18.6748L16.7505 18.5248Z"},"regular":{"stroke":"M17.0005 18.0498V19.9998H4.00049V6.9998H5.95049L5.80049 16.8498L19.1005 3.5498L20.4755 4.9248L7.15049 18.2248L17.0005 18.0498Z"},"medium":{"stroke":"M17.2755 17.4498V19.9998H4.00049V6.7248H6.55049L6.30049 15.9248L18.6755 3.5498L20.4755 5.3498L8.12549 17.6998L17.2755 17.4498Z"},"semibold":{"stroke":"M17.5505 16.8748V19.9998H4.00049V6.4748H7.12549L6.85049 14.9748L18.2755 3.5498L20.4755 5.7498L9.05049 17.1748L17.5505 16.8748Z"},"bold":{"stroke":"M17.8255 16.2748V19.9998H4.00049V6.1998H7.72549L7.40049 13.9998L17.8505 3.5498L20.4755 6.1748L10.0505 16.5998L17.8255 16.2748Z"}};
+const f = null;
 
 export default function ArrowDownLeft({ weight = "regular", variant = "stroke", size = 24, ...rest }) {
   const w = p[weight] || p.regular;
-  const d = w[variant] || w.stroke || w.fill;
+  const d = w[variant] || (variant === "fill" ? f : null) || w.stroke;
   return createElement(
     "svg",
     { width: size, height: size, viewBox: "0 0 24 24", fill: "none",

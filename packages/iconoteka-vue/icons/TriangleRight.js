@@ -1,6 +1,7 @@
 import { h } from "vue";
 
 const p = {"thin":{"stroke":"M4.50049 21.5752L21.1005 12.0002L4.50049 2.42519V21.5752ZM4.00049 22.4252V1.5752L22.0755 12.0002L4.00049 22.4252Z","fill":"M4 22.4252V1.5752L22.075 12.0002L4 22.4252Z"},"ultralight":{"stroke":"M4.97549 20.7502L20.1505 12.0002L4.97549 3.25019V20.7502ZM4.00049 22.4252V1.5752L22.0755 12.0002L4.00049 22.4252Z"},"light":{"stroke":"M5.47549 19.9252L19.2005 12.0002L5.47549 4.07519V19.9252ZM4.00049 22.4252V1.5752L22.0755 12.0002L4.00049 22.4252Z"},"regular":{"stroke":"M5.95049 19.1002L18.2505 12.0002L5.95049 4.90019V19.1002ZM4.00049 22.4252V1.5752L22.0755 12.0002L4.00049 22.4252Z"},"medium":{"stroke":"M6.50049 18.1502L17.1755 12.0002L6.50049 5.8502V18.1502ZM4.00049 22.4252V1.5752L22.0755 12.0002L4.00049 22.4252Z"},"semibold":{"stroke":"M7.05049 17.2252L16.1005 12.0002L7.05049 6.7752V17.2252ZM4.00049 22.4252V1.5752L22.0755 12.0002L4.00049 22.4252Z"},"bold":{"stroke":"M7.60049 16.2752L15.0255 12.0002L7.60049 7.72519V16.2752ZM4.00049 22.4252V1.5752L22.0755 12.0002L4.00049 22.4252Z"}};
+const f = p.thin.fill;
 
 export default {
   name: "TriangleRight",
@@ -12,7 +13,7 @@ export default {
   setup(props, { attrs }) {
     return () => {
       const w = p[props.weight] || p.regular;
-      const d = w[props.variant] || w.stroke || w.fill;
+      const d = w[props.variant] || (props.variant === "fill" ? f : null) || w.stroke;
       return h(
         "svg",
         { width: props.size, height: props.size, viewBox: "0 0 24 24",

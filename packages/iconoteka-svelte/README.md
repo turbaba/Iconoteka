@@ -23,9 +23,9 @@ npm install iconoteka-svelte
 | `weight` | `thin` · `ultralight` · `light` · `regular` · `medium` · `semibold` · `bold` | `regular` | stroke thickness |
 | `variant` | `stroke` · `fill` | `stroke` | outline or solid |
 
-Not every icon has a fill at every weight — 817 do at all seven, 137 at some.
-Asking for a fill that doesn't exist falls back to the stroke rather than
-rendering nothing.
+A solid form usually doesn't change with stroke weight, so 137 icons store one
+fill rather than seven identical copies. Asking for `variant="fill"` at any
+weight returns it. The 344 icons that are stroke-only render their stroke.
 | `size` | number · string | `24` | width and height |
 
 Anything else is spread onto the `<svg>`. Icons paint with

@@ -21,6 +21,7 @@ const ROOT     = path.join(__dirname, "..");
 const DATA     = require(path.join(ROOT, "icons.json"));
 const PKG      = require(path.join(ROOT, "packages/iconoteka/package.json"));
 const VERSION  = PKG.version;
+const WRAPPER_VERSION = "0.1.0";  // wrappers version independently of the data
 
 const WEIGHTS = ["thin","ultralight","light","regular","medium","semibold","bold"];
 
@@ -33,6 +34,18 @@ function componentName(identity) {
     .map(p => p.charAt(0).toUpperCase() + p.slice(1))
     .join("");
   return /^[0-9]/.test(pascal) ? "Icon" + pascal : pascal;
+}
+
+/**
+ * A solid form usually doesn't change with stroke weight, so those icons store
+ * one fill rather than seven identical copies. Returns the weight key holding
+ * that shared fill, or null when the fill genuinely varies per weight.
+ */
+function sharedFillWeight(icon) {
+  const withFill = WEIGHTS.filter(w => icon.variants[w] && icon.variants[w].fill);
+  if (!withFill.length) return null;
+  const weights = WEIGHTS.filter(w => icon.variants[w]);
+  return withFill.length < weights.length ? withFill[0] : null;
 }
 
 function variantData(icon) {
@@ -50,13 +63,14 @@ function variantData(icon) {
 
 // ── Emitters ──────────────────────────────────────────────────────────────────
 
-const react = (name, paths) => `import { createElement } from "react";
+const react = (name, paths, shared) => `import { createElement } from "react";
 
 const p = ${JSON.stringify(paths)};
+const f = ${shared ? `p.${shared}.fill` : "null"};
 
 export default function ${name}({ weight = "regular", variant = "stroke", size = 24, ...rest }) {
   const w = p[weight] || p.regular;
-  const d = w[variant] || w.stroke || w.fill;
+  const d = w[variant] || (variant === "fill" ? f : null) || w.stroke;
   return createElement(
     "svg",
     { width: size, height: size, viewBox: "0 0 24 24", fill: "none",
@@ -66,9 +80,10 @@ export default function ${name}({ weight = "regular", variant = "stroke", size =
 }
 `;
 
-const vue = (name, paths) => `import { h } from "vue";
+const vue = (name, paths, shared) => `import { h } from "vue";
 
 const p = ${JSON.stringify(paths)};
+const f = ${shared ? `p.${shared}.fill` : "null"};
 
 export default {
   name: ${JSON.stringify(name)},
@@ -80,7 +95,7 @@ export default {
   setup(props, { attrs }) {
     return () => {
       const w = p[props.weight] || p.regular;
-      const d = w[props.variant] || w.stroke || w.fill;
+      const d = w[props.variant] || (props.variant === "fill" ? f : null) || w.stroke;
       return h(
         "svg",
         { width: props.size, height: props.size, viewBox: "0 0 24 24",
@@ -92,15 +107,16 @@ export default {
 };
 `;
 
-const svelte = (name, paths) => `<script>
+const svelte = (name, paths, shared) => `<script>
   export let weight = "regular";
   export let variant = "stroke";
   export let size = 24;
 
   const p = ${JSON.stringify(paths)};
+  const f = ${shared ? `p.${shared}.fill` : "null"};
 
   $: w = p[weight] || p.regular;
-  $: d = w[variant] || w.stroke || w.fill;
+  $: d = w[variant] || (variant === "fill" ? f : null) || w.stroke;
 </script>
 
 <svg width={size} height={size} viewBox="0 0 24 24" fill="none"
@@ -134,7 +150,7 @@ export declare const __icons: readonly string[];
 function manifest(pkgName, extra) {
   return {
     name: pkgName,
-    version: VERSION,
+    version: WRAPPER_VERSION,
     description: `Iconoteka icons as ${extra.label} components — 1298 icons in 7 weights, stroke and fill`,
     license: "MIT",
     author: "turbaba",
@@ -173,9 +189,9 @@ ${usage}
 | \`weight\` | \`thin\` · \`ultralight\` · \`light\` · \`regular\` · \`medium\` · \`semibold\` · \`bold\` | \`regular\` | stroke thickness |
 | \`variant\` | \`stroke\` · \`fill\` | \`stroke\` | outline or solid |
 
-Not every icon has a fill at every weight — 817 do at all seven, 137 at some.
-Asking for a fill that doesn't exist falls back to the stroke rather than
-rendering nothing.
+A solid form usually doesn't change with stroke weight, so 137 icons store one
+fill rather than seven identical copies. Asking for \`variant="fill"\` at any
+weight returns it. The 344 icons that are stroke-only render their stroke.
 | \`size\` | number · string | \`24\` | width and height |
 
 Anything else is spread onto the \`<svg>\`. Icons paint with
@@ -234,7 +250,7 @@ for (const t of TARGETS) {
     const paths    = variantData(icon);
     if (!Object.keys(paths).length) continue;
 
-    fs.writeFileSync(path.join(iconDir, `${name}.${t.ext}`), t.emit(name, paths));
+    fs.writeFileSync(path.join(iconDir, `${name}.${t.ext}`), t.emit(name, paths, sharedFillWeight(icon)));
     exports.push(`export { default as ${name} } from "./icons/${name}.${t.ext}";`);
     names.push(name);
   }

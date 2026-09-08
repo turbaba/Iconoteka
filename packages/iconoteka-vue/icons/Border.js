@@ -1,6 +1,7 @@
 import { h } from "vue";
 
 const p = {"thin":{"stroke":"M11.6505 12.35V11.65H12.3505V12.35H11.6505ZM3.00049 21V3H21.0005V21H3.00049ZM3.50049 20.525H20.5005V3.475H3.50049V20.525Z"},"ultralight":{"stroke":"M11.4255 12.55V11.425H12.5755V12.55H11.4255ZM3.00049 21V3H21.0005V21H3.00049ZM3.97549 20.05H20.0255V3.95H3.97549V20.05Z"},"light":{"stroke":"M11.2255 12.75V11.225H12.7755V12.75H11.2255ZM3.00049 21V3H21.0005V21H3.00049ZM4.47549 19.575H19.5255V4.425H4.47549V19.575Z"},"regular":{"stroke":"M11.0005 12.95V11H13.0005V12.95H11.0005ZM3.00049 21V3H21.0005V21H3.00049ZM4.95049 19.1H19.0505V4.9H4.95049V19.1Z"},"medium":{"stroke":"M10.7255 13.225V10.725H13.2755V13.225H10.7255ZM3.00049 21V3H21.0005V21H3.00049ZM5.50049 18.55H18.5005V5.45H5.50049V18.55Z"},"semibold":{"stroke":"M10.4255 13.525V10.425H13.5755V13.525H10.4255ZM3.00049 21V3H21.0005V21H3.00049ZM6.05049 18H17.9505V6H6.05049V18Z"},"bold":{"stroke":"M10.1505 13.8V10.15H13.8505V13.8H10.1505ZM3.00049 21V3H21.0005V21H3.00049ZM6.60049 17.45H17.4005V6.55H6.60049V17.45Z"}};
+const f = null;
 
 export default {
   name: "Border",
@@ -12,7 +13,7 @@ export default {
   setup(props, { attrs }) {
     return () => {
       const w = p[props.weight] || p.regular;
-      const d = w[props.variant] || w.stroke || w.fill;
+      const d = w[props.variant] || (props.variant === "fill" ? f : null) || w.stroke;
       return h(
         "svg",
         { width: props.size, height: props.size, viewBox: "0 0 24 24",

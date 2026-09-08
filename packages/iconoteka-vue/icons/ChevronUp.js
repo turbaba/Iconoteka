@@ -1,6 +1,7 @@
 import { h } from "vue";
 
 const p = {"thin":{"stroke":"M21.8755 17.2749L21.5255 17.6249L12.0005 8.0999L2.47549 17.6249L2.12549 17.2749L12.0005 7.3999L21.8755 17.2749Z"},"ultralight":{"stroke":"M21.8755 16.9248L21.1755 17.6248L12.0005 8.4248L2.82549 17.6248L2.12549 16.9248L12.0005 7.0498L21.8755 16.9248Z"},"light":{"stroke":"M21.9006 16.6002L20.8506 17.6252L12.0006 8.7252L3.15059 17.6252L2.10059 16.6002L12.0006 6.7002L21.9006 16.6002Z"},"regular":{"stroke":"M21.9006 16.2501L20.5006 17.6251L12.0006 9.0501L3.50059 17.6251L2.10059 16.2501L12.0006 6.3501L21.9006 16.2501Z"},"medium":{"stroke":"M21.9006 15.8248L20.1006 17.6248L12.0006 9.47481L3.90059 17.6248L2.10059 15.8248L12.0006 5.9248L21.9006 15.8248Z"},"semibold":{"stroke":"M21.9006 15.4249L19.6756 17.6249L12.0006 9.8749L4.32559 17.6249L2.10059 15.4249L12.0006 5.5249L21.9006 15.4249Z"},"bold":{"stroke":"M21.9006 15.0001L19.2756 17.6251L12.0006 10.3001L4.72559 17.6251L2.10059 15.0001L12.0006 5.1001L21.9006 15.0001Z"}};
+const f = null;
 
 export default {
   name: "ChevronUp",
@@ -12,7 +13,7 @@ export default {
   setup(props, { attrs }) {
     return () => {
       const w = p[props.weight] || p.regular;
-      const d = w[props.variant] || w.stroke || w.fill;
+      const d = w[props.variant] || (props.variant === "fill" ? f : null) || w.stroke;
       return h(
         "svg",
         { width: props.size, height: props.size, viewBox: "0 0 24 24",

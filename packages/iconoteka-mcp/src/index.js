@@ -13,22 +13,49 @@ const WEIGHTS = ["thin", "ultralight", "light", "regular", "medium", "semibold",
 const STYLES  = ["stroke", "fill"];
 
 const identity = i => i.name.split("-")[0];
-const available = i =>
-  Object.entries(i.variants).map(([w, v]) => `${w}:${Object.keys(v).join("+")}`).join(" ");
+
+/**
+ * A solid form often doesn't change with stroke weight, so those icons store
+ * one fill instead of seven identical copies. Asking for it at any weight
+ * returns that shared fill — it isn't missing, it's shared.
+ */
+const sharedFill = icon => {
+  for (const w of WEIGHTS) if (icon.variants[w]?.fill) return icon.variants[w].fill;
+  return null;
+};
+
+const hasFill = icon => Boolean(sharedFill(icon));
+
+const available = icon => {
+  const weights = Object.keys(icon.variants).length;
+  const perWeightFill = WEIGHTS.filter(w => icon.variants[w]?.fill).length;
+  const fill = perWeightFill === 0 ? "stroke only"
+             : perWeightFill === weights ? "fill varies by weight"
+             : "one shared fill";
+  return `${weights} weights, ${fill}`;
+};
 
 function svgFor(icon, weight, style) {
   const v = icon.variants[weight];
   if (!v) return { error: `"${identity(icon)}" has no ${weight} weight. Available: ${Object.keys(icon.variants).join(", ")}` };
-  const d = v[style];
-  if (!d) return { error: `"${identity(icon)}" ${weight} has no ${style} style. Available: ${Object.keys(v).join(", ")}` };
+
+  let d = v[style];
+  let note = "";
+  if (!d && style === "fill") {
+    d = sharedFill(icon);
+    if (d) note = " (shared fill — this icon's solid form is the same at every weight)";
+  }
+  if (!d) return { error: `"${identity(icon)}" has no fill; it is a stroke-only icon. Use style "stroke".` };
+
   return {
+    note,
     svg: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">\n  <path d="${d}" fill="currentColor"/>\n</svg>`,
   };
 }
 
 const text = s => ({ content: [{ type: "text", text: s }] });
 
-const server = new McpServer({ name: "iconoteka", version: "0.1.0" });
+const server = new McpServer({ name: "iconoteka", version: "0.1.1" });
 
 server.registerTool("search_icons", {
   title: "Search Iconoteka icons",
@@ -80,7 +107,7 @@ server.registerTool("get_icon", {
   const w = weight ?? "regular", s = style ?? "stroke";
   const out = svgFor(icon, w, s);
   if (out.error) return text(out.error);
-  return text(`${identity(icon)} — ${w} ${s} — ${icon.category}\n\n${out.svg}`);
+  return text(`${identity(icon)} — ${w} ${s}${out.note} — ${icon.category}\n\n${out.svg}`);
 });
 
 server.registerTool("list_categories", {
