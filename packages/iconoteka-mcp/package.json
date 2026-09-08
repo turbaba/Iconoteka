@@ -10,9 +10,10 @@
     "iconoteka-mcp": "src/index.js"
   },
   "files": [
-    "src",
+    "LICENSE",
     "README.md",
-    "LICENSE"
+    "server.json",
+    "src"
   ],
   "keywords": [
     "mcp",
