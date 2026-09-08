@@ -55,7 +55,7 @@ function svgFor(icon, weight, style) {
 
 const text = s => ({ content: [{ type: "text", text: s }] });
 
-const server = new McpServer({ name: "iconoteka", version: "0.1.1" });
+const server = new McpServer({ name: "iconoteka", version: "0.1.2" });
 
 server.registerTool("search_icons", {
   title: "Search Iconoteka icons",

@@ -49,14 +49,32 @@ const SYNONYMS = {
   bell: ["notification", "alarm", "ring"],
 };
 
-function fuzzyMatch(str, q) {
-  let si = 0, qi = 0, score = 0, consecutive = 0;
-  while (si < str.length && qi < q.length) {
-    if (str[si] === q[qi]) { score += 1 + consecutive; consecutive++; qi++; }
-    else consecutive = 0;
-    si++;
+/**
+ * Levenshtein distance, capped. The previous matcher only walked the query as
+ * a subsequence, so it caught a dropped letter ("shoping") but never an extra
+ * one ("belll") or a swap ("calender") — the two most common typos.
+ */
+function editDistance(a, b) {
+  if (a === b) return 0;
+  if (Math.abs(a.length - b.length) > 2) return 99;
+  let prev = Array.from({ length: b.length + 1 }, (_, i) => i);
+  for (let i = 1; i <= a.length; i++) {
+    const cur = [i];
+    for (let j = 1; j <= b.length; j++) {
+      cur[j] = a[i - 1] === b[j - 1]
+        ? prev[j - 1]
+        : 1 + Math.min(prev[j - 1], prev[j], cur[j - 1]);
+    }
+    prev = cur;
   }
-  return qi === q.length ? score : 0;
+  return prev[b.length];
+}
+
+/** Near-miss score: 1 edit for short queries, 2 once there's room to be sure. */
+function fuzzyMatch(target, q) {
+  const allowed = q.length >= 7 ? 2 : 1;
+  const d = editDistance(target, q);
+  return d <= allowed ? (allowed - d + 1) * 20 : 0;
 }
 
 function wordMatch(segment, q) {
@@ -64,18 +82,38 @@ function wordMatch(segment, q) {
 }
 
 export function scoreIcon(icon, q) {
-  const name  = icon.name.toLowerCase();
-  const parts = name.split("-");
-  const terms = (icon.searchTerms || []).map(t => t.toLowerCase());
-  const cat   = (icon.category || "").toLowerCase();
+  const name     = icon.name.toLowerCase();
+  const parts    = name.split("-");
+  const identity = parts[0];
+  const terms    = (icon.searchTerms || []).map(t => t.toLowerCase());
+  const cat      = (icon.category || "").toLowerCase();
 
-  if (name === q || parts[0] === q)                              return 1000;
-  if (parts.some(p => wordMatch(p, q)))                          return 900;
-  if (parts.some(p => p.split("_").join("") === q))              return 890;
-  if (terms.some(t => wordMatch(t, q)))                          return 850;
-  if (cat.split(" ").includes(q) || cat === q)                   return 500;
+  // The icon *is* the thing asked for.
+  if (name === q || identity === q)                     return 1000;
+
+  // A standalone alias equal to the query: somebody deliberately tagged this
+  // icon with this word. Earlier aliases were listed first, so rank them first.
+  // Many icons legitimately carry the same alias: eight claim "delete". Prefer
+  // the one whose identity is simplest — garbage over filter_remove, because
+  // "remove a filter" is a narrower idea than the bin itself.
+  const aliasAt = parts.findIndex(p => p === q);
+  const idWords = identity.split("_").length;
+  if (aliasAt > 0)  return 950 - Math.min(aliasAt, 20) - (idWords - 1) * 12;
+
+  // The identity contains the query as a whole word — doc_delete for "delete".
+  if (identity.split("_").includes(q))                  return 900;
+  if (identity.split("_").join("") === q)               return 890;
+
+  // A compound *alias* contains the query as a word — alarm_delete for
+  // "delete". Much weaker: "delete an alarm" is not "a delete icon".
+  const subAt = parts.findIndex(p => p.split("_").includes(q));
+  if (subAt > 0)                                        return 700 - Math.min(subAt, 20);
+
+  if (terms.some(t => wordMatch(t, q)))                 return 650;
+  if (cat.split(" ").includes(q) || cat === q)          return 500;
 
   if (q.length >= 2) {
+    if (identity.split("_").some(w => w.startsWith(q))) return 460;
     if (parts.some(p => p.split("_").some(w => w.startsWith(q)))) return 450;
     if (parts.some(p => p.split("_").join("").startsWith(q)))     return 445;
     if (terms.some(t => t.split("_").some(w => w.startsWith(q)))) return 430;
@@ -84,12 +122,16 @@ export function scoreIcon(icon, q) {
     const syn = SYNONYMS[q] || [];
     if (syn.some(s => parts.some(p => wordMatch(p, s)) || terms.some(t => wordMatch(t, s)))) return 400;
   }
-  if (q.length >= 7) {
+  // Typo tolerance. Gated at 4 characters, not 7 — "belll" and "shoping" are
+  // exactly the misspellings that need to survive, and both are shorter.
+  if (q.length >= 4) {
+    const idBest = Math.max(...identity.split("_").map(w => fuzzyMatch(w, q)), 0);
+    if (idBest) return 300 + idBest;                     // typo on the identity
     const best = Math.max(
       ...parts.map(p => Math.max(...p.split("_").map(w => fuzzyMatch(w, q)))),
       ...terms.map(t => fuzzyMatch(t, q)), 0
     );
-    if (best > q.length * 0.9) return 200 + best;
+    if (best) return 200 + best;                         // typo on an alias
   }
   return 0;
 }
@@ -109,7 +151,10 @@ export function search(icons, query, { category, limit = 20 } = {}) {
       return { icon, score };
     })
     .filter(r => r.score > 0)
-    .sort((a, b) => b.score - a.score || a.icon.name.localeCompare(b.icon.name))
+    .sort((a, b) =>
+      b.score - a.score ||
+      Number(Boolean(b.icon.popular)) - Number(Boolean(a.icon.popular)) ||
+      a.icon.name.localeCompare(b.icon.name))
     .slice(0, limit);
 }
 

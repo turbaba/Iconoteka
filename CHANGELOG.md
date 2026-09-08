@@ -26,7 +26,7 @@ Library versions use the `02.00.08` form.
   iterating `icons` got those 38 twice.
 - Those icons now carry `"popular": true` on their real entry. The curated
   selection lives in `scripts/popular.json`, keyed by icon identity.
-- `icons.json` is 1 298 entries (was 1 336 with the duplicates) and 14 942
+- `icons.json` is 1 298 entries (the Popular duplicates are no longer double-counted) and 14 942
   shapes, matching the published figures.
 - `meta.cdn` now pins the release tag instead of `@main`, which jsDelivr
   caches for up to 7 days.
