@@ -1,0 +1,42 @@
+{
+  "name": "iconoteka",
+  "version": "2.0.9",
+  "libraryVersion": "02.00.09",
+  "description": "Iconoteka icon data \u2014 1298 icons in 7 weights and 2 styles as a single JSON file",
+  "license": "MIT",
+  "author": "turbaba",
+  "homepage": "https://beta.iconoteka.com",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/turbaba/Iconoteka.git",
+    "directory": "packages/iconoteka"
+  },
+  "bugs": {
+    "url": "https://github.com/turbaba/Iconoteka/issues"
+  },
+  "keywords": [
+    "icons",
+    "icon-set",
+    "svg",
+    "ui",
+    "user-interface",
+    "design-system",
+    "figma",
+    "icon-library"
+  ],
+  "files": [
+    "icons.json",
+    "README.md",
+    "LICENSE"
+  ],
+  "main": "icons.json",
+  "exports": {
+    ".": "./icons.json",
+    "./icons.json": "./icons.json"
+  },
+  "sideEffects": false,
+  "scripts": {
+    "build": "node scripts/build.js",
+    "dev": "node scripts/build.js --watch"
+  }
+}

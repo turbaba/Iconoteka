@@ -180,7 +180,8 @@ function build() {
   // Version comes from package.json — bump "version" there for a release
   // npm needs semver in "version"; the library's display string lives in
   // "libraryVersion" and is what the website and plugin show.
-  const pkg = require("../package.json");
+  // Version comes from the published data package, not the workspace root.
+const pkg = require("../packages/iconoteka/package.json");
   const version = pkg.libraryVersion || pkg.version;
 
   // Curated "Popular" selection, in list order, so consumers get it from
@@ -201,7 +202,16 @@ function build() {
     icons,
   };
 
-  fs.writeFileSync(OUTPUT, JSON.stringify(output, null, 2));
+  const json = JSON.stringify(output, null, 2);
+
+  // Root icons.json is the canonical CDN artifact — jsDelivr and
+  // raw.githubusercontent URLs point at it, so it must not move.
+  fs.writeFileSync(OUTPUT, json);
+
+  // The npm package can only ship files inside its own directory.
+  const PKG_COPY = path.join(__dirname, "../packages/iconoteka/icons.json");
+  if (fs.existsSync(path.dirname(PKG_COPY))) fs.writeFileSync(PKG_COPY, json);
+
   console.log(`✅  Built icons.json — ${icons.length} unique icons across ${categories.length} categories`);
 }
 

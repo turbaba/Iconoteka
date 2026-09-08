@@ -1,8 +1,7 @@
 {
-  "name": "iconoteka",
-  "version": "2.0.9",
-  "libraryVersion": "02.00.09",
-  "description": "A clean, open-source icon library for modern products",
+  "name": "iconoteka-monorepo",
+  "private": true,
+  "description": "Iconoteka — icon library source, data package, MCP server and framework wrappers",
   "license": "MIT",
   "author": "turbaba",
   "homepage": "https://beta.iconoteka.com",
@@ -10,32 +9,14 @@
     "type": "git",
     "url": "git+https://github.com/turbaba/Iconoteka.git"
   },
-  "bugs": {
-    "url": "https://github.com/turbaba/Iconoteka/issues"
-  },
-  "keywords": [
-    "icons",
-    "icon-set",
-    "svg",
-    "ui",
-    "user-interface",
-    "design-system",
-    "figma",
-    "icon-library"
+  "workspaces": [
+    "packages/*"
   ],
-  "files": [
-    "icons.json",
-    "README.md",
-    "LICENSE"
-  ],
-  "main": "icons.json",
-  "exports": {
-    ".": "./icons.json",
-    "./icons.json": "./icons.json"
-  },
-  "sideEffects": false,
   "scripts": {
     "build": "node scripts/build.js",
-    "dev": "node scripts/build.js --watch"
+    "test": "node scripts/build.js && npm run smoke -w iconoteka-mcp --if-present"
+  },
+  "engines": {
+    "node": ">=18"
   }
 }
