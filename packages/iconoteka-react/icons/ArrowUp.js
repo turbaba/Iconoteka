@@ -1,15 +1,21 @@
-import { createElement } from "react";
+import { createElement, forwardRef } from "react";
 
 const p = {"thin":{"stroke":"M3.67544 9.7248L3.32544 9.3748L12.0004 0.674805L20.6754 9.3748L20.3254 9.7248L12.2504 1.5998V22.9998H11.7504V1.5998L3.67544 9.7248Z"},"ultralight":{"stroke":"M3.85039 10.2248L3.15039 9.5498L12.0004 0.674805L20.8504 9.5498L20.1504 10.2248L12.5004 2.4748V22.9998H11.5004V2.4748L3.85039 10.2248Z"},"light":{"stroke":"M4.00059 10.7498L2.97559 9.6998L12.0006 0.674805L21.0256 9.6998L20.0006 10.7498L12.7506 3.3248V22.9998H11.2506V3.3248L4.00059 10.7498Z"},"regular":{"stroke":"M4.17554 11.2498L2.80054 9.8748L12.0005 0.674805L21.2005 9.8748L19.8255 11.2498L13.0005 4.1998V22.9998H11.0005V4.1998L4.17554 11.2498Z"},"medium":{"stroke":"M4.40059 11.8498L2.60059 10.0748L12.0006 0.674805L21.4006 10.0748L19.6006 11.8498L13.3006 5.2248V22.9998H10.7006V5.2248L4.40059 11.8498Z"},"semibold":{"stroke":"M4.62554 12.4748L2.42554 10.2498L12.0005 0.674805L21.5755 10.2498L19.3755 12.4748L13.5755 6.2498V22.9998H10.4255V6.2498L4.62554 12.4748Z"},"bold":{"stroke":"M4.85059 13.0748L2.22559 10.4498L12.0006 0.674805L21.7756 10.4498L19.1506 13.0748L13.8756 7.2998V22.9998H10.1256V7.2998L4.85059 13.0748Z"}};
 const f = null;
 
-export default function ArrowUp({ weight = "regular", variant = "stroke", size = 24, ...rest }) {
+const ArrowUp = forwardRef(function ArrowUp(
+  { weight = "regular", variant = "stroke", size = 24, ...rest }, ref
+) {
   const w = p[weight] || p.regular;
   const d = w[variant] || (variant === "fill" ? f : null) || w.stroke;
   return createElement(
     "svg",
-    { width: size, height: size, viewBox: "0 0 24 24", fill: "none",
+    { ref, width: size, height: size, viewBox: "0 0 24 24", fill: "none",
       xmlns: "http://www.w3.org/2000/svg", ...rest },
     createElement("path", { d, fill: "currentColor" })
   );
-}
+});
+
+ArrowUp.displayName = "ArrowUp";
+
+export default ArrowUp;

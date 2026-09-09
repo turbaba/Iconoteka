@@ -1,16 +1,14 @@
 <script>
-  export let weight = "regular";
-  export let variant = "stroke";
-  export let size = 24;
+  let { weight = "regular", variant = "stroke", size = 24, ...rest } = $props();
 
   const p = {"thin":{"stroke":"M2.00049 20V3H8.45049L10.4505 5H22.0005V20H2.00049ZM2.50049 19.525H21.5005V5.475H10.2505L8.25049 3.475H2.50049V19.525ZM9.90049 15.575L15.1755 12.5L9.90049 9.425V15.575ZM9.42549 16.375V8.625L16.0755 12.5L9.42549 16.375Z","fill":"M2 20V3H8.45L10.45 5H22V20H2ZM9.4 16.375L16.05 12.5L9.4 8.625V16.375Z"},"ultralight":{"stroke":"M2.00049 20V3H8.62549L10.6255 5H22.0005V20H2.00049ZM2.97549 19.075H21.0255V5.925H10.2255L8.22549 3.925H2.97549V19.075ZM10.1505 14.825L14.2755 12.45L10.1505 10.075V14.825ZM9.30049 16.3V8.6L15.9505 12.45L9.30049 16.3Z"},"light":{"stroke":"M2.00049 20V3H8.77549L10.7755 5H22.0005V20H2.00049ZM3.42549 18.6H20.5755V6.4H10.2005L8.20049 4.4H3.42549V18.6ZM10.3255 14.775V10.075L14.3255 12.425L10.3255 14.775Z"},"regular":{"stroke":"M2.00049 20V3H8.95049L10.9505 5H22.0005V20H2.00049ZM3.90049 18.15H20.1005V6.85H10.1755L8.17549 4.85H3.90049V18.15ZM9.97549 15.15V9.6L14.7255 12.375L9.97549 15.15Z"},"medium":{"stroke":"M2.00049 20V3H9.37549L11.1255 4.75H22.0005V20H2.00049ZM4.45049 17.6H19.5505V7.15H10.1255L8.37549 5.4H4.45049V17.6ZM9.80049 15.3V9.3L14.9505 12.3L9.80049 15.3Z"},"semibold":{"stroke":"M2.00049 20V3H9.77549L11.2755 4.5H22.0005V20H2.00049ZM5.00049 17.05H19.0005V7.45H10.0505L8.55049 5.95H5.00049V17.05ZM9.65049 15.45V9L15.1505 12.225L9.65049 15.45Z"},"bold":{"stroke":"M2.00049 20V3H10.2005L11.4505 4.25H22.0005V20H2.00049ZM5.55049 16.5H18.4505V7.75H10.0005L8.75049 6.5H5.55049V16.5ZM9.47549 15.6V8.7L15.3755 12.15L9.47549 15.6Z"}};
   const f = p.thin.fill;
 
-  $: w = p[weight] || p.regular;
-  $: d = w[variant] || (variant === "fill" ? f : null) || w.stroke;
+  const w = $derived(p[weight] || p.regular);
+  const d = $derived(w[variant] || (variant === "fill" ? f : null) || w.stroke);
 </script>
 
 <svg width={size} height={size} viewBox="0 0 24 24" fill="none"
-     xmlns="http://www.w3.org/2000/svg" {...$$restProps}>
-  <path {d} fill="currentColor" />
+     xmlns="http://www.w3.org/2000/svg" {...rest}>
+  <path d={d} fill="currentColor" />
 </svg>

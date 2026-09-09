@@ -93,26 +93,35 @@ server.registerTool("search_icons", {
 server.registerTool("get_icon", {
   title: "Get an Iconoteka icon as SVG",
   description:
-    "Return paste-ready SVG markup for one icon. The path uses fill=\"currentColor\", " +
-    "so it inherits the surrounding text colour. Licensed MIT — free to use, no attribution required.",
+    "Return paste-ready SVG markup. Pass one name, or an array of names to get " +
+    "several in a single call — building a toolbar needs one request, not eight. " +
+    "The path uses fill=\"currentColor\", so it inherits the surrounding text " +
+    "colour. Licensed MIT — free to use, no attribution required.",
   inputSchema: {
-    name: z.string().describe('Icon name from search_icons, e.g. "bell"'),
+    name: z.union([z.string(), z.array(z.string()).min(1).max(24)])
+      .describe('One icon name from search_icons, e.g. "bell", or several: ["bell", "trash"]'),
     weight: z.enum(WEIGHTS).optional().describe("Default regular"),
     style: z.enum(STYLES).optional().describe("Default stroke"),
   },
 }, async ({ name, weight, style }) => {
-  const icon = findIcon(ICONS, name);
-  if (!icon) {
-    const near = search(ICONS, name, { limit: 5 }).map(h => identity(h.icon));
-    return text(
-      `No icon called "${name}".` +
-      (near.length ? ` Did you mean: ${near.join(", ")}?` : ` Try search_icons first.`)
-    );
-  }
   const w = weight ?? "regular", s = style ?? "stroke";
-  const out = svgFor(icon, w, s);
-  if (out.error) return text(out.error);
-  return text(`${identity(icon)} — ${w} ${s}${out.note} — ${icon.category}\n\n${out.svg}`);
+
+  // One name renders exactly as it always has. A list renders the same block
+  // per icon, so anything that parsed a single answer still parses each one.
+  const one = (n) => {
+    const icon = findIcon(ICONS, n);
+    if (!icon) {
+      const near = search(ICONS, n, { limit: 5 }).map(h => identity(h.icon));
+      return `No icon called "${n}".` +
+        (near.length ? ` Did you mean: ${near.join(", ")}?` : ` Try search_icons first.`);
+    }
+    const out = svgFor(icon, w, s);
+    if (out.error) return out.error;
+    return `${identity(icon)} — ${w} ${s}${out.note} — ${icon.category}\n\n${out.svg}`;
+  };
+
+  if (!Array.isArray(name)) return text(one(name));
+  return text(name.map(one).join("\n\n---\n\n"));
 });
 
 server.registerTool("list_categories", {

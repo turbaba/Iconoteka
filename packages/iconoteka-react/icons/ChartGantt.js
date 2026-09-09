@@ -1,15 +1,21 @@
-import { createElement } from "react";
+import { createElement, forwardRef } from "react";
 
 const p = {"thin":{"stroke":"M15.5005 3.475H3.00049V10.525H15.5005V3.475ZM16.0005 3V11H2.50049V3H16.0005ZM21.0005 13.475H8.50049V20.525H21.0005V13.475ZM21.5005 13V21H8.00049V13H21.5005Z","fill":"M16 3V11H2.5V3H16ZM21.5 13V21H8V13H21.5Z"},"ultralight":{"stroke":"M15.0505 3.925H3.45049V10.075H15.0505V3.925ZM16.0005 3V11H2.50049V3H16.0005ZM20.5505 13.925H8.95049V20.075H20.5505V13.925ZM21.5005 13V21H8.00049V13H21.5005Z","fill":"M16 3V11H2.5V3H16ZM21.5 13V21H8V13H21.5Z"},"light":{"stroke":"M14.6005 4.35H3.90049V9.65H14.6005V4.35ZM16.0005 3V11H2.50049V3H16.0005ZM20.1005 14.35H9.40049V19.65H20.1005V14.35ZM21.5005 13V21H8.00049V13H21.5005Z","fill":"M16 3V11H2.5V3H16ZM21.5 13V21H8V13H21.5Z"},"regular":{"stroke":"M14.1505 4.8H4.35049V9.2H14.1505V4.8ZM16.0005 3V11H2.50049V3H16.0005ZM19.6505 14.8H9.85049V19.2H19.6505V14.8ZM21.5005 13V21H8.00049V13H21.5005Z","fill":"M16 3V11H2.5V3H16ZM21.5 13V21H8V13H21.5Z"},"medium":{"stroke":"M13.6505 5.3H4.85049V8.775H13.6505V5.3ZM16.0005 3V11.075H2.50049V3H16.0005ZM19.1505 15.225H10.3505V18.7H19.1505V15.225ZM21.5005 12.925V21H8.00049V12.925H21.5005Z","fill":"M16 3V11.075H2.5V3H16ZM21.5 12.925V21H8V12.925H21.5Z"},"semibold":{"stroke":"M13.1255 5.825H5.37549V8.35H13.1255V5.825ZM16.0005 3V11.175H2.50049V3H16.0005ZM18.6255 15.65H10.8755V18.175H18.6255V15.65ZM21.5005 12.825V21H8.00049V12.825H21.5005Z","fill":"M16 3V11.175H2.5V3H16ZM21.5 12.825V21H8V12.825H21.5Z"},"bold":{"stroke":"M12.6255 6.325H5.87549V7.925H12.6255V6.325ZM16.0005 3V11.25H2.50049V3H16.0005ZM18.1255 16.075H11.3755V17.675H18.1255V16.075ZM21.5005 12.75V21H8.00049V12.75H21.5005Z","fill":"M16 3V11.25H2.5V3H16ZM21.5 12.75V21H8V12.75H21.5Z"}};
 const f = null;
 
-export default function ChartGantt({ weight = "regular", variant = "stroke", size = 24, ...rest }) {
+const ChartGantt = forwardRef(function ChartGantt(
+  { weight = "regular", variant = "stroke", size = 24, ...rest }, ref
+) {
   const w = p[weight] || p.regular;
   const d = w[variant] || (variant === "fill" ? f : null) || w.stroke;
   return createElement(
     "svg",
-    { width: size, height: size, viewBox: "0 0 24 24", fill: "none",
+    { ref, width: size, height: size, viewBox: "0 0 24 24", fill: "none",
       xmlns: "http://www.w3.org/2000/svg", ...rest },
     createElement("path", { d, fill: "currentColor" })
   );
-}
+});
+
+ChartGantt.displayName = "ChartGantt";
+
+export default ChartGantt;

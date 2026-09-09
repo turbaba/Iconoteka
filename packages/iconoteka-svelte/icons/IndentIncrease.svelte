@@ -1,16 +1,14 @@
 <script>
-  export let weight = "regular";
-  export let variant = "stroke";
-  export let size = 24;
+  let { weight = "regular", variant = "stroke", size = 24, ...rest } = $props();
 
   const p = {"thin":{"stroke":"M21.0005 3.475H3.00049V3H21.0005V3.475ZM21.0005 21H3.00049V20.525H21.0005V21ZM21.0005 12.225H10.0005V11.75H21.0005V12.225ZM3.10049 15.275L2.75049 14.925L5.67549 12L2.75049 9.075L3.10049 8.725L6.37549 12L3.10049 15.275Z"},"ultralight":{"stroke":"M21.0005 3.95H3.00049V3H21.0005V3.95ZM21.0005 21H3.00049V20.05H21.0005V21ZM21.0005 12.45H10.0005V11.475H21.0005V12.45ZM3.42549 15.3L2.75049 14.65L5.42549 12.05L2.75049 9.45L3.42549 8.8L6.67549 12.05L3.42549 15.3Z"},"light":{"stroke":"M21.0005 4.425H3.00049V3H21.0005V4.425ZM21.0005 21H3.00049V19.575H21.0005V21ZM21.0005 12.675H10.0005V11.25H21.0005V12.675ZM3.00049 14.8V9.3L5.75049 12.05L3.00049 14.8Z"},"regular":{"stroke":"M21.0005 4.85H3.00049V3H21.0005V4.85ZM21.0005 21H3.00049V19.15H21.0005V21ZM21.0005 12.925H10.0005V11.075H21.0005V12.925ZM3.00049 15.25V8.75L6.25049 12L3.00049 15.25Z"},"medium":{"stroke":"M21.0005 5.425H3.00049V3H21.0005V5.425ZM21.0005 21H3.00049V18.575H21.0005V21ZM21.0005 13.225H10.0005V10.775H21.0005V13.225ZM3.00049 15.575V8.425L6.57549 12L3.00049 15.575Z"},"semibold":{"stroke":"M21.0005 6.025H3.00049V3H21.0005V6.025ZM21.0005 21H3.00049V17.975H21.0005V21ZM21.0005 13.5H10.0005V10.5H21.0005V13.5ZM3.00049 15.925V8.075L6.92549 12L3.00049 15.925Z"},"bold":{"stroke":"M21.0005 6.6H3.00049V3H21.0005V6.6ZM21.0005 21H3.00049V17.4H21.0005V21ZM21.0005 13.8H10.0005V10.2H21.0005V13.8ZM3.00049 16.25V7.75L7.25049 12L3.00049 16.25Z"}};
   const f = null;
 
-  $: w = p[weight] || p.regular;
-  $: d = w[variant] || (variant === "fill" ? f : null) || w.stroke;
+  const w = $derived(p[weight] || p.regular);
+  const d = $derived(w[variant] || (variant === "fill" ? f : null) || w.stroke);
 </script>
 
 <svg width={size} height={size} viewBox="0 0 24 24" fill="none"
-     xmlns="http://www.w3.org/2000/svg" {...$$restProps}>
-  <path {d} fill="currentColor" />
+     xmlns="http://www.w3.org/2000/svg" {...rest}>
+  <path d={d} fill="currentColor" />
 </svg>

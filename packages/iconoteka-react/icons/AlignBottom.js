@@ -1,15 +1,21 @@
-import { createElement } from "react";
+import { createElement, forwardRef } from "react";
 
 const p = {"thin":{"stroke":"M21.0005 20.5V20.975H3.00049V20.5H21.0005ZM15.2505 13.5L12.0005 16.75L8.75049 13.5L9.10049 13.15L11.7505 15.85V3H12.2505V15.85L14.9005 13.15L15.2505 13.5Z"},"ultralight":{"stroke":"M21.0005 20V20.975H3.00049V20H21.0005ZM15.4255 13.325L12.0005 16.75L8.57549 13.325L9.25049 12.675L11.5005 15.125V3H12.5005V15.125L14.7505 12.675L15.4255 13.325Z"},"light":{"stroke":"M21.0005 19.525V20.975H3.00049V19.525H21.0005ZM14.6755 14.075L12.0005 16.75L9.32549 14.075H11.2505V3H12.7505V14.075H14.6755Z"},"regular":{"stroke":"M21.0005 19.025V20.975H3.00049V19.025H21.0005ZM15.5005 13.25L12.0005 16.75L8.50049 13.25H11.0005V3H13.0005V13.25H15.5005Z"},"medium":{"stroke":"M21.0005 18.45V20.975H3.00049V18.45H21.0005ZM16.0005 12.425L12.0005 16.425L8.00049 12.425H10.7005V3H13.3005V12.425H16.0005Z"},"semibold":{"stroke":"M21.0005 17.85V20.975H3.00049V17.85H21.0005ZM16.5005 11.575L12.0005 16.075L7.50049 11.575H10.4255V3H13.5755V11.575H16.5005Z"},"bold":{"stroke":"M21.0005 17.275V20.975H3.00049V17.275H21.0005ZM17.0005 10.75L12.0005 15.75L7.00049 10.75H10.1255V3H13.8755V10.75H17.0005Z"}};
 const f = null;
 
-export default function AlignBottom({ weight = "regular", variant = "stroke", size = 24, ...rest }) {
+const AlignBottom = forwardRef(function AlignBottom(
+  { weight = "regular", variant = "stroke", size = 24, ...rest }, ref
+) {
   const w = p[weight] || p.regular;
   const d = w[variant] || (variant === "fill" ? f : null) || w.stroke;
   return createElement(
     "svg",
-    { width: size, height: size, viewBox: "0 0 24 24", fill: "none",
+    { ref, width: size, height: size, viewBox: "0 0 24 24", fill: "none",
       xmlns: "http://www.w3.org/2000/svg", ...rest },
     createElement("path", { d, fill: "currentColor" })
   );
-}
+});
+
+AlignBottom.displayName = "AlignBottom";
+
+export default AlignBottom;

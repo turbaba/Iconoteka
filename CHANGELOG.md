@@ -2,6 +2,27 @@
 
 Library versions use the `02.00.08` form.
 
+## 02.00.15 — 9 Sep 2026
+
+Wrappers 0.3.0, MCP 0.2.0. No icon data changed.
+
+- **React refs work again.** Icons were plain function components, so before
+  React 19 a `ref` was silently dropped and React warned "Function components
+  cannot be given refs" — while the types accepted it happily. Every icon is
+  wrapped in `forwardRef` now and carries a `displayName`. Verified against a
+  real DOM on React 18: `ref.current` is the `<svg>`.
+- **Svelte works in runes mode.** The components used `export let` and
+  `$$restProps`, which throws "Cannot use $$restProps in runes mode", so any
+  project with `compilerOptions.runes = true` could not use them at all. They
+  use `$props()` and `$derived` now. This needs Svelte 5, so the peer range
+  moves from `>=4` to `>=5` — the one breaking change here.
+- **`get_icon` takes a list.** Pass `["bell", "trash", "pen"]` to fetch up to
+  24 icons in one call instead of one request each. A single name behaves
+  exactly as before, and an unknown name inside a list still returns its own
+  "did you mean" line rather than failing the batch.
+- Each package's `index.d.ts` now declares one `IconComponent` alias instead
+  of repeating the full type on all 4512 lines.
+
 ## 02.00.14 — 9 Sep 2026
 
 Packaging and typing fixes found by a full functional test of the wrappers

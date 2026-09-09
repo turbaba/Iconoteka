@@ -1,16 +1,14 @@
 <script>
-  export let weight = "regular";
-  export let variant = "stroke";
-  export let size = 24;
+  let { weight = "regular", variant = "stroke", size = 24, ...rest } = $props();
 
   const p = {"thin":{"stroke":"M4.15381 20.4375V19.9625L11.7038 2.4375H12.3788L19.8538 19.9625V20.4375H4.15381ZM4.70381 19.9375H19.2788L12.0288 2.9375L4.70381 19.9375Z"},"ultralight":{"stroke":"M4.12891 20.4375V19.5125L11.3789 2.4375H12.7039L19.8789 19.5125V20.4375H4.12891ZM5.22891 19.4625H18.7789L12.0289 3.3375L5.22891 19.4625Z"},"light":{"stroke":"M4.12891 20.4375V19.0875L11.0289 2.4375H13.0039L19.8789 19.0875V20.4375H4.12891ZM5.72891 19.0125H18.2289L12.0039 3.8125L5.72891 19.0125Z"},"regular":{"stroke":"M4.104 20.4375V18.6375L10.704 2.4375H13.329L19.904 18.6375V20.4375H4.104ZM6.254 18.5375H17.729L12.004 4.2625L6.254 18.5375Z"},"medium":{"stroke":"M3.91211 20.4375V18.1875L10.2621 2.4375H13.7371L20.0621 18.1875V20.4375H3.91211ZM6.68711 18.0375H17.2871L11.9871 4.7625L6.68711 18.0375Z"},"semibold":{"stroke":"M3.75757 20.4375V17.7125L9.80757 2.4375H14.1826L20.2576 17.7125V20.4375H3.75757ZM7.18257 17.5375H16.8076L11.9826 5.2625L7.18257 17.5375Z"},"bold":{"stroke":"M3.57788 20.4375V17.2625L9.37788 2.4375H14.6029L20.4279 17.2625V20.4375H3.57788ZM7.62788 17.0375H16.3779L11.9779 5.7625L7.62788 17.0375Z"}};
   const f = null;
 
-  $: w = p[weight] || p.regular;
-  $: d = w[variant] || (variant === "fill" ? f : null) || w.stroke;
+  const w = $derived(p[weight] || p.regular);
+  const d = $derived(w[variant] || (variant === "fill" ? f : null) || w.stroke);
 </script>
 
 <svg width={size} height={size} viewBox="0 0 24 24" fill="none"
-     xmlns="http://www.w3.org/2000/svg" {...$$restProps}>
-  <path {d} fill="currentColor" />
+     xmlns="http://www.w3.org/2000/svg" {...rest}>
+  <path d={d} fill="currentColor" />
 </svg>

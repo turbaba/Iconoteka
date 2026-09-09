@@ -1,16 +1,14 @@
 <script>
-  export let weight = "regular";
-  export let variant = "stroke";
-  export let size = 24;
+  let { weight = "regular", variant = "stroke", size = 24, ...rest } = $props();
 
   const p = {"thin":{"stroke":"M21.501 2L17.826 8.5L21.501 15H4.50098V22H4.00098V2H21.501ZM4.50098 14.525H20.651L17.251 8.5L20.651 2.475H4.50098V14.525Z","fill":"M21.5 2L17.825 8.5L21.5 15H4.5V22H4V2H21.5Z"},"ultralight":{"stroke":"M21.501 2L17.826 8.5L21.501 15H4.97598V22H4.00098V2H21.501ZM4.97598 14.075H19.851L16.726 8.5L19.851 2.925H4.97598V14.075Z","fill":"M21.5 2L17.825 8.5L21.5 15H5V22H4V2H21.5Z"},"light":{"stroke":"M21.501 2L17.826 8.5L21.501 15H5.42598V22H4.00098V2H21.501ZM5.42598 13.6H19.051L16.176 8.5L19.051 3.4H5.42598V13.6Z","fill":"M21.5 2L17.825 8.5L21.5 15H5.5V22H4V2H21.5Z"},"regular":{"stroke":"M21.501 2L17.826 8.5L21.501 15H5.90098V22H4.00098V2H21.501ZM5.90098 13.15H18.251L15.651 8.5L18.251 3.85H5.90098V13.15Z","fill":"M21.5 2L17.825 8.5L21.5 15H6V22H4V2H21.5Z"},"medium":{"stroke":"M21.501 2L17.826 8.5L21.501 15H6.47598V22H4.00098V2H21.501ZM6.47598 12.575H17.326L15.026 8.5L17.326 4.425H6.47598V12.575Z","fill":"M21.5 2L17.825 8.5L21.5 15H6.575V22H4V2H21.5Z"},"semibold":{"stroke":"M21.501 2L17.826 8.5L21.501 15H7.02598V22H4.00098V2H21.501ZM7.02598 12.025H16.376L14.376 8.5L16.376 4.975H7.02598V12.025Z","fill":"M21.5 2L17.825 8.5L21.5 15H7.175V22H4V2H21.5Z"},"bold":{"stroke":"M21.501 2L17.826 8.5L21.501 15H7.60098V22H4.00098V2H21.501ZM7.60098 11.45H15.451L13.751 8.5L15.451 5.55H7.60098V11.45Z","fill":"M21.5 2L17.825 8.5L21.5 15H7.75V22H4V2H21.5Z"}};
   const f = null;
 
-  $: w = p[weight] || p.regular;
-  $: d = w[variant] || (variant === "fill" ? f : null) || w.stroke;
+  const w = $derived(p[weight] || p.regular);
+  const d = $derived(w[variant] || (variant === "fill" ? f : null) || w.stroke);
 </script>
 
 <svg width={size} height={size} viewBox="0 0 24 24" fill="none"
-     xmlns="http://www.w3.org/2000/svg" {...$$restProps}>
-  <path {d} fill="currentColor" />
+     xmlns="http://www.w3.org/2000/svg" {...rest}>
+  <path d={d} fill="currentColor" />
 </svg>

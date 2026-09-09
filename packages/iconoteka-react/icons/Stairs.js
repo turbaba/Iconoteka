@@ -1,15 +1,21 @@
-import { createElement } from "react";
+import { createElement, forwardRef } from "react";
 
 const p = {"thin":{"stroke":"M2.00049 20V19.525H6.87549V14.35H11.7505V9.175H16.6255V4H22.0005V4.475H17.1255V9.65H12.2505V14.825H7.37549V20H2.00049Z"},"ultralight":{"stroke":"M2.00049 20V19.05H6.75049V14.025H11.5005V9.025H16.2505V4H22.0005V4.95H17.2505V9.975H12.5005V14.975H7.75049V20H2.00049Z"},"light":{"stroke":"M2.00049 20V18.575H6.65049V13.725H11.2755V8.85H15.9005V4H22.0005V5.425H17.3505V10.275H12.7255V15.15H8.10049V20H2.00049Z"},"regular":{"stroke":"M2.00049 20V18.1H6.52549V13.4H11.0255V8.7H15.5255V4H22.0005V5.9H17.4755V10.6H12.9755V15.3H8.47549V20H2.00049Z"},"medium":{"stroke":"M2.00049 20V17.575H6.40049V13.05H10.7755V8.525H15.1255V4H22.0005V6.425H17.6005V10.95H13.2255V15.475H8.87549V20H2.00049Z"},"semibold":{"stroke":"M2.00049 20V17.075H6.27549V12.7H10.5005V8.375H14.7505V4H22.0005V6.925H17.7255V11.3H13.5005V15.625H9.25049V20H2.00049Z"},"bold":{"stroke":"M2.00049 20V16.55H6.15049V12.35H10.2505V8.2H14.3505V4H22.0005V7.45H17.8505V11.65H13.7505V15.8H9.65049V20H2.00049Z"}};
 const f = null;
 
-export default function Stairs({ weight = "regular", variant = "stroke", size = 24, ...rest }) {
+const Stairs = forwardRef(function Stairs(
+  { weight = "regular", variant = "stroke", size = 24, ...rest }, ref
+) {
   const w = p[weight] || p.regular;
   const d = w[variant] || (variant === "fill" ? f : null) || w.stroke;
   return createElement(
     "svg",
-    { width: size, height: size, viewBox: "0 0 24 24", fill: "none",
+    { ref, width: size, height: size, viewBox: "0 0 24 24", fill: "none",
       xmlns: "http://www.w3.org/2000/svg", ...rest },
     createElement("path", { d, fill: "currentColor" })
   );
-}
+});
+
+Stairs.displayName = "Stairs";
+
+export default Stairs;

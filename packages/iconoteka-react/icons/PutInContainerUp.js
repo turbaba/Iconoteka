@@ -1,15 +1,21 @@
-import { createElement } from "react";
+import { createElement, forwardRef } from "react";
 
 const p = {"thin":{"stroke":"M3.00049 3H21.0005V10H20.5005V3.475H3.50049V10H3.00049V3ZM12.0005 9.4L18.3505 15.75L18.0005 16.1L12.2505 10.325V22H11.7505V10.325L6.00049 16.1L5.65049 15.75L12.0005 9.4Z"},"ultralight":{"stroke":"M3.00049 3H21.0005V10H20.0255V3.925H3.97549V10H3.00049V3ZM12.0005 9.4L18.3505 15.75L17.6755 16.425L12.4755 11.1V22H11.5255V11.1L6.32549 16.425L5.65049 15.75L12.0005 9.4Z"},"light":{"stroke":"M3.00049 3H21.0005V10H19.5755V4.4H4.42549V10H3.00049V3ZM12.0005 9.4L18.3505 15.75L17.3255 16.775L12.7255 11.9V22H11.2755V11.9L6.67549 16.775L5.65049 15.75L12.0005 9.4Z"},"regular":{"stroke":"M3.00049 3H21.0005V10H19.1005V4.85H4.90049V10H3.00049V3ZM12.0005 9.4L18.3505 15.75L17.0005 17.1L12.9505 12.7V22H11.0505V12.7L7.00049 17.1L5.65049 15.75L12.0005 9.4Z"},"medium":{"stroke":"M3.00049 3H21.0005V10H18.4755V5.475H5.52549V10H3.00049V3ZM12.0005 9.4L18.2005 15.6L16.4005 17.4L13.2505 13.8V22H10.7505V13.8L7.60049 17.4L5.80049 15.6L12.0005 9.4Z"},"semibold":{"stroke":"M3.00049 3H21.0005V10H17.8755V6.075H6.12549V10H3.00049V3ZM12.0005 9.4L17.1755 14.575H13.5505V22H10.4505V14.575H6.82549L12.0005 9.4Z"},"bold":{"stroke":"M3.00049 3H21.0005V10H17.2505V6.7H6.75049V10H3.00049V3ZM12.0005 9.4L17.7505 15.15H13.8755V22H10.1255V15.15H6.25049L12.0005 9.4Z"}};
 const f = null;
 
-export default function PutInContainerUp({ weight = "regular", variant = "stroke", size = 24, ...rest }) {
+const PutInContainerUp = forwardRef(function PutInContainerUp(
+  { weight = "regular", variant = "stroke", size = 24, ...rest }, ref
+) {
   const w = p[weight] || p.regular;
   const d = w[variant] || (variant === "fill" ? f : null) || w.stroke;
   return createElement(
     "svg",
-    { width: size, height: size, viewBox: "0 0 24 24", fill: "none",
+    { ref, width: size, height: size, viewBox: "0 0 24 24", fill: "none",
       xmlns: "http://www.w3.org/2000/svg", ...rest },
     createElement("path", { d, fill: "currentColor" })
   );
-}
+});
+
+PutInContainerUp.displayName = "PutInContainerUp";
+
+export default PutInContainerUp;

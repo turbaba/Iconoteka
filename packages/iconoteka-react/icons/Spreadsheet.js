@@ -1,15 +1,21 @@
-import { createElement } from "react";
+import { createElement, forwardRef } from "react";
 
 const p = {"thin":{"stroke":"M3.50049 20.525H9.00049V9.475H3.50049V20.525ZM3.00049 21V3H21.0005V21H3.00049ZM3.50049 9H9.00049V3.475H3.50049V9ZM9.50049 20.525H20.5005V9.475H9.50049V20.525ZM9.50049 9H20.5005V3.475H9.50049V9Z"},"ultralight":{"stroke":"M3.92549 20.1H9.00049V9.9H3.92549V20.1ZM3.00049 21V3H21.0005V21H3.00049ZM3.92549 9H9.00049V3.9H3.92549V9ZM9.92549 20.1H20.0755V9.9H9.92549V20.1ZM9.92549 9H20.0755V3.9H9.92549V9Z"},"light":{"stroke":"M4.37549 19.675H9.00049V10.325H4.37549V19.675ZM3.00049 21V3H21.0005V21H3.00049ZM4.37549 9H9.00049V4.325H4.37549V9ZM10.3755 19.675H19.6255V10.325H10.3755V19.675ZM10.3755 9H19.6255V4.325H10.3755V9Z"},"regular":{"stroke":"M4.80049 19.25H9.00049V10.75H4.80049V19.25ZM3.00049 21V3H21.0005V21H3.00049ZM4.80049 9H9.00049V4.75H4.80049V9ZM10.8005 19.25H19.2005V10.75H10.8005V19.25ZM10.8005 9H19.2005V4.75H10.8005V9Z"},"medium":{"stroke":"M5.37549 18.675H9.00049V11.275H5.37549V18.675ZM3.00049 21V3H21.0005V21H3.00049ZM5.37549 9H9.00049V5.325H5.37549V9ZM11.3255 18.675H18.6255V11.275H11.3255V18.675ZM11.3255 9H18.6255V5.325H11.3255V9Z"},"semibold":{"stroke":"M5.92549 18.125H9.00049V11.825H5.92549V18.125ZM3.00049 21V3H21.0005V21H3.00049ZM5.92549 9H9.00049V5.875H5.92549V9ZM11.8755 18.125H18.0755V11.825H11.8755V18.125ZM11.8755 9H18.0755V5.875H11.8755V9Z"},"bold":{"stroke":"M6.50049 17.55H9.00049V12.35H6.50049V17.55ZM3.00049 21V3H21.0005V21H3.00049ZM6.50049 9H9.00049V6.45H6.50049V9ZM12.4005 17.55H17.5005V12.35H12.4005V17.55ZM12.4005 9H17.5005V6.45H12.4005V9Z"}};
 const f = null;
 
-export default function Spreadsheet({ weight = "regular", variant = "stroke", size = 24, ...rest }) {
+const Spreadsheet = forwardRef(function Spreadsheet(
+  { weight = "regular", variant = "stroke", size = 24, ...rest }, ref
+) {
   const w = p[weight] || p.regular;
   const d = w[variant] || (variant === "fill" ? f : null) || w.stroke;
   return createElement(
     "svg",
-    { width: size, height: size, viewBox: "0 0 24 24", fill: "none",
+    { ref, width: size, height: size, viewBox: "0 0 24 24", fill: "none",
       xmlns: "http://www.w3.org/2000/svg", ...rest },
     createElement("path", { d, fill: "currentColor" })
   );
-}
+});
+
+Spreadsheet.displayName = "Spreadsheet";
+
+export default Spreadsheet;

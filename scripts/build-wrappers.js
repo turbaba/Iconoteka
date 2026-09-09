@@ -21,7 +21,7 @@ const ROOT     = path.join(__dirname, "..");
 const DATA     = require(path.join(ROOT, "icons.json"));
 const PKG      = require(path.join(ROOT, "packages/iconoteka/package.json"));
 const VERSION  = PKG.version;
-const WRAPPER_VERSION = "0.2.0";  // wrappers version independently of the data
+const WRAPPER_VERSION = "0.3.0";  // wrappers version independently of the data
 
 const WEIGHTS = ["thin","ultralight","light","regular","medium","semibold","bold"];
 
@@ -63,21 +63,30 @@ function variantData(icon) {
 
 // ── Emitters ──────────────────────────────────────────────────────────────────
 
-const react = (name, paths, shared) => `import { createElement } from "react";
+// forwardRef, not a bare function: before React 19 a function component never
+// receives `ref` in props, so a ref passed to an icon was silently dropped and
+// React warned. forwardRef behaves identically on 17 through 19.
+const react = (name, paths, shared) => `import { createElement, forwardRef } from "react";
 
 const p = ${JSON.stringify(paths)};
 const f = ${shared ? `p.${shared}.fill` : "null"};
 
-export default function ${name}({ weight = "regular", variant = "stroke", size = 24, ...rest }) {
+const ${name} = forwardRef(function ${name}(
+  { weight = "regular", variant = "stroke", size = 24, ...rest }, ref
+) {
   const w = p[weight] || p.regular;
   const d = w[variant] || (variant === "fill" ? f : null) || w.stroke;
   return createElement(
     "svg",
-    { width: size, height: size, viewBox: "0 0 24 24", fill: "none",
+    { ref, width: size, height: size, viewBox: "0 0 24 24", fill: "none",
       xmlns: "http://www.w3.org/2000/svg", ...rest },
     createElement("path", { d, fill: "currentColor" })
   );
-}
+});
+
+${name}.displayName = ${JSON.stringify(name)};
+
+export default ${name};
 `;
 
 const vue = (name, paths, shared) => `import { h } from "vue";
@@ -107,21 +116,23 @@ export default {
 };
 `;
 
+// Runes, not `export let` + `$$restProps`. The legacy form throws
+// "Cannot use $$restProps in runes mode", so any project with
+// compilerOptions.runes = true could not use the icons at all. This form
+// requires Svelte 5, which the peer range now states.
 const svelte = (name, paths, shared) => `<script>
-  export let weight = "regular";
-  export let variant = "stroke";
-  export let size = 24;
+  let { weight = "regular", variant = "stroke", size = 24, ...rest } = $props();
 
   const p = ${JSON.stringify(paths)};
   const f = ${shared ? `p.${shared}.fill` : "null"};
 
-  $: w = p[weight] || p.regular;
-  $: d = w[variant] || (variant === "fill" ? f : null) || w.stroke;
+  const w = $derived(p[weight] || p.regular);
+  const d = $derived(w[variant] || (variant === "fill" ? f : null) || w.stroke);
 </script>
 
 <svg width={size} height={size} viewBox="0 0 24 24" fill="none"
-     xmlns="http://www.w3.org/2000/svg" {...$$restProps}>
-  <path {d} fill="currentColor" />
+     xmlns="http://www.w3.org/2000/svg" {...rest}>
+  <path d={d} fill="currentColor" />
 </svg>
 `;
 
@@ -148,12 +159,16 @@ const OWN_PROPS = `  /** Stroke thickness. Default "regular". */
 // spread onto the <svg>, so the full SVG surface is genuinely accepted —
 // including `style`, which an earlier Omit wrongly rejected.
 const TYPES_BY_LABEL = {
-  React: `import type { ReactElement, SVGProps } from "react";
+  React: `import type { ForwardRefExoticComponent, RefAttributes, SVGProps } from "react";
 
 ${SHARED_TYPES}
-export interface IconProps extends SVGProps<SVGSVGElement> {
+export interface IconProps extends Omit<SVGProps<SVGSVGElement>, "ref"> {
 ${OWN_PROPS}
 }
+
+/** Every icon: accepts the SVG props plus a ref to the <svg> element. */
+export type IconComponent =
+  ForwardRefExoticComponent<IconProps & RefAttributes<SVGSVGElement>>;
 `,
   // Vue and Svelte keep the index signature so any attribute still passes
   // through to the <svg>, exactly as it does at runtime. The named props are
@@ -166,12 +181,15 @@ ${OWN_PROPS}
   /** Any other attribute is forwarded to the <svg> element. */
   [attr: string]: unknown;
 }
+
+/** Every icon. */
+export type IconComponent = DefineComponent<IconProps>;
 `,
   // ComponentType<SvelteComponent<P>> is the CONSTRUCTOR type, which is what
   // the package exports; bare SvelteComponent<P> is an instance. Both names
   // exist in Svelte 4 and 5, so the >=4 peer range is untouched. Svelte 5's
   // `Component` would have been cleaner but does not exist in 4.
-  Svelte: `import type { ComponentType, SvelteComponent } from "svelte";
+  Svelte: `import type { Component } from "svelte";
 
 ${SHARED_TYPES}
 export interface IconProps {
@@ -179,15 +197,14 @@ ${OWN_PROPS}
   /** Any other attribute is forwarded to the <svg> element. */
   [attr: string]: unknown;
 }
+
+/** Every icon. Svelte 5 components are functions, hence Component. */
+export type IconComponent = Component<IconProps>;
 `,
 };
 
 // How a component is declared, per framework.
-const DECL_BY_LABEL = {
-  React: "(props: IconProps) => ReactElement",
-  Vue:    "DefineComponent<IconProps>",
-  Svelte: "ComponentType<SvelteComponent<IconProps>>",
-};
+const DECL_BY_LABEL = { React: "IconComponent", Vue: "IconComponent", Svelte: "IconComponent" };
 
 function manifest(pkgName, extra) {
   return {
@@ -287,7 +304,7 @@ const TARGETS = [
     usage: '```vue\n<script setup>\nimport { Bell } from "iconoteka-vue";\n</script>\n\n<template>\n  <Bell />\n  <Bell weight="bold" variant="fill" :size="32" />\n</template>\n```' },
 
   { dir: "iconoteka-svelte", label: "Svelte", ext: "svelte", emit: svelte,
-    peer: { svelte: ">=4" },
+    peer: { svelte: ">=5" },
     fields: { svelte: "./index.js", main: "./index.js", types: "./index.d.ts",
               exports: { ".": { types: "./index.d.ts", svelte: "./index.js", default: "./index.js" },
                           "./icons/*": "./icons/*",
@@ -367,8 +384,7 @@ for (const t of TARGETS) {
   );
   console.log(`    + ${aliasLines.length} alias exports (${settled} from the resolution table)`);
 
-  // ReactElement, not JSX.Element: React 19 removed the global JSX namespace,
-  // so the bare name fails to resolve under @types/react 19.
+  // One alias per framework keeps 4512 declarations to a single short line.
   const decls = names
     .map(n => `export declare const ${n}: ${DECL_BY_LABEL[t.label]};`)
     .join("\n");

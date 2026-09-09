@@ -1,15 +1,21 @@
-import { createElement } from "react";
+import { createElement, forwardRef } from "react";
 
 const p = {"thin":{"stroke":"M11.7505 21V13.05L2.45049 3.775L2.50049 7.6H2.00049V3H6.60049V3.5L2.80049 3.45L12.0005 12.625L21.2005 3.45L17.4005 3.5V3H22.0005V7.6H21.5005L21.5505 3.775L12.2505 13.05V21H11.7505Z"},"ultralight":{"stroke":"M11.5255 21V13.175L2.77549 4.425L2.92549 7.825L2.00049 7.85V3H6.85049L6.82549 3.925L3.45049 3.775L12.0005 12.3L20.5505 3.775L17.1755 3.925L17.1505 3H22.0005V7.85L21.0755 7.825L21.2255 4.425L12.4755 13.175V21H11.5255Z"},"light":{"stroke":"M11.2755 21V13.25L3.40049 5.375L2.00049 6.775V3H5.77549L4.40049 4.375L12.0005 11.95L19.6005 4.375L18.2255 3H22.0005V6.775L20.6005 5.375L12.7255 13.25V21H11.2755Z"},"regular":{"stroke":"M11.0505 21V13.375L3.82549 6.125L2.00049 7.95V3H6.95049L5.15049 4.8L12.0005 11.625L18.8505 4.8L17.0505 3H22.0005V7.95L20.2005 6.125L12.9505 13.375V21H11.0505Z"},"medium":{"stroke":"M10.7755 21V13.475L3.97549 6.675L2.00049 8.65V3H7.65049L5.70049 4.975L12.0005 11.275L18.3005 4.975L16.3505 3H22.0005V8.65L20.0255 6.675L13.2255 13.475V21H10.7755Z"},"semibold":{"stroke":"M10.5255 21V13.625L4.12549 7.225L2.00049 9.35V3H8.37549L6.22549 5.125L12.0005 10.9L17.7755 5.125L15.6255 3H22.0005V9.35L19.8505 7.2L13.4755 13.575V21H10.5255Z"},"bold":{"stroke":"M10.2505 21V13.725L4.30049 7.75L2.00049 10.075V3H9.07549L6.75049 5.3L11.9755 10.55L17.2505 5.275L14.9255 3H22.0005V10.075L19.6755 7.725L13.7505 13.675V21H10.2505Z"}};
 const f = null;
 
-export default function Split({ weight = "regular", variant = "stroke", size = 24, ...rest }) {
+const Split = forwardRef(function Split(
+  { weight = "regular", variant = "stroke", size = 24, ...rest }, ref
+) {
   const w = p[weight] || p.regular;
   const d = w[variant] || (variant === "fill" ? f : null) || w.stroke;
   return createElement(
     "svg",
-    { width: size, height: size, viewBox: "0 0 24 24", fill: "none",
+    { ref, width: size, height: size, viewBox: "0 0 24 24", fill: "none",
       xmlns: "http://www.w3.org/2000/svg", ...rest },
     createElement("path", { d, fill: "currentColor" })
   );
-}
+});
+
+Split.displayName = "Split";
+
+export default Split;

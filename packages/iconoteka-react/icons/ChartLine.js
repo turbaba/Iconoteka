@@ -1,15 +1,21 @@
-import { createElement } from "react";
+import { createElement, forwardRef } from "react";
 
 const p = {"thin":{"stroke":"M22.6508 5.7998H23.0008V6.1498L14.4258 14.7248L9.70078 9.9498L1.15078 18.4498L0.800781 18.0998L9.70078 9.2498L14.4258 14.0248L22.6508 5.7998Z"},"ultralight":{"stroke":"M22.3008 5.7998H23.0008V6.4998L14.4508 15.0498L9.70078 10.2748L1.50078 18.4498L0.800781 17.7498L9.70078 8.87481L14.4508 13.6498L22.3008 5.7998Z"},"light":{"stroke":"M21.9508 5.7998H23.0008V6.8248L14.4508 15.3498L9.72578 10.5748L1.82578 18.4498L0.800781 17.4248L9.72578 8.52481L14.4508 13.2998L21.9508 5.7998Z"},"regular":{"stroke":"M21.6008 5.7998H23.0008V7.1748L14.4758 15.6748L9.72578 10.8998L2.17578 18.4498L0.800781 17.0748L9.72578 8.14981L14.4758 12.9248L21.6008 5.7998Z"},"medium":{"stroke":"M21.2008 5.7998H23.0008V7.57481L14.4758 16.0998L9.72578 11.3248L2.57578 18.4498L0.800781 16.6748L9.72578 7.7748L14.4758 12.5248L21.2008 5.7998Z"},"semibold":{"stroke":"M20.8008 5.7998H23.0008V7.9998L14.5008 16.4998L9.70078 11.7498L3.00078 18.4498L0.800781 16.2998L9.70078 7.3998L14.4758 12.1498L20.8008 5.7998Z"},"bold":{"stroke":"M20.4008 5.7998H23.0008V8.39981L14.5008 16.9248L9.70078 12.1748L3.40078 18.4498L0.800781 15.8998L9.70078 7.02481L14.4758 11.7498L20.4008 5.7998Z"}};
 const f = null;
 
-export default function ChartLine({ weight = "regular", variant = "stroke", size = 24, ...rest }) {
+const ChartLine = forwardRef(function ChartLine(
+  { weight = "regular", variant = "stroke", size = 24, ...rest }, ref
+) {
   const w = p[weight] || p.regular;
   const d = w[variant] || (variant === "fill" ? f : null) || w.stroke;
   return createElement(
     "svg",
-    { width: size, height: size, viewBox: "0 0 24 24", fill: "none",
+    { ref, width: size, height: size, viewBox: "0 0 24 24", fill: "none",
       xmlns: "http://www.w3.org/2000/svg", ...rest },
     createElement("path", { d, fill: "currentColor" })
   );
-}
+});
+
+ChartLine.displayName = "ChartLine";
+
+export default ChartLine;

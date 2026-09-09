@@ -1,16 +1,14 @@
 <script>
-  export let weight = "regular";
-  export let variant = "stroke";
-  export let size = 24;
+  let { weight = "regular", variant = "stroke", size = 24, ...rest } = $props();
 
   const p = {"thin":{"stroke":"M2.00049 6.025L9.50049 10.35V6.025L17.0005 10.35V3H22.0005V20H2.00049V6.025ZM2.50049 19.525H21.5005V3.475H17.5005V11.175L10.0005 6.85V11.175L2.50049 6.85V19.525Z","fill":"M2 6.025L9.5 10.35V6.025L17 10.35V3H22V20H2V6.025Z"},"ultralight":{"stroke":"M2.00049 6.025L9.25049 10.2V6.025L16.5005 10.2V3H22.0005V20H2.00049V6.025ZM2.97549 19.075H21.0255V3.925H17.4755V11.8L10.2505 7.625V11.8L2.97549 7.625V19.075Z"},"light":{"stroke":"M2.00049 6.025L9.00049 10.075V6.025L16.0005 10.075V3H22.0005V20H2.00049V6.025ZM3.42549 18.6H20.5755V4.4H17.4255V12.425L10.5005 8.425V12.45L3.42549 8.375V18.6Z"},"regular":{"stroke":"M2.00049 6.025L8.75049 9.925V6.025L15.5005 9.925V3H22.0005V20H2.00049V6.025ZM3.90049 18.15H20.1005V4.85H17.4005V13.05L10.7505 9.2V13.075L3.90049 9.15V18.15Z"},"medium":{"stroke":"M2.00049 5.7L8.32549 8.95V5.7L14.5755 8.95V3H22.0005V20H2.00049V5.7ZM4.47549 17.575H19.5255V5.425H17.0505V12.675L10.8255 9.475V12.675L4.47549 9.45V17.575Z"},"semibold":{"stroke":"M2.00049 5.35L7.90049 7.975V5.35L13.6755 7.975V3H22.0005V20H2.00049V5.35ZM5.02549 17.025H18.9755V5.975H16.7005V12.275L10.9005 9.775V12.3L5.02549 9.75V17.025Z"},"bold":{"stroke":"M2.00049 5.025L7.47549 7V5.025L12.7505 7V3H22.0005V20H2.00049V5.025ZM5.60049 16.45H18.4005V6.55H16.3505V11.9L10.9755 10.05V11.9L5.60049 10.05V16.45Z"}};
   const f = p.thin.fill;
 
-  $: w = p[weight] || p.regular;
-  $: d = w[variant] || (variant === "fill" ? f : null) || w.stroke;
+  const w = $derived(p[weight] || p.regular);
+  const d = $derived(w[variant] || (variant === "fill" ? f : null) || w.stroke);
 </script>
 
 <svg width={size} height={size} viewBox="0 0 24 24" fill="none"
-     xmlns="http://www.w3.org/2000/svg" {...$$restProps}>
-  <path {d} fill="currentColor" />
+     xmlns="http://www.w3.org/2000/svg" {...rest}>
+  <path d={d} fill="currentColor" />
 </svg>

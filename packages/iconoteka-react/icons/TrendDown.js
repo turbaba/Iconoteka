@@ -1,15 +1,21 @@
-import { createElement } from "react";
+import { createElement, forwardRef } from "react";
 
 const p = {"thin":{"stroke":"M23.0005 11.9V16.5H18.4005V16L22.2005 16.05L14.6255 8.45L8.02549 15.05L1.00049 8.075L1.35049 7.75L8.02549 14.375L14.6255 7.775L22.5505 15.725L22.5005 11.9H23.0005Z"},"ultralight":{"stroke":"M23.0005 11.8251V16.6751H18.1505L18.1755 15.7501L21.5505 15.9001L14.6755 8.9751L8.20049 15.4501L1.00049 8.2751L1.67549 7.6001L8.20049 14.1001L14.6755 7.6501L22.2255 15.2501L22.0755 11.8501L23.0005 11.8251Z"},"light":{"stroke":"M23.0005 13.0501V16.8251H19.2255L20.6005 15.4501L14.7005 9.5251L8.40049 15.8251L1.00049 8.4501L2.00049 7.4751L8.40049 13.8501L14.7005 7.5251L21.6005 14.4501L23.0005 13.0501Z"},"regular":{"stroke":"M23.0005 12.0502V17.0002H18.0505L19.8755 15.2002L14.7505 10.0502L8.57549 16.2252L1.00049 8.6502L2.32549 7.3252L8.57549 13.5752L14.7505 7.4002L21.1755 13.8752L23.0005 12.0502Z"},"medium":{"stroke":"M23.0005 11.6V17.25H17.3505L19.3005 15.275L14.6005 10.55L8.70049 16.425L1.00049 8.725L2.72549 7L8.70049 12.975L14.6005 7.1L21.0505 13.55L23.0005 11.6Z"},"semibold":{"stroke":"M23.0005 11.1498V17.4998H16.6255L18.7755 15.3748L14.4505 11.0248L8.85049 16.5998L1.00049 8.7998L3.10049 6.6748L8.85049 12.3748L14.4755 6.7748L20.9005 13.2498L23.0005 11.1498Z"},"bold":{"stroke":"M23.0005 10.6751V17.7501H15.9255L18.2255 15.4751L14.3005 11.5251L8.97549 16.8001L1.00049 8.8751L3.50049 6.3501L8.97549 11.7751L14.3255 6.4751L20.7505 12.9501L23.0005 10.6751Z"}};
 const f = null;
 
-export default function TrendDown({ weight = "regular", variant = "stroke", size = 24, ...rest }) {
+const TrendDown = forwardRef(function TrendDown(
+  { weight = "regular", variant = "stroke", size = 24, ...rest }, ref
+) {
   const w = p[weight] || p.regular;
   const d = w[variant] || (variant === "fill" ? f : null) || w.stroke;
   return createElement(
     "svg",
-    { width: size, height: size, viewBox: "0 0 24 24", fill: "none",
+    { ref, width: size, height: size, viewBox: "0 0 24 24", fill: "none",
       xmlns: "http://www.w3.org/2000/svg", ...rest },
     createElement("path", { d, fill: "currentColor" })
   );
-}
+});
+
+TrendDown.displayName = "TrendDown";
+
+export default TrendDown;

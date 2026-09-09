@@ -1,16 +1,14 @@
 <script>
-  export let weight = "regular";
-  export let variant = "stroke";
-  export let size = 24;
+  let { weight = "regular", variant = "stroke", size = 24, ...rest } = $props();
 
   const p = {"thin":{"stroke":"M21.5755 19.5248L12.0005 2.9248L2.4255 19.5248H21.5755ZM22.4255 19.9998H1.5755L12.0005 1.9248L22.4255 19.9998Z","fill":"M22.425 19.9998H1.57501L12 1.9248L22.425 19.9998Z"},"ultralight":{"stroke":"M20.7505 19.0498L12.0005 3.8748L3.2505 19.0498H20.7505ZM22.4255 19.9998H1.5755L12.0005 1.9248L22.4255 19.9998Z"},"light":{"stroke":"M19.9255 18.5748L12.0005 4.8498L4.0755 18.5748H19.9255ZM22.4255 19.9998H1.5755L12.0005 1.9248L22.4255 19.9998Z"},"regular":{"stroke":"M19.1005 18.0998L12.0005 5.7998L4.9005 18.0998H19.1005ZM22.4255 19.9998H1.5755L12.0005 1.9248L22.4255 19.9998Z"},"medium":{"stroke":"M18.1505 17.5748L12.0005 6.8998L5.8505 17.5748H18.1505ZM22.4255 19.9998H1.5755L12.0005 1.9248L22.4255 19.9998Z"},"semibold":{"stroke":"M17.2255 17.0248L12.0005 7.9998L6.7755 17.0248H17.2255ZM22.4255 19.9998H1.5755L12.0005 1.9248L22.4255 19.9998Z"},"bold":{"stroke":"M16.2755 16.4998L12.0005 9.0748L7.7255 16.4998H16.2755ZM22.4255 19.9998H1.5755L12.0005 1.9248L22.4255 19.9998Z"}};
   const f = p.thin.fill;
 
-  $: w = p[weight] || p.regular;
-  $: d = w[variant] || (variant === "fill" ? f : null) || w.stroke;
+  const w = $derived(p[weight] || p.regular);
+  const d = $derived(w[variant] || (variant === "fill" ? f : null) || w.stroke);
 </script>
 
 <svg width={size} height={size} viewBox="0 0 24 24" fill="none"
-     xmlns="http://www.w3.org/2000/svg" {...$$restProps}>
-  <path {d} fill="currentColor" />
+     xmlns="http://www.w3.org/2000/svg" {...rest}>
+  <path d={d} fill="currentColor" />
 </svg>

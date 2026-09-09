@@ -1,15 +1,21 @@
-import { createElement } from "react";
+import { createElement, forwardRef } from "react";
 
 const p = {"thin":{"stroke":"M6.00049 3H18.0005V3.475H6.00049V3ZM3.50049 8.475V20.525H20.5005V8.475H3.50049ZM3.00049 8H21.0005V21H3.00049V8ZM4.50049 5.5H19.5005V5.975H4.50049V5.5Z","fill":"M6 3H18V3.475H6V3ZM3 8H21V21H3V8ZM4.5 5.5H19.5V5.975H4.5V5.5Z"},"ultralight":{"stroke":"M6.00049 3H18.0005V3.95H6.00049V3ZM4.00049 9.925V20.025H20.0005V9.925H4.00049ZM3.00049 8.975H21.0005V21H3.00049V8.975ZM4.50049 5.975H19.5005V6.925H4.50049V5.975Z","fill":"M6 3H18V3.975H6V3ZM3 9H21V21H3V9ZM4.5 6H19.5V6.975H4.5V6Z"},"light":{"stroke":"M5.00049 3H19.0005V4.45H5.00049V3ZM4.47549 7.925V19.55H19.5255V7.925H4.47549ZM3.00049 6.475H21.0005V21H3.00049V6.475Z","fill":"M5 3H19V4.475H5V3ZM3 6.475H21V21H3V6.475Z"},"regular":{"stroke":"M5.00049 3H19.0005V4.9H5.00049V3ZM4.95049 8.9V19.1H19.0505V8.9H4.95049ZM3.00049 7H21.0005V21H3.00049V7Z","fill":"M5 3H19V4.95H5V3ZM3 7H21V21H3V7Z"},"medium":{"stroke":"M5.00049 3H19.0005V5.425H5.00049V3ZM5.47549 9.925V18.575H18.5255V9.925H5.47549ZM3.00049 7.5H21.0005V21H3.00049V7.5Z","fill":"M5 3H19V5.45H5V3ZM3 7.475H21V21H3V7.475Z"},"semibold":{"stroke":"M5.00049 3H19.0005V5.925H5.00049V3ZM6.02549 10.975V18.025H17.9755V10.975H6.02549ZM3.00049 8H21.0005V21H3.00049V8Z","fill":"M5 3H19V5.95H5V3ZM3 7.975H21V21H3V7.975Z"},"bold":{"stroke":"M5.00049 3H19.0005V6.45H5.00049V3ZM6.55049 12V17.5H17.4505V12H6.55049ZM3.00049 8.5H21.0005V21H3.00049V8.5Z","fill":"M5 3H19V6.45H5V3ZM3 8.45H21V21H3V8.45Z"}};
 const f = null;
 
-export default function LibraryMedia({ weight = "regular", variant = "stroke", size = 24, ...rest }) {
+const LibraryMedia = forwardRef(function LibraryMedia(
+  { weight = "regular", variant = "stroke", size = 24, ...rest }, ref
+) {
   const w = p[weight] || p.regular;
   const d = w[variant] || (variant === "fill" ? f : null) || w.stroke;
   return createElement(
     "svg",
-    { width: size, height: size, viewBox: "0 0 24 24", fill: "none",
+    { ref, width: size, height: size, viewBox: "0 0 24 24", fill: "none",
       xmlns: "http://www.w3.org/2000/svg", ...rest },
     createElement("path", { d, fill: "currentColor" })
   );
-}
+});
+
+LibraryMedia.displayName = "LibraryMedia";
+
+export default LibraryMedia;

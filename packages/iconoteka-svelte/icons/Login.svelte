@@ -1,16 +1,14 @@
 <script>
-  export let weight = "regular";
-  export let variant = "stroke";
-  export let size = 24;
+  let { weight = "regular", variant = "stroke", size = 24, ...rest } = $props();
 
   const p = {"thin":{"stroke":"M14.0005 21V20.525H20.5005V3.475H14.0005V3H21.0005V21H14.0005ZM8.25049 18.35L7.90049 18L13.6755 12.25H2.00049V11.75H13.6755L7.90049 6L8.25049 5.65L14.6005 12L8.25049 18.35Z"},"ultralight":{"stroke":"M14.0005 21V20.075H20.0255V3.925H14.0005V3H21.0005V21H14.0005ZM8.25049 18.35L7.57549 17.675L12.8755 12.475H2.00049V11.525H12.9005L7.57549 6.325L8.25049 5.65L14.6005 12L8.25049 18.35Z"},"light":{"stroke":"M14.0005 21V19.6H19.5755V4.4H14.0005V3H21.0005V21H14.0005ZM8.25049 18.35L7.25049 17.35L12.1005 12.7H2.00049V11.3H12.1255L7.25049 6.65L8.25049 5.65L14.6005 12L8.25049 18.35Z"},"regular":{"stroke":"M14.0005 21V19.15H19.1005V4.85H14.0005V3H21.0005V21H14.0005ZM8.25049 18.35L6.92549 17.025L11.2755 12.925H2.00049V11.075H11.3255L6.92549 6.975L8.25049 5.65L14.6005 12L8.25049 18.35Z"},"medium":{"stroke":"M14.0005 21V18.55H18.5005V5.45H14.0005V3H21.0005V21H14.0005ZM8.40049 18.2L6.65049 16.45L10.2505 13.225H2.00049V10.775H10.2505L6.65049 7.55L8.40049 5.8L14.6005 12L8.40049 18.2Z"},"semibold":{"stroke":"M14.0005 21V17.925H17.8755V6.075H14.0005V3H21.0005V21H14.0005ZM9.42549 17.175V13.525H2.00049V10.475H9.42549V6.825L14.6005 12L9.42549 17.175Z"},"bold":{"stroke":"M14.0005 21V17.3H17.2505V6.7H14.0005V3H21.0005V21H14.0005ZM8.85049 17.75V13.85H2.00049V10.15H8.85049V6.25L14.6005 12L8.85049 17.75Z"}};
   const f = null;
 
-  $: w = p[weight] || p.regular;
-  $: d = w[variant] || (variant === "fill" ? f : null) || w.stroke;
+  const w = $derived(p[weight] || p.regular);
+  const d = $derived(w[variant] || (variant === "fill" ? f : null) || w.stroke);
 </script>
 
 <svg width={size} height={size} viewBox="0 0 24 24" fill="none"
-     xmlns="http://www.w3.org/2000/svg" {...$$restProps}>
-  <path {d} fill="currentColor" />
+     xmlns="http://www.w3.org/2000/svg" {...rest}>
+  <path d={d} fill="currentColor" />
 </svg>
