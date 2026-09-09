@@ -1,7 +1,7 @@
 {
   "name": "iconoteka",
-  "version": "2.0.13",
-  "libraryVersion": "02.00.13",
+  "version": "2.0.14",
+  "libraryVersion": "02.00.14",
   "description": "Iconoteka icon data — 1298 icons in 7 weights and 2 styles as a single JSON file",
   "license": "MIT",
   "author": "turbaba",
@@ -32,7 +32,8 @@
   "main": "icons.json",
   "exports": {
     ".": "./icons.json",
-    "./icons.json": "./icons.json"
+    "./icons.json": "./icons.json",
+    "./package.json": "./package.json"
   },
   "sideEffects": false,
   "scripts": {

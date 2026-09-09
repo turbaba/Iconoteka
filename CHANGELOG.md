@@ -2,6 +2,26 @@
 
 Library versions use the `02.00.08` form.
 
+## 02.00.14 — 9 Sep 2026
+
+Four packaging defects found by a full functional test of the wrappers and
+the MCP server. No icon data changed.
+
+- The Vue and Svelte type files began `import type { SVGProps } from "react"`.
+  One shared template generated all three, so a Vue or Svelte project without
+  React installed could not resolve its own icon types at all. Types are now
+  generated per framework.
+- React components were typed `(props) => JSX.Element`. React 19 removed the
+  global `JSX` namespace, so that failed to resolve under `@types/react` 19.
+  They are typed `ReactElement` now, which resolves on React 17 through 19.
+- `IconProps` excluded `style`, so TypeScript rejected an inline style that
+  worked perfectly at runtime. The exclusion served no purpose and is gone.
+- `index.d.ts` declared `__icons`, which no package exported — TypeScript
+  accepted it and the runtime returned undefined. The declaration is removed.
+- Every package now exposes `./package.json` through its `exports` map, so
+  tooling that reads a dependency's version no longer hits
+  ERR_PACKAGE_PATH_NOT_EXPORTED.
+
 ## 02.00.13 — 9 Sep 2026
 
 - `garbage` is now `trash`. The bin icon's identity, filename, display name and

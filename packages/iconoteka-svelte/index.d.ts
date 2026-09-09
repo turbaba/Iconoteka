@@ -1,21 +1,19 @@
-import type { SVGProps } from "react";
-
 export type IconWeight =
   | "thin" | "ultralight" | "light" | "regular"
   | "medium" | "semibold" | "bold";
 
 export type IconVariant = "stroke" | "fill";
 
-export interface IconProps extends Omit<SVGProps<SVGSVGElement>, "style"> {
+export interface IconProps {
   /** Stroke thickness. Default "regular". */
   weight?: IconWeight;
   /** Outline or solid. Default "stroke". */
   variant?: IconVariant;
   /** Width and height in px. Default 24. */
   size?: number | string;
+  /** Any other attribute is forwarded to the <svg> element. */
+  [attr: string]: unknown;
 }
-
-export declare const __icons: readonly string[];
 
 export declare const AlignBottom: any;
 export declare const AlignHorizontal: any;

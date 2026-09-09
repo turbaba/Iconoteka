@@ -1,6 +1,6 @@
 {
   "name": "iconoteka-react",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Iconoteka icons as React components — 1298 icons, 7 weights, stroke and fill",
   "license": "MIT",
   "author": "turbaba",
@@ -27,7 +27,8 @@
       "types": "./index.d.ts",
       "default": "./index.js"
     },
-    "./icons/*": "./icons/*"
+    "./icons/*": "./icons/*",
+    "./package.json": "./package.json"
   },
   "files": [
     "icons",

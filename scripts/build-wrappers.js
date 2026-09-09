@@ -21,7 +21,7 @@ const ROOT     = path.join(__dirname, "..");
 const DATA     = require(path.join(ROOT, "icons.json"));
 const PKG      = require(path.join(ROOT, "packages/iconoteka/package.json"));
 const VERSION  = PKG.version;
-const WRAPPER_VERSION = "0.1.4";  // wrappers version independently of the data
+const WRAPPER_VERSION = "0.1.5";  // wrappers version independently of the data
 
 const WEIGHTS = ["thin","ultralight","light","regular","medium","semibold","bold"];
 
@@ -127,25 +127,52 @@ const svelte = (name, paths, shared) => `<script>
 
 // ── Package scaffolding ───────────────────────────────────────────────────────
 
-const TYPES = `import type { SVGProps } from "react";
-
-export type IconWeight =
+// Types are per framework. A shared template used to emit `import ... from
+// "react"` into every package, so a Vue or Svelte project with no React
+// installed could not resolve its own icon types.
+const SHARED_TYPES = `export type IconWeight =
   | "thin" | "ultralight" | "light" | "regular"
   | "medium" | "semibold" | "bold";
 
 export type IconVariant = "stroke" | "fill";
+`;
 
-export interface IconProps extends Omit<SVGProps<SVGSVGElement>, "style"> {
-  /** Stroke thickness. Default "regular". */
+const OWN_PROPS = `  /** Stroke thickness. Default "regular". */
   weight?: IconWeight;
   /** Outline or solid. Default "stroke". */
   variant?: IconVariant;
   /** Width and height in px. Default 24. */
-  size?: number | string;
-}
+  size?: number | string;`;
 
-export declare const __icons: readonly string[];
-`;
+// React can extend the real SVG prop type. Everything not named above is
+// spread onto the <svg>, so the full SVG surface is genuinely accepted —
+// including `style`, which an earlier Omit wrongly rejected.
+const TYPES_BY_LABEL = {
+  React: `import type { ReactElement, SVGProps } from "react";
+
+${SHARED_TYPES}
+export interface IconProps extends SVGProps<SVGSVGElement> {
+${OWN_PROPS}
+}
+`,
+  // Vue and Svelte pass unknown props straight through to the <svg> element,
+  // and neither framework's attribute type is worth pinning to a peer version
+  // range this package supports (vue >=3, svelte >=4).
+  Vue: `${SHARED_TYPES}
+export interface IconProps {
+${OWN_PROPS}
+  /** Any other attribute is forwarded to the <svg> element. */
+  [attr: string]: unknown;
+}
+`,
+  Svelte: `${SHARED_TYPES}
+export interface IconProps {
+${OWN_PROPS}
+  /** Any other attribute is forwarded to the <svg> element. */
+  [attr: string]: unknown;
+}
+`,
+};
 
 function manifest(pkgName, extra) {
   return {
@@ -232,21 +259,24 @@ const TARGETS = [
     peer: { react: ">=17" },
     fields: { main: "./index.js", module: "./index.js", types: "./index.d.ts",
               exports: { ".": { types: "./index.d.ts", default: "./index.js" },
-                          "./icons/*": "./icons/*" } },
+                          "./icons/*": "./icons/*",
+                          "./package.json": "./package.json" } },
     usage: '```jsx\nimport { Bell, Heart } from "iconoteka-react";\n\n<Bell />\n<Bell weight="bold" variant="fill" size={32} />\n<Heart className="text-red-500" />\n```' },
 
   { dir: "iconoteka-vue", label: "Vue", ext: "js", emit: vue,
     peer: { vue: ">=3" },
     fields: { main: "./index.js", module: "./index.js", types: "./index.d.ts",
               exports: { ".": { types: "./index.d.ts", default: "./index.js" },
-                          "./icons/*": "./icons/*" } },
+                          "./icons/*": "./icons/*",
+                          "./package.json": "./package.json" } },
     usage: '```vue\n<script setup>\nimport { Bell } from "iconoteka-vue";\n</script>\n\n<template>\n  <Bell />\n  <Bell weight="bold" variant="fill" :size="32" />\n</template>\n```' },
 
   { dir: "iconoteka-svelte", label: "Svelte", ext: "svelte", emit: svelte,
     peer: { svelte: ">=4" },
     fields: { svelte: "./index.js", main: "./index.js", types: "./index.d.ts",
               exports: { ".": { types: "./index.d.ts", svelte: "./index.js", default: "./index.js" },
-                          "./icons/*": "./icons/*" } },
+                          "./icons/*": "./icons/*",
+                          "./package.json": "./package.json" } },
     usage: '```svelte\n<script>\n  import { Bell } from "iconoteka-svelte";\n</script>\n\n<Bell />\n<Bell weight="bold" variant="fill" size={32} />\n```' }
 ];
 
@@ -323,11 +353,13 @@ for (const t of TARGETS) {
   console.log(`    + ${aliasLines.length} alias exports (${settled} from the resolution table)`);
 
   const decls = names
+    // ReactElement, not JSX.Element: React 19 removed the global JSX
+    // namespace, so the bare name fails to resolve under @types/react 19.
     .map(n => `export declare const ${n}: ${t.label === "React"
-      ? "(props: IconProps) => JSX.Element"
+      ? "(props: IconProps) => ReactElement"
       : "any"};`)
     .join("\n");
-  fs.writeFileSync(path.join(base, "index.d.ts"), TYPES + "\n" + decls + "\n");
+  fs.writeFileSync(path.join(base, "index.d.ts"), TYPES_BY_LABEL[t.label] + "\n" + decls + "\n");
 
   fs.writeFileSync(
     path.join(base, "package.json"),
