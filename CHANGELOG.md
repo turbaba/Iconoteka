@@ -2,9 +2,10 @@
 
 Library versions use the `02.00.08` form.
 
-## 02.00.15 — 9 Sep 2026
+## Wrappers 0.3.0 · MCP 0.2.0 — 9 Sep 2026
 
-Wrappers 0.3.0, MCP 0.2.0. No icon data changed.
+No icon data changed, so the library stays at 02.00.14 and there is no
+tag for this release — the wrappers and the MCP version independently.
 
 - **React refs work again.** Icons were plain function components, so before
   React 19 a `ref` was silently dropped and React warned "Function components
