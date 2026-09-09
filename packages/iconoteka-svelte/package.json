@@ -1,6 +1,6 @@
 {
   "name": "iconoteka-svelte",
-  "version": "0.1.5",
+  "version": "0.2.0",
   "description": "Iconoteka icons as Svelte components — 1298 icons, 7 weights, stroke and fill",
   "license": "MIT",
   "author": "turbaba",

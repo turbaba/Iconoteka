@@ -21,7 +21,7 @@ const ROOT     = path.join(__dirname, "..");
 const DATA     = require(path.join(ROOT, "icons.json"));
 const PKG      = require(path.join(ROOT, "packages/iconoteka/package.json"));
 const VERSION  = PKG.version;
-const WRAPPER_VERSION = "0.1.5";  // wrappers version independently of the data
+const WRAPPER_VERSION = "0.2.0";  // wrappers version independently of the data
 
 const WEIGHTS = ["thin","ultralight","light","regular","medium","semibold","bold"];
 
@@ -155,23 +155,38 @@ export interface IconProps extends SVGProps<SVGSVGElement> {
 ${OWN_PROPS}
 }
 `,
-  // Vue and Svelte pass unknown props straight through to the <svg> element,
-  // and neither framework's attribute type is worth pinning to a peer version
-  // range this package supports (vue >=3, svelte >=4).
-  Vue: `${SHARED_TYPES}
+  // Vue and Svelte keep the index signature so any attribute still passes
+  // through to the <svg>, exactly as it does at runtime. The named props are
+  // typed so an editor can offer the seven weights — the whole point.
+  Vue: `import type { DefineComponent } from "vue";
+
+${SHARED_TYPES}
 export interface IconProps {
 ${OWN_PROPS}
   /** Any other attribute is forwarded to the <svg> element. */
   [attr: string]: unknown;
 }
 `,
-  Svelte: `${SHARED_TYPES}
+  // ComponentType<SvelteComponent<P>> is the CONSTRUCTOR type, which is what
+  // the package exports; bare SvelteComponent<P> is an instance. Both names
+  // exist in Svelte 4 and 5, so the >=4 peer range is untouched. Svelte 5's
+  // `Component` would have been cleaner but does not exist in 4.
+  Svelte: `import type { ComponentType, SvelteComponent } from "svelte";
+
+${SHARED_TYPES}
 export interface IconProps {
 ${OWN_PROPS}
   /** Any other attribute is forwarded to the <svg> element. */
   [attr: string]: unknown;
 }
 `,
+};
+
+// How a component is declared, per framework.
+const DECL_BY_LABEL = {
+  React: "(props: IconProps) => ReactElement",
+  Vue:    "DefineComponent<IconProps>",
+  Svelte: "ComponentType<SvelteComponent<IconProps>>",
 };
 
 function manifest(pkgName, extra) {
@@ -352,12 +367,10 @@ for (const t of TARGETS) {
   );
   console.log(`    + ${aliasLines.length} alias exports (${settled} from the resolution table)`);
 
+  // ReactElement, not JSX.Element: React 19 removed the global JSX namespace,
+  // so the bare name fails to resolve under @types/react 19.
   const decls = names
-    // ReactElement, not JSX.Element: React 19 removed the global JSX
-    // namespace, so the bare name fails to resolve under @types/react 19.
-    .map(n => `export declare const ${n}: ${t.label === "React"
-      ? "(props: IconProps) => ReactElement"
-      : "any"};`)
+    .map(n => `export declare const ${n}: ${DECL_BY_LABEL[t.label]};`)
     .join("\n");
   fs.writeFileSync(path.join(base, "index.d.ts"), TYPES_BY_LABEL[t.label] + "\n" + decls + "\n");
 

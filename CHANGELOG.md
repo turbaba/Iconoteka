@@ -4,8 +4,9 @@ Library versions use the `02.00.08` form.
 
 ## 02.00.14 — 9 Sep 2026
 
-Four packaging defects found by a full functional test of the wrappers and
-the MCP server. No icon data changed.
+Packaging and typing fixes found by a full functional test of the wrappers
+and the MCP server. No icon data changed. Wrappers go to 0.2.0 — the type
+changes can surface errors in a project that compiles today.
 
 - The Vue and Svelte type files began `import type { SVGProps } from "react"`.
   One shared template generated all three, so a Vue or Svelte project without
@@ -21,6 +22,13 @@ the MCP server. No icon data changed.
 - Every package now exposes `./package.json` through its `exports` map, so
   tooling that reads a dependency's version no longer hits
   ERR_PACKAGE_PATH_NOT_EXPORTED.
+- Vue and Svelte components were typed `any`, so an editor offered nothing
+  when you typed `weight="`. Seven weights is the reason to reach for this
+  library, and it was invisible to two of the three wrapper audiences. Vue
+  components are `DefineComponent<IconProps>` now and Svelte components are
+  `ComponentType<SvelteComponent<IconProps>>` — both names exist in Svelte 4
+  and 5, so the `>=3` and `>=4` peer ranges are unchanged. Any other
+  attribute still passes through to the `<svg>`, as it does at runtime.
 
 ## 02.00.13 — 9 Sep 2026
 
