@@ -28,7 +28,7 @@
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.30.0",
-    "iconoteka": "^2.0.9",
+    "iconoteka": "^2.0.12",
     "zod": "^4.5.4"
   },
   "repository": {
