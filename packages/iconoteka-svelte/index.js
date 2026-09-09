@@ -3464,7 +3464,7 @@ export { default as Planner } from "./icons/Calendar.svelte";
 export { default as Planning } from "./icons/ChartGantt.svelte";
 export { default as PlasticBag } from "./icons/BagPlastic.svelte";
 export { default as Platform } from "./icons/Application.svelte";
-export { default as Play } from "./icons/PlayInCircle.svelte";
+export { default as Play } from "./icons/TriangleRight.svelte";
 export { default as PlayCircle } from "./icons/PlayInCircle.svelte";
 export { default as PlayCircled } from "./icons/PlayInCircle.svelte";
 export { default as PlayFirstInsertLeft } from "./icons/First.svelte";

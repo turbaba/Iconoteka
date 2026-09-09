@@ -3464,7 +3464,7 @@ export { default as Planner } from "./icons/Calendar.js";
 export { default as Planning } from "./icons/ChartGantt.js";
 export { default as PlasticBag } from "./icons/BagPlastic.js";
 export { default as Platform } from "./icons/Application.js";
-export { default as Play } from "./icons/PlayInCircle.js";
+export { default as Play } from "./icons/TriangleRight.js";
 export { default as PlayCircle } from "./icons/PlayInCircle.js";
 export { default as PlayCircled } from "./icons/PlayInCircle.js";
 export { default as PlayFirstInsertLeft } from "./icons/First.js";

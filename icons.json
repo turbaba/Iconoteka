@@ -3,7 +3,7 @@
     "version": "02.00.13",
     "count": 1298,
     "categories": 23,
-    "updatedAt": "2026-09-09T18:48:04.532Z",
+    "updatedAt": "2026-09-09T18:50:52.785Z",
     "cdn": "https://cdn.jsdelivr.net/gh/turbaba/Iconoteka@02.00.13/icons.json",
     "popular": [
       "ai",
@@ -178,7 +178,7 @@
       "people": "group",
       "photo": "photo_camera",
       "place": "location",
-      "play": "play_in_circle",
+      "play": "triangle_right",
       "pound": "sterling",
       "preferences": "gear",
       "price": "tag",
