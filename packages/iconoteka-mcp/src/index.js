@@ -9,6 +9,10 @@ const require = createRequire(import.meta.url);
 const data = require("iconoteka");
 const ICONS = data.icons;
 
+// Read from package.json so the reported version can never drift from the
+// published one — it silently did, reporting 0.1.3 while shipping as 0.1.4.
+const PKG_VERSION = require("../package.json").version;
+
 const WEIGHTS = ["thin", "ultralight", "light", "regular", "medium", "semibold", "bold"];
 const STYLES  = ["stroke", "fill"];
 
@@ -55,7 +59,7 @@ function svgFor(icon, weight, style) {
 
 const text = s => ({ content: [{ type: "text", text: s }] });
 
-const server = new McpServer({ name: "iconoteka", version: "0.1.3" });
+const server = new McpServer({ name: "iconoteka", version: PKG_VERSION });
 
 server.registerTool("search_icons", {
   title: "Search Iconoteka icons",

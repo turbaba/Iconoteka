@@ -32,6 +32,17 @@ Anything else is spread onto the `<svg>`. Icons paint with
 
 Every icon is its own module, so bundlers drop the ones you don't import.
 
+## Names
+
+Each icon exports under its own name, plus any keyword that belongs to it
+alone — so `Settings` reaches the gear, `Close` the cross, and
+`Notification` the bell. Both names import the same module, so using either
+costs the same.
+
+Keywords shared by several icons stay search-only: `delete` belongs to eight
+icons, so there is no `Delete` component. Search for those on
+[iconoteka.com](https://iconoteka.com) and use the name it shows.
+
 Named `variant` rather than `style` because `style` collides with the
 reserved DOM prop. Icons whose name starts with a digit are prefixed with
 `Icon` — `3dscan` becomes `Icon3dScan` — since identifiers can't start

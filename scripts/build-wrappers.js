@@ -21,7 +21,7 @@ const ROOT     = path.join(__dirname, "..");
 const DATA     = require(path.join(ROOT, "icons.json"));
 const PKG      = require(path.join(ROOT, "packages/iconoteka/package.json"));
 const VERSION  = PKG.version;
-const WRAPPER_VERSION = "0.1.1";  // wrappers version independently of the data
+const WRAPPER_VERSION = "0.1.2";  // wrappers version independently of the data
 
 const WEIGHTS = ["thin","ultralight","light","regular","medium","semibold","bold"];
 
@@ -198,6 +198,17 @@ Anything else is spread onto the \`<svg>\`. Icons paint with
 
 Every icon is its own module, so bundlers drop the ones you don't import.
 
+## Names
+
+Each icon exports under its own name, plus any keyword that belongs to it
+alone — so \`Settings\` reaches the gear, \`Close\` the cross, and
+\`Notification\` the bell. Both names import the same module, so using either
+costs the same.
+
+Keywords shared by several icons stay search-only: \`delete\` belongs to eight
+icons, so there is no \`Delete\` component. Search for those on
+[iconoteka.com](https://iconoteka.com) and use the name it shows.
+
 Named \`variant\` rather than \`style\` because \`style\` collides with the
 reserved DOM prop. Icons whose name starts with a digit are prefixed with
 \`Icon\` — \`3dscan\` becomes \`Icon3dScan\` — since identifiers can't start
@@ -249,6 +260,7 @@ for (const t of TARGETS) {
 
   const exports = [];
   const names   = [];
+  const taken   = new Set();
 
   for (const icon of DATA.icons) {
     const identity = icon.name.split("-")[0];
@@ -259,9 +271,40 @@ for (const t of TARGETS) {
     fs.writeFileSync(path.join(iconDir, `${name}.${t.ext}`), t.emit(name, paths, sharedFillWeight(icon)));
     exports.push(`export { default as ${name} } from "./icons/${name}.${t.ext}";`);
     names.push(name);
+    taken.add(name);
   }
 
-  fs.writeFileSync(path.join(base, "index.js"), exports.join("\n") + "\n");
+  // Alias exports. Someone reaching for <Trash/> shouldn't need to know the
+  // icon's identity is "garbage". An ES module can't export the same name
+  // twice, so only aliases claimed by exactly one icon can become components —
+  // "delete" belongs to eight icons and stays search-only.
+  const owners = new Map();
+  for (const icon of DATA.icons) {
+    const identity = icon.name.split("-")[0];
+    for (const a of icon.name.split("-").slice(1)) {
+      if (!owners.has(a)) owners.set(a, new Set());
+      owners.get(a).add(identity);
+    }
+  }
+  const identities = new Set(DATA.icons.map(i => i.name.split("-")[0]));
+  const aliasLines = [];
+  for (const alias of [...owners.keys()].sort()) {
+    if (owners.get(alias).size !== 1) continue;   // ambiguous
+    if (identities.has(alias)) continue;          // already an icon's own name
+    const aliasName = componentName(alias);
+    if (taken.has(aliasName)) continue;           // would collide with a real export
+    taken.add(aliasName);
+    const target = componentName([...owners.get(alias)][0]);
+    aliasLines.push(`export { default as ${aliasName} } from "./icons/${target}.${t.ext}";`);
+    names.push(aliasName);
+  }
+
+  fs.writeFileSync(
+    path.join(base, "index.js"),
+    exports.join("\n") + "\n\n// Aliases — additional names for the icons above.\n" +
+    aliasLines.join("\n") + "\n"
+  );
+  console.log(`    + ${aliasLines.length} alias exports`);
 
   const decls = names
     .map(n => `export declare const ${n}: ${t.label === "React"

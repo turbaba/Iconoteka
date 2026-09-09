@@ -160,8 +160,26 @@ export function search(icons, query, { category, limit = 20 } = {}) {
 
 // Accept either the identity ("bell") or the full hyphenated name.
 export function findIcon(icons, name) {
-  const n = name.toLowerCase().trim();
-  return icons.find(i => i.name.toLowerCase() === n)
-      || icons.find(i => i.name.split("-")[0].toLowerCase() === n)
-      || null;
+  const n = name.toLowerCase().trim().replace(/\s+/g, "_");
+
+  // Exact full name, then the identity — the canonical ways to address an icon.
+  const exact = icons.find(i => i.name.toLowerCase() === n)
+             || icons.find(i => i.name.split("-")[0].toLowerCase() === n);
+  if (exact) return exact;
+
+  // Then aliases. An agent reasons "I need a trash icon" and calls
+  // get_icon("trash") without searching first; the icon's identity happens to
+  // be "garbage", so a name-only lookup would miss something we can resolve.
+  const byAlias = icons.filter(i =>
+    i.name.toLowerCase().split("-").slice(1).includes(n));
+  if (byAlias.length === 1) return byAlias[0];
+
+  // Several icons claim the alias ("delete" belongs to eight). Fall back to the
+  // ranking search already uses, so the answer matches search_icons.
+  if (byAlias.length > 1) {
+    const ranked = search(icons, n, { limit: 1 });
+    if (ranked.length) return ranked[0].icon;
+    return byAlias[0];
+  }
+  return null;
 }
