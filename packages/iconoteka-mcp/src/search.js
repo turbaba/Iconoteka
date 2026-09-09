@@ -49,6 +49,15 @@ const SYNONYMS = {
   bell: ["notification", "alarm", "ring"],
 };
 
+// Words that several icons claim, or that no icon claims outright, mapped to
+// the one icon that should answer. Supplied from icons.json meta by index.js;
+// an empty table just means every lookup falls through to the ranking below.
+let RESOLUTIONS = Object.create(null);
+
+export function setAliasResolutions(map) {
+  RESOLUTIONS = Object.assign(Object.create(null), map || {});
+}
+
 /**
  * Levenshtein distance, capped. The previous matcher only walked the query as
  * a subsequence, so it caught a dropped letter ("shoping") but never an extra
@@ -90,6 +99,12 @@ export function scoreIcon(icon, q) {
 
   // The icon *is* the thing asked for.
   if (name === q || identity === q)                     return 1000;
+
+  // The word has a settled answer and this is it. Above every alias hit, so
+  // the winner beats its co-claimants; it also carries icons the word was
+  // never tagged on at all — nothing tags "pen" with "edit", but that is
+  // still what someone typing "edit" is reaching for.
+  if (RESOLUTIONS[q] === identity)                      return 960;
 
   // A standalone alias equal to the query: somebody deliberately tagged this
   // icon with this word. Earlier aliases were listed first, so rank them first.
@@ -167,9 +182,16 @@ export function findIcon(icons, name) {
              || icons.find(i => i.name.split("-")[0].toLowerCase() === n);
   if (exact) return exact;
 
-  // Then aliases. An agent reasons "I need a trash icon" and calls
-  // get_icon("trash") without searching first; the icon's identity happens to
-  // be "garbage", so a name-only lookup would miss something we can resolve.
+  // A settled word goes straight to its answer. An agent reasons "I need a
+  // trash icon" and calls get_icon("trash") without searching first; the
+  // icon's identity happens to be "garbage", and the table knows that.
+  const resolved = RESOLUTIONS[n];
+  if (resolved) {
+    const hit = icons.find(i => i.name.split("-")[0].toLowerCase() === resolved);
+    if (hit) return hit;
+  }
+
+  // Then aliases, for words the table doesn't cover.
   const byAlias = icons.filter(i =>
     i.name.toLowerCase().split("-").slice(1).includes(n));
   if (byAlias.length === 1) return byAlias[0];

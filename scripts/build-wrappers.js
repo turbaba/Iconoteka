@@ -21,7 +21,7 @@ const ROOT     = path.join(__dirname, "..");
 const DATA     = require(path.join(ROOT, "icons.json"));
 const PKG      = require(path.join(ROOT, "packages/iconoteka/package.json"));
 const VERSION  = PKG.version;
-const WRAPPER_VERSION = "0.1.2";  // wrappers version independently of the data
+const WRAPPER_VERSION = "0.1.3";  // wrappers version independently of the data
 
 const WEIGHTS = ["thin","ultralight","light","regular","medium","semibold","bold"];
 
@@ -276,8 +276,8 @@ for (const t of TARGETS) {
 
   // Alias exports. Someone reaching for <Trash/> shouldn't need to know the
   // icon's identity is "garbage". An ES module can't export the same name
-  // twice, so only aliases claimed by exactly one icon can become components —
-  // "delete" belongs to eight icons and stays search-only.
+  // twice, so an alias can only become a component if exactly one icon answers
+  // to it: either it's claimed by a single icon, or icons.json settles it.
   const owners = new Map();
   for (const icon of DATA.icons) {
     const identity = icon.name.split("-")[0];
@@ -286,15 +286,31 @@ for (const t of TARGETS) {
       owners.get(a).add(identity);
     }
   }
-  const identities = new Set(DATA.icons.map(i => i.name.split("-")[0]));
+  const identities  = new Set(DATA.icons.map(i => i.name.split("-")[0]));
+  const resolutions = (DATA.meta && DATA.meta.aliasResolutions) || {};
+
+  // A settled word may name an icon that never claimed it — nothing tags "pen"
+  // with "edit" — so walk the table as well as the claimed aliases.
+  const candidates = new Set([...owners.keys(), ...Object.keys(resolutions)]);
   const aliasLines = [];
-  for (const alias of [...owners.keys()].sort()) {
-    if (owners.get(alias).size !== 1) continue;   // ambiguous
+  let settled = 0;
+  for (const alias of [...candidates].sort()) {
     if (identities.has(alias)) continue;          // already an icon's own name
+    const resolved = resolutions[alias];
+    const claimed  = owners.get(alias);
+    let identity;
+    if (resolved) {
+      identity = resolved;
+      if (!claimed || claimed.size > 1) settled++;
+    } else if (claimed && claimed.size === 1) {
+      identity = [...claimed][0];
+    } else {
+      continue;                                   // ambiguous and unsettled
+    }
     const aliasName = componentName(alias);
     if (taken.has(aliasName)) continue;           // would collide with a real export
     taken.add(aliasName);
-    const target = componentName([...owners.get(alias)][0]);
+    const target = componentName(identity);
     aliasLines.push(`export { default as ${aliasName} } from "./icons/${target}.${t.ext}";`);
     names.push(aliasName);
   }
@@ -304,7 +320,7 @@ for (const t of TARGETS) {
     exports.join("\n") + "\n\n// Aliases — additional names for the icons above.\n" +
     aliasLines.join("\n") + "\n"
   );
-  console.log(`    + ${aliasLines.length} alias exports`);
+  console.log(`    + ${aliasLines.length} alias exports (${settled} from the resolution table)`);
 
   const decls = names
     .map(n => `export declare const ${n}: ${t.label === "React"

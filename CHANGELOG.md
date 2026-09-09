@@ -2,6 +2,25 @@
 
 Library versions use the `02.00.08` form.
 
+## 02.00.12 — 9 Sep 2026
+
+- Icons now answer to the words developers actually type. `icons.json` carries
+  a new `meta.aliasResolutions` table: 191 words mapped to the one icon that
+  should answer them, so `trash` reaches `garbage` and `edit` reaches `pen`.
+  Most were settled by resolving both sides to the same source glyph; seven
+  contested ones by hand.
+- The React, Vue and Svelte packages export those 191 words as components —
+  `<Edit/>`, `<Deploy/>`, `<Terminal/>` — 3 213 alias exports in all. Each is
+  the same module as the icon it names, so it adds nothing to a bundle.
+- The MCP server resolves settled words directly, and ranks them above every
+  other claimant in search. A word can now point at an icon that never carried
+  it as a keyword.
+
+## 02.00.11 — 9 Sep 2026
+
+- Published to npm without a git tag, so the `meta.cdn` URL inside it points at
+  a tag that does not exist. Use 02.00.12.
+
 ## 02.00.10 — 8 Sep 2026
 
 - Restored the `morda` keyword on `face_big_smile`. It was removed in 02.00.06

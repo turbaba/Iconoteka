@@ -3,10 +3,11 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
 import { createRequire } from "node:module";
-import { search, findIcon } from "./search.js";
+import { search, findIcon, setAliasResolutions } from "./search.js";
 
 const require = createRequire(import.meta.url);
 const data = require("iconoteka");
+setAliasResolutions(data.meta && data.meta.aliasResolutions);
 const ICONS = data.icons;
 
 // Read from package.json so the reported version can never drift from the

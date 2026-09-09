@@ -1,6 +1,6 @@
 {
   "name": "iconoteka-mcp",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "MCP server for Iconoteka — search 1298 icons in 7 weights and 2 styles, and get paste-ready SVG",
   "license": "MIT",
   "author": "turbaba",

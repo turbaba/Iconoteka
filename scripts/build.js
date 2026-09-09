@@ -190,6 +190,24 @@ const pkg = require("../packages/iconoteka/package.json");
     icons.some(i => i.name.split("-")[0] === id)
   );
 
+  // Which icon a bare word answers to when several claim it as an alias, or
+  // when the word isn't anyone's alias at all. Most were settled by resolving
+  // both sides to the same source glyph; the rest by hand. Shipping the table
+  // inside icons.json means the MCP, the wrappers and the site all resolve
+  // "trash" or "edit" the same way, with nothing extra to fetch.
+  const resolutions = JSON.parse(
+    fs.readFileSync(path.join(__dirname, "../data/alias-resolutions.json"), "utf8")
+  );
+  const identitySet = new Set(icons.map(i => i.name.split("-")[0]));
+  for (const [alias, target] of Object.entries(resolutions)) {
+    if (!identitySet.has(target)) {
+      throw new Error(`alias-resolutions: "${alias}" points at "${target}", which is not an icon identity`);
+    }
+    if (identitySet.has(alias)) {
+      throw new Error(`alias-resolutions: "${alias}" is already an icon's own identity; it needs no resolution`);
+    }
+  }
+
   const output = {
     meta: {
       version,
@@ -198,6 +216,7 @@ const pkg = require("../packages/iconoteka/package.json");
       updatedAt: new Date().toISOString(),
       cdn:       `https://cdn.jsdelivr.net/gh/turbaba/Iconoteka@${version}/icons.json`,
       popular:   popularNames,
+      aliasResolutions: resolutions,
     },
     icons,
   };
