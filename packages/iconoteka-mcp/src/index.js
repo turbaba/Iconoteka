@@ -74,7 +74,7 @@ server.registerTool("search_icons", {
     return text(
       `No icons match "${query}".\n\n` +
       `Try a broader word, or list_categories to browse. ` +
-      `Missing icons can be requested at https://beta.iconoteka.com/about.html`
+      `Missing icons can be requested at https://iconoteka.com/about.html`
     );
   }
   const lines = hits.map(({ icon, score }) =>

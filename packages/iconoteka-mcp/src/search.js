@@ -1,5 +1,5 @@
 // Ranking ported from the Iconoteka website so MCP results match what a
-// person sees at beta.iconoteka.com.
+// person sees at iconoteka.com.
 
 const SYNONYMS = {
   home: ["house"], house: ["home"],

@@ -3,8 +3,8 @@
   "name": "io.github.turbaba/iconoteka",
   "title": "Iconoteka",
   "description": "Search 1298 open-source icons in 7 weights and 2 styles, and get paste-ready SVG.",
-  "version": "0.1.3",
-  "websiteUrl": "https://beta.iconoteka.com",
+  "version": "0.1.4",
+  "websiteUrl": "https://iconoteka.com",
   "repository": {
     "url": "https://github.com/turbaba/Iconoteka",
     "source": "github",
@@ -14,7 +14,7 @@
     {
       "registryType": "npm",
       "identifier": "iconoteka-mcp",
-      "version": "0.1.3",
+      "version": "0.1.4",
       "transport": {
         "type": "stdio"
       }

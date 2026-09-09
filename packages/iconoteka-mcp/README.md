@@ -1,6 +1,6 @@
 # iconoteka-mcp
 
-MCP server for [Iconoteka](https://beta.iconoteka.com) — let an AI assistant
+MCP server for [Iconoteka](https://iconoteka.com) — let an AI assistant
 search 1 298 icons and hand back paste-ready SVG.
 
 Ask for "a notification bell, medium weight" and the assistant returns the real
@@ -43,7 +43,7 @@ search_icons({ query: "notification bell" })
 ```
 
 Optional `category` and `limit`. Ranking mirrors the website, so results match
-what a person sees at beta.iconoteka.com.
+what a person sees at iconoteka.com.
 
 **`get_icon`** — SVG markup for one icon.
 
@@ -62,6 +62,13 @@ Most icons have all 14 variants; some have 7 or 8. Ask for one that doesn't
 exist and the server tells you which are available.
 
 **`list_categories`** — all 23 categories with icon counts.
+
+## Support
+
+Iconoteka is a free, open-source library created and maintained by one person.
+Support its future development through a monthly
+[Patreon](https://www.patreon.com/c/iconoteka) subscription or a one-time
+[Ko-fi](https://ko-fi.com/iconoteka) donation.
 
 ## License
 

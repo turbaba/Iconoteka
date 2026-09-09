@@ -1,10 +1,10 @@
 {
   "name": "iconoteka-react",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Iconoteka icons as React components — 1298 icons, 7 weights, stroke and fill",
   "license": "MIT",
   "author": "turbaba",
-  "homepage": "https://beta.iconoteka.com",
+  "homepage": "https://iconoteka.com",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/turbaba/Iconoteka.git",

@@ -21,7 +21,7 @@ const ROOT     = path.join(__dirname, "..");
 const DATA     = require(path.join(ROOT, "icons.json"));
 const PKG      = require(path.join(ROOT, "packages/iconoteka/package.json"));
 const VERSION  = PKG.version;
-const WRAPPER_VERSION = "0.1.0";  // wrappers version independently of the data
+const WRAPPER_VERSION = "0.1.1";  // wrappers version independently of the data
 
 const WEIGHTS = ["thin","ultralight","light","regular","medium","semibold","bold"];
 
@@ -154,7 +154,7 @@ function manifest(pkgName, extra) {
     description: `Iconoteka icons as ${extra.label} components — 1298 icons, 7 weights, stroke and fill`,
     license: "MIT",
     author: "turbaba",
-    homepage: "https://beta.iconoteka.com",
+    homepage: "https://iconoteka.com",
     repository: {
       type: "git",
       url: "git+https://github.com/turbaba/Iconoteka.git",
@@ -173,7 +173,7 @@ function manifest(pkgName, extra) {
 function readme(pkgName, label, usage) {
   return `# ${pkgName}
 
-[Iconoteka](https://beta.iconoteka.com) icons as ${label} components — 1298
+[Iconoteka](https://iconoteka.com) icons as ${label} components — 1298
 icons, seven weights, stroke and fill.
 
 \`\`\`bash
@@ -202,6 +202,13 @@ Named \`variant\` rather than \`style\` because \`style\` collides with the
 reserved DOM prop. Icons whose name starts with a digit are prefixed with
 \`Icon\` — \`3dscan\` becomes \`Icon3dScan\` — since identifiers can't start
 with a number.
+
+## Support
+
+Iconoteka is a free, open-source library created and maintained by one person.
+Support its future development through a monthly
+[Patreon](https://www.patreon.com/c/iconoteka) subscription or a one-time
+[Ko-fi](https://ko-fi.com/iconoteka) donation.
 
 MIT © Oleg Turbaba
 `;

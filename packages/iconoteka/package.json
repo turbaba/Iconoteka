@@ -1,11 +1,11 @@
 {
   "name": "iconoteka",
-  "version": "2.0.10",
-  "libraryVersion": "02.00.10",
+  "version": "2.0.11",
+  "libraryVersion": "02.00.11",
   "description": "Iconoteka icon data — 1298 icons in 7 weights and 2 styles as a single JSON file",
   "license": "MIT",
   "author": "turbaba",
-  "homepage": "https://beta.iconoteka.com",
+  "homepage": "https://iconoteka.com",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/turbaba/Iconoteka.git",

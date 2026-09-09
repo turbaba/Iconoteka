@@ -1,6 +1,6 @@
 # iconoteka-vue
 
-[Iconoteka](https://beta.iconoteka.com) icons as Vue components — 1298
+[Iconoteka](https://iconoteka.com) icons as Vue components — 1298
 icons, seven weights, stroke and fill.
 
 ```bash
@@ -38,5 +38,12 @@ Named `variant` rather than `style` because `style` collides with the
 reserved DOM prop. Icons whose name starts with a digit are prefixed with
 `Icon` — `3dscan` becomes `Icon3dScan` — since identifiers can't start
 with a number.
+
+## Support
+
+Iconoteka is a free, open-source library created and maintained by one person.
+Support its future development through a monthly
+[Patreon](https://www.patreon.com/c/iconoteka) subscription or a one-time
+[Ko-fi](https://ko-fi.com/iconoteka) donation.
 
 MIT © Oleg Turbaba

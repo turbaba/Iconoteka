@@ -2,7 +2,7 @@
 
 A universal, open-source library of precisely designed pictograms.
 
-[Website](https://beta.iconoteka.com) · [Figma Plugin](https://www.figma.com/community/plugin/1675995752572535073/iconoteka) · [License](LICENSE)
+[Website](https://iconoteka.com) · [Figma Plugin](https://www.figma.com/community/plugin/1675995752572535073/iconoteka) · [License](LICENSE)
 
 | | |
 |---|---|
@@ -135,6 +135,13 @@ consistent at production scale.
 **Universality** — geometric construction and high visual clarity keep the
 icons legible across products and industries that demand contrast and
 structural consistency.
+
+## Support
+
+Iconoteka is a free, open-source library created and maintained by one person.
+Support its future development through a monthly
+[Patreon](https://www.patreon.com/c/iconoteka) subscription or a one-time
+[Ko-fi](https://ko-fi.com/iconoteka) donation.
 
 ## License
 
