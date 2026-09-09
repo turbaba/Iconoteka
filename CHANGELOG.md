@@ -2,6 +2,18 @@
 
 Library versions use the `02.00.08` form.
 
+## 02.00.13 — 9 Sep 2026
+
+- `garbage` is now `trash`. The bin icon's identity, filename, display name and
+  component all use the word people actually reach for; `garbage` stays as a
+  search alias, so nothing that worked before stops working. Renamed on both
+  Figma pages too, so the next export keeps it.
+- Four words were answering with the wrong icon and now don't: `file` and
+  `document` reached an empty checkbox and a sheet of paper respectively, and
+  now reach `doc_text`; `battery` reached `battery_charging` and now reaches
+  `battery_full`; `play` reached `triangle_right` (a Shapes entry) and now
+  reaches `play_in_circle`.
+
 ## 02.00.12 — 9 Sep 2026
 
 - Icons now answer to the words developers actually type. `icons.json` carries

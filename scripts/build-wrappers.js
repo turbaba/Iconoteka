@@ -21,7 +21,7 @@ const ROOT     = path.join(__dirname, "..");
 const DATA     = require(path.join(ROOT, "icons.json"));
 const PKG      = require(path.join(ROOT, "packages/iconoteka/package.json"));
 const VERSION  = PKG.version;
-const WRAPPER_VERSION = "0.1.3";  // wrappers version independently of the data
+const WRAPPER_VERSION = "0.1.4";  // wrappers version independently of the data
 
 const WEIGHTS = ["thin","ultralight","light","regular","medium","semibold","bold"];
 
