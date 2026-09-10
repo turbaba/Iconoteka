@@ -2,6 +2,19 @@
 
 Library versions use the `02.00.08` form.
 
+## 02.00.15 — 10 Sep 2026
+
+- Two new icons, taking the library to **1 300**: `upload_folder` and
+  `download_folder`, both in Files & Data, all 7 weights in stroke and fill —
+  14 970 shapes in total. They join the existing folder family (`folder_add`,
+  `folder_opened`, `folder_shared`, …).
+- Named with an underscore rather than as `upload`/`download`, because
+  `download` is already the identity of the Arrows icon
+  `download-get_app-bottom-get-fetch-bar`, and an identity has to be unique —
+  it becomes the component name and the lookup key. `download` still resolves
+  to the arrow, as before.
+- Wrappers go to 0.3.1 with `<UploadFolder/>` and `<DownloadFolder/>`.
+
 ## Wrappers 0.3.0 · MCP 0.2.0 — 9 Sep 2026
 
 No icon data changed, so the library stays at 02.00.14 and there is no

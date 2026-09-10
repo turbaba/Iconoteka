@@ -6,10 +6,10 @@ A universal, open-source library of precisely designed pictograms.
 
 | | |
 |---|---|
-| **1 298** icons | from rapid prototyping to real-world wayfinding systems |
+| **1 300** icons | from rapid prototyping to real-world wayfinding systems |
 | **7** weights | Thin, Ultralight, Light, Regular, Medium, Semibold, Bold |
 | **2** styles | stroke and fill |
-| **14 942** shapes | complete coverage for almost any use case |
+| **14 970** shapes | complete coverage for almost any use case |
 | **23** categories | Arrows, Interface, Hardware, Nature, Transportation, … |
 
 ## Adding icons to your project
@@ -24,7 +24,7 @@ search, drag the icon onto the canvas.
 **One icon at a time** — every icon is a standalone SVG on the CDN:
 
 ```
-https://cdn.jsdelivr.net/gh/turbaba/Iconoteka@02.00.14/Icons/Interface/bell-notification-notify-reminder-ring-sound-r-s.svg
+https://cdn.jsdelivr.net/gh/turbaba/Iconoteka@02.00.15/Icons/Interface/bell-notification-notify-reminder-ring-sound-r-s.svg
 ```
 
 The path is `Icons/{Category}/{name}-{weight}-{style}.svg`, where weight is one
@@ -81,7 +81,7 @@ const icons = require("iconoteka");                   // CommonJS
 Or fetch it from the CDN:
 
 ```
-https://cdn.jsdelivr.net/gh/turbaba/Iconoteka@02.00.14/icons.json
+https://cdn.jsdelivr.net/gh/turbaba/Iconoteka@02.00.15/icons.json
 ```
 
 Pin the tag rather than `@main` — jsDelivr caches branch URLs for up to 7 days.
@@ -91,7 +91,7 @@ The npm package contains `icons.json` only; the raw SVGs stay in the repo.
 {
   "meta": {
     "version": "02.00.09",
-    "count": 1298,
+    "count": 1300,
     "categories": 23,
     "popular": ["ai", "alert", "bank_card", "bell", "…"]
   },

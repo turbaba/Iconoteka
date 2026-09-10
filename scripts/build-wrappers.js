@@ -21,7 +21,7 @@ const ROOT     = path.join(__dirname, "..");
 const DATA     = require(path.join(ROOT, "icons.json"));
 const PKG      = require(path.join(ROOT, "packages/iconoteka/package.json"));
 const VERSION  = PKG.version;
-const WRAPPER_VERSION = "0.3.0";  // wrappers version independently of the data
+const WRAPPER_VERSION = "0.3.1";  // wrappers version independently of the data
 
 const WEIGHTS = ["thin","ultralight","light","regular","medium","semibold","bold"];
 
@@ -210,7 +210,7 @@ function manifest(pkgName, extra) {
   return {
     name: pkgName,
     version: WRAPPER_VERSION,
-    description: `Iconoteka icons as ${extra.label} components — 1298 icons, 7 weights, stroke and fill`,
+    description: `Iconoteka icons as ${extra.label} components — 1300 icons, 7 weights, stroke and fill`,
     license: "MIT",
     author: "turbaba",
     homepage: "https://iconoteka.com",
@@ -232,7 +232,7 @@ function manifest(pkgName, extra) {
 function readme(pkgName, label, usage) {
   return `# ${pkgName}
 
-[Iconoteka](https://iconoteka.com) icons as ${label} components — 1298
+[Iconoteka](https://iconoteka.com) icons as ${label} components — 1300
 icons, seven weights, stroke and fill.
 
 \`\`\`bash
